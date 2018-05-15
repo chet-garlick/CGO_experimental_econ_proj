@@ -80,7 +80,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	def score_round(self):
-		if(self.user_total == self.solution): #If the subject gets the correct answer, give them a point for the answer.
+		if(self.user_input == self.solution): #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.payoff_score=1
 		else:
@@ -97,7 +97,7 @@ class Player(BasePlayer):
     solution = models.PositiveIntegerField(
         doc="this round's correct solution")
 
-    user_total = models.PositiveIntegerField(
+    user_input = models.PositiveIntegerField(
         min = 0,
         max = 100,
         doc="user's summation",
