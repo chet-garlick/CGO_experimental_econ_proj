@@ -125,6 +125,9 @@ class Results(Page):
 
 
 page_sequence = [
+	start_page,
+	task_page,
+	Results
     """MyPage,
     ResultsWaitPage,
     Results"""
