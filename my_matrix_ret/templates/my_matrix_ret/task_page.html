@@ -6,7 +6,20 @@
 {% endblock %}
 
 {% block content %}
+	<p>
+        <h4>You have correctly answered {{ total_payoff }} out of {{ round_count }} matrices so far.
+    </p>
 
+	<table>
+		<tr> {{ player.int1 }} {{ player.int2}} {{ player.int3}} {{ player.int4}} {{ player.int5}} </tr> <br>
+		<tr> {{ player.int6 }} {{ player.int7}} {{ player.int8}} {{ player.int9}} {{ player.int10}}  </tr> <br>
+		<tr> {{ player.int11 }} {{ player.int12}} {{ player.int13}} {{ player.int14}} {{ player.int15}}  </tr> <br>
+		<tr> {{ player.int16 }} {{ player.int17}} {{ player.int18}} {{ player.int19}} {{ player.int20}}  </tr> <br>
+		<tr> {{ player.int21 }} {{ player.int22}} {{ player.int23}} {{ player.int24}} {{ player.int25}}  </tr> <br>
+	
+	</table>
+
+	{% formfield player.user_input %}
     {% next_button %}
 
 {% endblock %}
