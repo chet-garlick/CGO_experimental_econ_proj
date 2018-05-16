@@ -36,13 +36,13 @@ class task_page(Page):
 			if p.payoff_score != None: 
 				total_payoff += p.payoff_score
 
-				if self.round_number == 1: #on very first task
+			if self.round_number <= 3: #on very first task
 					correct_last_round = "<br>"
-		else: #all subsequent tasks
-			if self.player.in_previous_rounds()[-1].is_correct:
-				correct_last_round = "Your last sum was <font color='green'>correct</font>"
-			else: 
-				correct_last_round = "Your last sum was <font color='red'>incorrect</font>"
+			else: #all subsequent tasks
+				if self.player.in_previous_rounds()[-1].is_correct:
+					correct_last_round = "Your last sum was <font color='green'>correct</font>"
+				else: 
+					correct_last_round = "Your last sum was <font color='red'>incorrect</font>"
         
 		return {
 			'total_payoff': round(total_payoff),
