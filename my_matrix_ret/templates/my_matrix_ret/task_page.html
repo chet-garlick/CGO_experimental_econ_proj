@@ -21,5 +21,7 @@
 
 	{% formfield player.user_input %}
     {% next_button %}
+	
+	<h2> {%autoescape off%} {{correct_last_round}} {%endautoescape %}</h2>
 
 {% endblock %}
