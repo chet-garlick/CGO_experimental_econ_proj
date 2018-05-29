@@ -2,11 +2,13 @@
 {% load otree static %}
 
 {% block title %}
-    Page title
+    Your Results
 {% endblock %}
 
 {% block content %}
-
+	<p>
+        <h4>You correctly answered {{ total_payoff }} out of {{ round_count }} matrices attempted.
+    </p>
     {% next_button %}
 {% endblock %}
 

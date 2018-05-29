@@ -23,7 +23,9 @@ class task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
 	
-	def get_seconds_left(self):
+	timer_text = 'Time left to complete matrices:'
+	
+	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time'] - time.time()
 		
 	def is_displayed(self):
