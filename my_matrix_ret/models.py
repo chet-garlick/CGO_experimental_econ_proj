@@ -10,9 +10,7 @@ import random
 
 author = 'Chet Garlick'
 
-doc = """
-Implementation of a real effort task that asks users to count to number of 1's and 0's in a 5x5 matrix of 1's and 0's.
-"""
+doc = "Implementation of a real effort task that asks users to count to number of 1's and 0's in a 5x5 matrix of 1's and 0's."
 
 
 class Constants(BaseConstants):
@@ -91,7 +89,7 @@ class Player(BasePlayer):
 			
 			
 	task_timer = models.PositiveIntegerField(
-        doc="""The length of the real effort task timer."""
+        doc="he length of the real effort task timer."
     )
 	
 	solution = models.PositiveIntegerField(
