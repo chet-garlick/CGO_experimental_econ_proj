@@ -38,14 +38,17 @@ class first_task_page(Page):
 	def is_displayed(self):
 		#print (self.participant.vars['out_of_time_first_task'] - time.time()) This prints time remaining to the command line. I used this to test the timer.
 		return (self.participant.vars['out_of_time_first_task'] - time.time() > 0 and self.round_number > 2)
+		#The above line returns true if the statements on either side of the 'and' operator return true. 
+		#This means that the is_displayed funtion will only return true (and display this page) if self.round_number is greater than two and there is still time left on the timer.
 		
 	def vars_for_template(self):
+		#Function defining some of necessary info for displaying this page.
 		total_payoff = 0
 		for p in self.player.in_all_rounds():
 			if p.payoff_score != None: 
 				total_payoff += p.payoff_score
 
-			if self.round_number == 1: #on very first task dont display the correctness of previous answer.
+			if self.round_number == 3: #on very first task dont display the correctness of previous answer.
 					correct_last_round = "<br>"
 			else: #all subsequent tasks displace the correctness of previous answer.
 				if self.player.in_previous_rounds()[-1].is_correct:
@@ -55,7 +58,8 @@ class first_task_page(Page):
         
 		return {
 			'total_payoff': round(total_payoff),
-			'round_count':(self.round_number - 1),
+			'problems_attempted_first_task':(self.round_number - 3), 
+			#The -3 on the line above comes from the number of pages rounds before the task begins, so the instructions_quiz_page, etc. don't count as missed problems.
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,        
 		}
