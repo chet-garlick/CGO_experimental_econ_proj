@@ -15,7 +15,7 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
     name_in_url = 'my_matrix_ret'
-    task_timer = 120
+    task_timer = 15
 	#This is set to two minutes to make testing easier, this will probably be changed to 20 minutes (1200 seconds) for the real experiment.
     players_per_group = None
     num_rounds = 100
@@ -78,6 +78,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	def score_round(self):
+		self.problems_attempted=1
 		if(self.user_input == self.solution): #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.payoff_score=1
@@ -106,7 +107,9 @@ class Player(BasePlayer):
 	is_correct = models.BooleanField(
         doc="did the user get the task correct?"
 	)
-
+	problems_attempted = models.PositiveIntegerField(
+		doc="number of problems the user attempted"
+	)
 	payoff_score = models.FloatField(
             doc = '''score in this task'''
 	)	
@@ -186,4 +189,8 @@ class Player(BasePlayer):
 	
 	int25 = models.PositiveIntegerField(
 		doc="the matrix for this round's 25th entry")
+		
+		
+		
+		
 		

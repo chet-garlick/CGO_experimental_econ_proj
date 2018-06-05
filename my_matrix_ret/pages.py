@@ -12,6 +12,9 @@ class start_page(Page):
 
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + self.player.task_timer
+		self.participant.vars['has_message_page_been_shown'] = False
+		self.participant.vars['show_investment_page_next'] = False
+		
 		
 	def vars_for_template(self):
 
@@ -71,14 +74,29 @@ class first_task_page(Page):
 		
 		
 class message_page(Page):
+	def before_next_page(self):
+		self.participant.vars['has_message_page_been_shown'] = True
+		self.participant.vars['show_investment_page_next'] = True
+
 
 	def is_displayed(self):
-		return (self.participant.vars['out_of_time_first_task'] - time.time() <= 0 and self.round_number > 2)
+		if (self.participant.vars['out_of_time_first_task'] - time.time() <= 0):
+			return (not self.participant.vars['has_message_page_been_shown'])
 		# Not sure about this logic, need to come up with the best way to ensure this page is displayed directly after first_task_page when that timer expires.
 		# Maybe the sequencing in 'page_sequence' at the bottom of this file is sufficient.
 		# I think adding a boolean to self somewhere or in the larger scope of each player's vars. that marks whether or not this page has been visited will allow us to do that.
 		
 		
+		
+class investment_page(Page):
+
+	def is_displayed(self):
+		return self.participant.vars['show_investment_page_next'] == True
+
+	def before_next_page(self):
+		self.participant.vars['show_investment_page_next'] = False
+	
+
 		
 		
 class ResultsWaitPage(WaitPage):
@@ -94,9 +112,13 @@ class Results(Page):
 	def vars_for_template(self):
 
 		total_payoff = 0
+		total_probs_attempted_task_one = 0
 		for p in self.player.in_all_rounds():
 			if p.payoff_score != None: 
 				total_payoff += p.payoff_score
+			if p.problems_attempted != None:
+				total_probs_attempted_task_one += p.problems_attempted
+				
 
 		self.participant.vars['task_1_score'] = total_payoff
 
@@ -146,6 +168,7 @@ class Results(Page):
 		return {
 		'table_rows': table_rows,
 		'total_payoff':round(total_payoff),
+		'problems_attempted_first_task': total_probs_attempted_task_one
 		}
 		
 
@@ -155,9 +178,6 @@ page_sequence = [
 	first_task_page,
 	instructions_quiz_page,
 	message_page,
+	investment_page,
 	Results
-    #"""MyPage,
-    #ResultsWaitPage,
-    #Results"""
-	#TODO:: Write correct page sequence. Probably just start_page, then task_page, then results page? 
 ]
