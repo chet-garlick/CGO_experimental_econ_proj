@@ -68,6 +68,19 @@ class first_task_page(Page):
 	def before_next_page(self):
 		self.player.score_round()
 
+		
+		
+class message_page(Page):
+
+	def is_displayed(self):
+		return (self.participant.vars['out_of_time_first_task'] - time.time() <= 0 and self.round_number > 2)
+		# Not sure about this logic, need to come up with the best way to ensure this page is displayed directly after first_task_page when that timer expires.
+		# Maybe the sequencing in 'page_sequence' at the bottom of this file is sufficient.
+		# I think adding a boolean to self somewhere or in the larger scope of each player's vars. that marks whether or not this page has been visited will allow us to do that.
+		
+		
+		
+		
 class ResultsWaitPage(WaitPage):
 
 	def after_all_players_arrive(self):
@@ -141,6 +154,7 @@ page_sequence = [
 	start_page,
 	first_task_page,
 	instructions_quiz_page,
+	message_page,
 	Results
     #"""MyPage,
     #ResultsWaitPage,

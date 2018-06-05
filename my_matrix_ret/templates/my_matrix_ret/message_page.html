@@ -1,0 +1,15 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Message Page
+{% endblock %}
+
+{% block content %}
+	<p>
+        <h3>In experiments like these, there is often a message available with relevant information.</h3>
+		<h4>Would you like to see the message?// Here is the message: // No message is available at this time.</h4>
+		
+    </p>
+    {% next_button %}
+{% endblock %}
