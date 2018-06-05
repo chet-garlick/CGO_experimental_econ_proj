@@ -11,7 +11,7 @@ class start_page(Page):
 		return self.round_number == 1
 
 	def before_next_page(self):
-		self.participant.vars['out_of_time'] = time.time() + self.player.task_timer
+		self.participant.vars['out_of_time_first_task'] = time.time() + self.player.task_timer
 		
 	def vars_for_template(self):
 
@@ -19,18 +19,25 @@ class start_page(Page):
 			'debug': settings.DEBUG,  
 		}
 
-class task_page(Page):
+class instructions_quiz_page(Page):
+	def is_displayed(self):
+		return self.round_number == 2
+			
+		
+		
+		
+class first_task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
 	
 	timer_text = 'Time left to complete matrices:'
 	
 	def get_timeout_seconds(self):
-		return self.participant.vars['out_of_time'] - time.time()
+		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
 	def is_displayed(self):
-		print (self.participant.vars['out_of_time'] - time.time())
-		return self.participant.vars['out_of_time'] - time.time() > 3
+		#print (self.participant.vars['out_of_time_first_task'] - time.time()) This prints time remaining to the command line. I used this to test the timer.
+		return (self.participant.vars['out_of_time_first_task'] - time.time() > 0 and self.round_number > 2)
 		
 	def vars_for_template(self):
 		total_payoff = 0
@@ -38,9 +45,9 @@ class task_page(Page):
 			if p.payoff_score != None: 
 				total_payoff += p.payoff_score
 
-			if self.round_number == 1: #on very first task
+			if self.round_number == 1: #on very first task dont display the correctness of previous answer.
 					correct_last_round = "<br>"
-			else: #all subsequent tasks
+			else: #all subsequent tasks displace the correctness of previous answer.
 				if self.player.in_previous_rounds()[-1].is_correct:
 					correct_last_round = "Your last answer was <font color='green'>correct</font>"
 				else: 
@@ -128,7 +135,8 @@ class Results(Page):
 
 page_sequence = [
 	start_page,
-	task_page,
+	first_task_page,
+	instructions_quiz_page,
 	Results
     #"""MyPage,
     #ResultsWaitPage,
