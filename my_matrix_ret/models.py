@@ -14,11 +14,11 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 
 class Constants(BaseConstants):
-    name_in_url = 'my_matrix_ret'
-    task_timer = 15
-	#This is set to two minutes to make testing easier, this will probably be changed to 20 minutes (1200 seconds) for the real experiment.
-    players_per_group = None
-    num_rounds = 100
+	name_in_url = 'my_matrix_ret'
+	first_task_timer = 15
+	second_task_timer = 30
+	players_per_group = None
+	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 
 
@@ -27,12 +27,17 @@ class Subsession(BaseSubsession):
 	#How can we randomize the matrix each round? Will a simple call to a random number generator work?
 	def creating_session(self):
 		players = self.get_players()
-		if 'task_timer' in self.session.config:
-			task_timer = self.session.config['task_timer']
+		if 'first_task_timer' in self.session.config:
+			first_task_timer = self.session.config['first_task_timer']
 		else:
-			task_timer = Constants.task_timer
+			first_task_timer = Constants.first_task_timer
+		if 'second_task_timer' in self.session.config:
+			second_task_timer = self.session.config['second_task_timer']
+		else:
+			second_task_timer = Constants.second_task_timer
 		for p in self.get_players():
-			p.task_timer = task_timer
+			p.first_task_timer = first_task_timer
+			p.second_task_timer = second_task_timer
 			m = []
 			solution =0
 			for i in range(0,25):
@@ -79,18 +84,32 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 	def score_round(self):
 		self.problems_attempted=1
+		self.problems_attempted_second_task=1
 		if(self.user_input == self.solution): #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.payoff_score=1
 		else:
 			self_is_correct = False
-			self.payoff_score=c(0)
+			self.payoff_score=0
+			
+	def score_round_second_task(self):
+		self.problems_attempted_second_task=1
+		if(self.user_input == self.solution):
+			self.is_correct = True
+			self.second_payoff_score=1
+		else:
+			self_is_correct = False
+			self.second_payoff_score=0
 			
 			
 			
 			
-	task_timer = models.PositiveIntegerField(
-        doc="he length of the real effort task timer."
+	first_task_timer = models.PositiveIntegerField(
+        doc="The length of the first real effort task timer."
+    )
+	
+	second_task_timer = models.PositiveIntegerField(
+        doc="The length of the second real effort task timer."
     )
 	
 	solution = models.PositiveIntegerField(
@@ -113,7 +132,12 @@ class Player(BasePlayer):
 	payoff_score = models.FloatField(
             doc = '''score in this task'''
 	)	
-
+	second_payoff_score = models.FloatField(
+		doc="number of problems correctly solved in second task"
+	)
+	problems_attempted_second_task = models.PositiveIntegerField(
+		doc="number of problems attempted in the second real effort task"
+	)
 		
 	int1 = models.PositiveIntegerField(
         doc="the matrix for this round's 1st entry")

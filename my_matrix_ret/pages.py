@@ -11,10 +11,13 @@ class start_page(Page):
 		return self.round_number == 1
 
 	def before_next_page(self):
-		self.participant.vars['out_of_time_first_task'] = time.time() + self.player.task_timer
+		self.participant.vars['out_of_time_first_task'] = time.time() + self.player.first_task_timer
 		self.participant.vars['has_message_page_been_shown'] = False
 		self.participant.vars['show_investment_page_next'] = False
-		
+		self.participant.vars['show_second_task_next'] = False
+		self.participant.vars['show_results_page_next'] = False
+		self.participant.vars['show_feed_back_page'] = False
+		self.participant.vars['out_of_time_second_task'] = 0
 		
 	def vars_for_template(self):
 
@@ -33,7 +36,7 @@ class first_task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
 	
-	timer_text = 'Time left to complete matrices:'
+	timer_text = 'Time left to solve problems:'
 	
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
@@ -95,7 +98,63 @@ class investment_page(Page):
 
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = False
+		self.participant.vars['show_second_task_next'] = True
+		self.participant.vars['out_of_time_second_task'] = time.time() + self.player.second_task_timer
+		
+		
+class second_task_page(Page):
+
+	form_model = models.Player
+	form_fields = ['user_input']
 	
+	timer_text = 'Time left to solve problems:'
+	
+	def get_timeout_seconds(self):
+		return self.participant.vars['out_of_time_second_task'] - time.time()
+	
+	def is_displayed(self):
+		return (self.participant.vars['show_second_task_next'] and self.player.second_task_timer>0)
+	
+	def vars_for_template(self):
+		#Function defining some of necessary info for displaying this page.
+		total_payoff_second_task = 0
+		for p in self.player.in_all_rounds():
+			if p.second_payoff_score != None: 
+				total_payoff_second_task += p.second_payoff_score
+
+			if self.player.problems_attempted_second_task == 1: 
+					correct_last_round = "<br>"
+			else: #all subsequent tasks displace the correctness of previous answer.
+				if self.player.in_previous_rounds()[-1].is_correct:
+					correct_last_round = "Your last answer was <font color='green'>correct</font>"
+				else: 
+					correct_last_round = "Your last answer was <font color='red'>incorrect</font>"
+        
+		return {
+			'total_payoff': round(total_payoff_second_task),
+			'problems_attempted_second_task':(self.player.problems_attempted_second_task), 
+			#The -3 on the line above comes from the number of pages rounds before the task begins, so the instructions_quiz_page, etc. don't count as missed problems.
+			'debug': settings.DEBUG,
+			'correct_last_round': correct_last_round,        
+		}
+
+				
+	def before_next_page(self):
+		self.player.score_round_second_task() #Need to write a score_round function for second task.
+		if(self.participant.vars['out_of_time_second_task'] - time.time() < 0):
+			self.participant.vars['show_feed_back_page'] = True
+		
+	
+	
+class feedback_page(Page):
+
+
+	def is_displayed(self):
+		return self.participant.vars['show_feed_back_page']
+		
+	def before_next_page(self):
+		self.participant.vars['show_results_page_next'] = True
+		self.participant.vars['show_feed_back_page'] = False
 
 		
 		
@@ -107,7 +166,7 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
 	def is_displayed(self):
-		return self.round_number == Constants.num_rounds
+		return self.participant.vars['show_results_page_next']
 		
 	def vars_for_template(self):
 
@@ -121,13 +180,12 @@ class Results(Page):
 				
 
 		self.participant.vars['task_1_score'] = total_payoff
-
-        # only keep obs if YourEntry player_sum, is not None. 
 		table_rows = []
 		for prev_player in self.player.in_all_rounds():
 			if (prev_player.user_input != None):
 				if (prev_player.user_input > 0):
 					row = {
+					"""
 						'round_number': prev_player.round_number,
 						'int1': prev_player.int1,
 						'int2': prev_player.int2,
@@ -158,8 +216,9 @@ class Results(Page):
 						
                         'number_of_ones': prev_player.solution,
                         'player_input': round(prev_player.user_input),
+						'payoff': round(prev_player.payoff_score),"""
                         'is_correct':prev_player.is_correct,
-                        'payoff': round(prev_player.payoff_score),
+                        
                     }
 					table_rows.append(row)
 
@@ -179,5 +238,7 @@ page_sequence = [
 	instructions_quiz_page,
 	message_page,
 	investment_page,
+	second_task_page,
+	feedback_page,
 	Results
 ]
