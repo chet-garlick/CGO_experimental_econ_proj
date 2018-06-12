@@ -10,7 +10,7 @@ import random
 
 author = 'Chet Garlick'
 
-doc = "Implementation of a real effort task that asks users to count to number of 1's and 0's in a 5x5 matrix of 1's and 0's."
+doc = "Implementation of a real effort task that asks users to count to number of 1's in a 5x5 matrix of 1's and 0's."
 
 
 class Constants(BaseConstants):
@@ -83,14 +83,13 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	def score_round(self):
-		self.problems_attempted=1
-		self.problems_attempted_second_task=1
+		self.problems_attempted_first_task=1
 		if(self.user_input == self.solution): #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
-			self.payoff_score=1
+			self.first_payoff_score=1
 		else:
 			self_is_correct = False
-			self.payoff_score=0
+			self.first_payoff_score=0
 			
 	def score_round_second_task(self):
 		self.problems_attempted_second_task=1
@@ -126,11 +125,11 @@ class Player(BasePlayer):
 	is_correct = models.BooleanField(
         doc="did the user get the task correct?"
 	)
-	problems_attempted = models.PositiveIntegerField(
+	problems_attempted_first_task = models.PositiveIntegerField(
 		doc="number of problems the user attempted"
 	)
-	payoff_score = models.FloatField(
-            doc = '''score in this task'''
+	first_payoff_score = models.FloatField(
+            doc = 'number of problems correctly solved in first task'
 	)	
 	second_payoff_score = models.FloatField(
 		doc="number of problems correctly solved in second task"
@@ -138,7 +137,35 @@ class Player(BasePlayer):
 	problems_attempted_second_task = models.PositiveIntegerField(
 		doc="number of problems attempted in the second real effort task"
 	)
+	"""
+	ints = ['']
+	for i in range(1,25):
+		ints.append(0)
 		
+	int1 =0
+	int2=0
+	int4=0
+	int5=0
+	int6=0
+	int7=0
+	int8=0
+	int9=0
+	int10=0
+	int11=0
+	int12=0
+	int13=0
+	int14=0
+	int15=0
+	int16=0
+	int17=0
+	int18=0
+	int19=0
+	int20=0
+	int21=0
+	int22=0
+	int23=0
+	int24=0
+	int25=0"""
 	int1 = models.PositiveIntegerField(
         doc="the matrix for this round's 1st entry")
 
