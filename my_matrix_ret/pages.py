@@ -67,7 +67,9 @@ class first_task_page(Page):
 		self.solution=0 #variable containing corect solution for this counting exercise
 		for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
 			self.m[i] = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
-			self.solution+=self.m[i] #increments the solution by the new random integer, either 0 (no change) or 1
+			#x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
+			self.m.append(x) #adds the new random integer to the list 'm'
+			self.solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.first_payoff_score != None: 
 				total_payoff += p.first_payoff_score 
@@ -121,12 +123,9 @@ class first_task_page(Page):
 		self.participant.vars['show_message_page_next']=True
 		if self.player.user_input == self.solution:
 			correct_answer=True
-			print("correct!")
 		else: 
 			correct_answer = False
-			print("incorrect...")
-			
-			
+
 		self.player.score_round(correct_answer)
 
 		
