@@ -38,15 +38,17 @@ class Subsession(BaseSubsession):
 		for p in self.get_players():
 			p.first_task_timer = first_task_timer
 			p.second_task_timer = second_task_timer
-			m = []
-			solution =0
+			solution=0 #variable containing corect solution for this counting exercise
+			m=[] #list containing the list of integers used to populate the counting exercise 
 			for i in range(0,25):
 		#This for loop adds 25 random ints that are either 0 or 1 into the array m.
-		#The solution is incremented by whatever the random integer was, so that p.solution will correctly track the number of ones in m.
-			
+		
+		for i in range(1,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
+			x = random.randint(0,1) #random.randint comes from python's built in random library, the arguments (0,1) tells randint to grab a random integer from the inclusive range (0,1)
 				x = random.randint(0,1)
 				m.append(x)
-				solution += x		
+				solution += x #The solution is incremented by whatever the random integer was, so that p.solution will correctly track the number of ones in m.
+					
 			
 			
 			p.int1 = m[0]
