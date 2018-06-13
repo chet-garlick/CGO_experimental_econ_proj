@@ -9,14 +9,15 @@
 	<p>
         <h4>You have correctly answered {{ total_payoff }} out of {{ problems_attempted_second_task  }} problems so far. </h4>
 		<h4>Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.</h4> 
+		<h4> The correct solution is: {{ solution }} </h4>	
     </p>
 
 	<table>
-		<tr> {{ player.int1 }} {{ player.int2}} {{ player.int3}} {{ player.int4}} {{ player.int5}} </tr> <br>
-		<tr> {{ player.int6 }} {{ player.int7}} {{ player.int8}} {{ player.int9}} {{ player.int10}}  </tr> <br>
-		<tr> {{ player.int11 }} {{ player.int12}} {{ player.int13}} {{ player.int14}} {{ player.int15}}  </tr> <br>
-		<tr> {{ player.int16 }} {{ player.int17}} {{ player.int18}} {{ player.int19}} {{ player.int20}}  </tr> <br>
-		<tr> {{ player.int21 }} {{ player.int22}} {{ player.int23}} {{ player.int24}} {{ player.int25}}  </tr> <br>
+		<tr> {{ int0 }} {{ int1}} {{ int2}} {{int4}} {{ int4 }} </tr> <br>
+		<tr> {{ int5 }} {{ int6}} {{ int7}} {{ int8}} {{ int9}}  </tr> <br>
+		<tr> {{ int10 }} {{ int11}} {{ int12 }} {{ int13}} {{ int14}}  </tr> <br>
+		<tr> {{ int15 }} {{ int16}} {{ int17}} {{ int18}} {{ int19}}  </tr> <br>
+		<tr> {{ int20 }} {{ int21}} {{ int22}} {{ int23}} {{ int24 }}  </tr> <br>
 	
 	</table>
 

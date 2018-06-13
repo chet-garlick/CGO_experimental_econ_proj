@@ -15,7 +15,7 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 15
+	first_task_timer = 30
 	second_task_timer = 30
 	players_per_group = None
 	num_rounds = 100
@@ -38,7 +38,7 @@ class Subsession(BaseSubsession):
 		for p in self.get_players():
 			p.first_task_timer = first_task_timer
 			p.second_task_timer = second_task_timer
-			m = []
+			"""m = []
 			solution =0
 			for i in range(0,25):
 		#This for loop adds 25 random ints that are either 0 or 1 into the array m.
@@ -74,7 +74,7 @@ class Subsession(BaseSubsession):
 			p.int23 =m[22]
 			p.int24 =m[23]
 			p.int25 =m[24]
-			p.solution = solution
+			p.solution = solution"""
         
 
 class Group(BaseGroup):
@@ -82,18 +82,18 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-	def score_round(self):
+	def score_round(self, correct_solution):
 		self.problems_attempted_first_task=1
-		if(self.user_input == self.solution): #If the subject gets the correct answer, give them a point for the answer.
+		if(self.user_input == correct_solution): #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.first_payoff_score=1
 		else:
 			self_is_correct = False
 			self.first_payoff_score=0
 			
-	def score_round_second_task(self):
+	def score_round_second_task(self, correct_solution):
 		self.problems_attempted_second_task=1
-		if(self.user_input == self.solution):
+		if(self.user_input == correct_solution):
 			self.is_correct = True
 			self.second_payoff_score=1
 		else:
@@ -166,7 +166,7 @@ class Player(BasePlayer):
 	int23=0
 	int24=0
 	int25=0"""
-	int1 = models.PositiveIntegerField(
+	"""int1 = models.PositiveIntegerField(
         doc="the matrix for this round's 1st entry")
 
 	int2 = models.PositiveIntegerField(
@@ -240,7 +240,7 @@ class Player(BasePlayer):
 	
 	int25 = models.PositiveIntegerField(
 		doc="the matrix for this round's 25th entry")
-		
+		"""
 		
 		
 		

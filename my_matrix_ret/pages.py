@@ -40,7 +40,14 @@ class instructions_quiz_page(Page):
 class first_task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
-	
+	solution=0 #variable containing corect solution for this counting exercise
+	m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
+	for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
+		#x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
+		x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
+		m.append(x) #adds the new random integer to the list 'm'
+		solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
+
 	timer_text = 'Time left to solve problems:'
 	
 	def get_timeout_seconds(self):
@@ -56,6 +63,7 @@ class first_task_page(Page):
 		#Function defining some of necessary info for displaying this page.
 		total_payoff = 0
 		num_attempted = 0
+		#solution=0
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.first_payoff_score != None: 
 				total_payoff += p.first_payoff_score 
@@ -74,13 +82,43 @@ class first_task_page(Page):
 			'problems_attempted_first_task':round(num_attempted), 
 			'total_payoff': round(total_payoff),
 			'debug': settings.DEBUG,
-			'correct_last_round': correct_last_round,        
+			'correct_last_round': correct_last_round,
+			'int0' : self.m[0],
+			'int1' : self.m[1],
+			'int2' : self.m[2],
+			'int3' : self.m[3],
+			'int4' : self.m[4],
+			'int5' : self.m[5],
+			'int6' : self.m[6],
+			'int7' : self.m[7],
+			'int8' : self.m[8],
+			'int9' : self.m[9],
+			'int10' : self.m[10],
+			'int11' : self.m[11],
+			'int12' : self.m[12],
+			'int13' : self.m[13],
+			'int14' : self.m[14],
+			'int15' : self.m[15],
+			'int16' : self.m[16],
+			'int17' : self.m[17],
+			'int18' : self.m[18],
+			'int19' : self.m[19],
+			'int20' : self.m[20],
+			'int21' : self.m[21],
+			'int22' : self.m[22],
+			'int23' : self.m[23],
+			'int24' : self.m[24],
+			'solution' : self.solution
 		}
 
 				
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next']=True
-		self.player.score_round()
+		if (self.solution == self.player.user_input):
+			print("correct!")
+			
+		else: print("incorrect........")
+		#self.player.score_round(self.solution)
 
 		
 		
@@ -113,6 +151,7 @@ class second_task_page(Page):
 
 	form_model = models.Player
 	form_fields = ['user_input']
+	solution=0#variable containing corect solution for this counting exercise
 	
 	timer_text = 'Time left to solve problems:'
 	
@@ -124,19 +163,22 @@ class second_task_page(Page):
 	
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
-		solution=0 #variable containing corect solution for this counting exercise
+		self.solution=0
+		num_attempted=0
 		m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
-		for i in range(1,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
+		for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
 			x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
 			m.append(x) #adds the new random integer to the list 'm'
-			solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
+			self.solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
+			#print (m[i])
 			
 		total_payoff_second_task = 0
 		for p in self.player.in_all_rounds():
 			if p.second_payoff_score != None: 
 				total_payoff_second_task += p.second_payoff_score
+				num_attempted += p.problems_attempted_second_task
 
-			if self.player.problems_attempted_second_task == 1: 
+			if num_attempted==0: 
 					correct_last_round = "<br>"
 			else: #all subsequent tasks displace the correctness of previous answer.
 				if self.player.in_previous_rounds()[-1].is_correct:
@@ -146,7 +188,7 @@ class second_task_page(Page):
         
 		return {
 			'total_payoff': round(total_payoff_second_task),
-			'problems_attempted_second_task':(self.player.problems_attempted_second_task), 
+			'problems_attempted_second_task':num_attempted, 
 			#The -3 on the line above comes from the number of pages rounds before the task begins, so the instructions_quiz_page, etc. don't count as missed problems.
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
@@ -174,14 +216,18 @@ class second_task_page(Page):
 			'int21' : m[21],
 			'int22' : m[22],
 			'int23' : m[23],
-			'int24' : m[24]						
+			'int24' : m[24],
+			'solution' : self.solution
 		}
 
 				
 	def before_next_page(self):
-		self.player.score_round_second_task() #Need to write a score_round function for second task.
+		self.player.score_round_second_task(self.solution) #Need to write a score_round function for second task.
+		self.solution=0
 		if(self.participant.vars['out_of_time_second_task'] - time.time() < 0):
 			self.participant.vars['show_feed_back_page'] = True
+		
+	
 		
 	
 	
