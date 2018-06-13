@@ -15,7 +15,7 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 30
+	first_task_timer = 60
 	second_task_timer = 30
 	players_per_group = None
 	num_rounds = 100
@@ -82,9 +82,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-	def score_round(self, correct_solution):
+	def score_round(self, correct_answer):
 		self.problems_attempted_first_task=1
-		if(self.user_input == correct_solution): #If the subject gets the correct answer, give them a point for the answer.
+		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.first_payoff_score=1
 		else:
@@ -93,7 +93,7 @@ class Player(BasePlayer):
 			
 	def score_round_second_task(self, correct_solution):
 		self.problems_attempted_second_task=1
-		if(self.user_input == correct_solution):
+		if(correct_answer):
 			self.is_correct = True
 			self.second_payoff_score=1
 		else:
