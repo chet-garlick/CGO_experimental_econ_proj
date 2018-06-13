@@ -124,6 +124,13 @@ class second_task_page(Page):
 	
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
+		solution=0 #variable containing corect solution for this counting exercise
+		m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
+		for i in range(1,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
+			x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
+			m.append(x) #adds the new random integer to the list 'm'
+			solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
+			
 		total_payoff_second_task = 0
 		for p in self.player.in_all_rounds():
 			if p.second_payoff_score != None: 
@@ -142,7 +149,32 @@ class second_task_page(Page):
 			'problems_attempted_second_task':(self.player.problems_attempted_second_task), 
 			#The -3 on the line above comes from the number of pages rounds before the task begins, so the instructions_quiz_page, etc. don't count as missed problems.
 			'debug': settings.DEBUG,
-			'correct_last_round': correct_last_round,        
+			'correct_last_round': correct_last_round,
+			'int0' : m[0],
+			'int1' : m[1],
+			'int2' : m[2],
+			'int3' : m[3],
+			'int4' : m[4],
+			'int5' : m[5],
+			'int6' : m[6],
+			'int7' : m[7],
+			'int8' : m[8],
+			'int9' : m[9],
+			'int10' : m[10],
+			'int11' : m[11],
+			'int12' : m[12],
+			'int13' : m[13],
+			'int14' : m[14],
+			'int15' : m[15],
+			'int16' : m[16],
+			'int17' : m[17],
+			'int18' : m[18],
+			'int19' : m[19],
+			'int20' : m[20],
+			'int21' : m[21],
+			'int22' : m[22],
+			'int23' : m[23],
+			'int24' : m[24]						
 		}
 
 				
