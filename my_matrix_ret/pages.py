@@ -43,8 +43,8 @@ class first_task_page(Page):
 	solution=0 #variable containing corect solution for this counting exercise
 	m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
 	for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
-		#x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
-		x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
+		x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
+		#x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
 		m.append(x) #adds the new random integer to the list 'm'
 		solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
 
@@ -64,6 +64,14 @@ class first_task_page(Page):
 		total_payoff = 0
 		num_attempted = 0
 		#solution=0
+		#Repeating the logic from the beginning of this class so that every page is different.
+		self.solution=0 #variable containing corect solution for this counting exercise
+		self.m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
+		for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
+			x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
+			#x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
+			self.m.append(x) #adds the new random integer to the list 'm'
+			self.solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.first_payoff_score != None: 
 				total_payoff += p.first_payoff_score 
@@ -113,12 +121,9 @@ class first_task_page(Page):
 
 				
 	def before_next_page(self):
+	
 		self.participant.vars['show_message_page_next']=True
-		if (self.solution == self.player.user_input):
-			print("correct!")
-			
-		else: print("incorrect........")
-		#self.player.score_round(self.solution)
+		self.player.score_round(self.solution)
 
 		
 		
