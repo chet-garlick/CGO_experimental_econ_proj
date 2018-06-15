@@ -65,10 +65,10 @@ class Player(BasePlayer):
 	problems_attempted_first_task = models.PositiveIntegerField(
 		doc="number of problems the user attempted"
 	)
-	problems_correct_first_task = models.FloatField(
+	problems_correct_first_task = models.PositiveIntegerField(
             doc = 'number of problems correctly solved in first task'
 	)	
-	problems_correct_second_task = models.FloatField(
+	problems_correct_second_task = models.PositiveIntegerField(
 		doc="number of problems correctly solved in second task"
 	)
 	problems_attempted_second_task = models.PositiveIntegerField(
