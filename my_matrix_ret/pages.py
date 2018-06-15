@@ -87,9 +87,9 @@ class first_task_page(Page):
 		#num_attempted = 0
 		
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
-			if p.first_payoff_score != None: 
-				total_payoff += p.first_payoff_score 
-				#num_attempted += p.problems_attempted_first_task
+			if p.round_attempted: 
+				p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
+				p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
 				
 			if self.participant.vars['problems_attempted_first_task']==0: #on very first task dont display the correctness of previous answer.
 					correct_last_round = "<br>"
@@ -201,13 +201,11 @@ class second_task_page(Page):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']
 		self.solution = self.participant.vars['solution']
-		total_payoff_second_task = 0
-		#num_attempted = 0
-		#Repeating the logic from the beginning of this class so that every page is different.
+		
 		for p in self.player.in_all_rounds():
-			if p.second_payoff_score != None: 
-				total_payoff_second_task += p.second_payoff_score
-				#num_attempted += p.problems_attempted_second_task
+			if p.round_attempted: 
+				p.problems_attempted_second_task = self.participant.vars['problems_attempted_first_task']
+				p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
 
 			if (self.participant.vars['problems_attempted_second_task']==0): 
 					correct_last_round = "<br>"

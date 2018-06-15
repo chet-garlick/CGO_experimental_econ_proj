@@ -31,6 +31,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 	def score_round(self, correct_answer):
 		self.problems_attempted_first_task=1
+		self.round_attempted=True
 		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 			self.first_payoff_score=1
@@ -53,17 +54,21 @@ class Player(BasePlayer):
 		doc="user's summation",
 		widget=widgets.TextInput(attrs={'autocomplete':'off'})
 	)
-
+	round_attempted = models.BooleanField(
+		doc="Did the user attempt to answer this problem?",
+		initial=False
+	)
+	
 	is_correct = models.BooleanField(
         doc="did the user get the task correct?"
 	)
 	problems_attempted_first_task = models.PositiveIntegerField(
 		doc="number of problems the user attempted"
 	)
-	first_payoff_score = models.FloatField(
+	problems_correct_first_task = models.FloatField(
             doc = 'number of problems correctly solved in first task'
 	)	
-	second_payoff_score = models.FloatField(
+	problems_correct_second_task = models.FloatField(
 		doc="number of problems correctly solved in second task"
 	)
 	problems_attempted_second_task = models.PositiveIntegerField(
