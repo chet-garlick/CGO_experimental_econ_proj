@@ -249,10 +249,10 @@ class second_task_page(Page):
 				
 	def before_next_page(self):
 		if self.player.user_input == self.participant.vars['solution']:
-			self.player.score_round(True)
+			self.player.score_round_second_task(True)
 			#print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
-			self.player.score_round(False)
+			self.player.score_round_second_task(False)
 			#print("incorrect... solution was: ",self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		self.participant.vars['show_message_page_next']=True
 		new_ints=[]

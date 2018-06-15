@@ -54,7 +54,7 @@ class Player(BasePlayer):
 			self_is_correct = False
 			self.first_payoff_score=0
 			
-	def score_round_second_task(self, correct_solution):
+	def score_round_second_task(self, correct_answer):
 		self.problems_attempted_second_task=1
 		if(correct_answer):
 			self.is_correct = True
