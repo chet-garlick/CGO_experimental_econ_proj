@@ -15,8 +15,8 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 60
-	second_task_timer = 30
+	first_task_timer = 15
+	second_task_timer = 15
 	players_per_group = None
 	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)

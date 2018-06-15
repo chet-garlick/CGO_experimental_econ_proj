@@ -45,6 +45,8 @@ class start_page(Page):
 		self.participant.vars['solution'] = tmpsolution
 		self.participant.vars['problems_attempted_first_task'] = 0
 		self.participant.vars['problems_attempted_second_task'] = 0
+		self.participant.vars['problems_correct_first_task'] = 0
+		self.participant.vars['problems_correct_second_task'] = 0
 		#print(self.participant.vars['int_list'])
 		#print(self.participant.vars['solution'])
 	def vars_for_template(self):
@@ -100,7 +102,7 @@ class first_task_page(Page):
         
 		return {
 			'problems_attempted_first_task':round(self.participant.vars['problems_attempted_first_task']), 
-			'total_payoff': round(total_payoff),
+			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
 			'int0' : ints[0],
@@ -135,6 +137,7 @@ class first_task_page(Page):
 	def before_next_page(self):
 		if self.player.user_input == self.participant.vars['solution']:
 			self.player.score_round(True)
+			self.participant.vars['problems_correct_first_task']+=1
 			#print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
 			self.player.score_round(False)
@@ -144,8 +147,6 @@ class first_task_page(Page):
 		#This allows us to re-randomize a problem and solution after one is solved.
 		#This is done every time this page is exited, rather than randomizing all problems for all rounds at once like it was doing when the randomization was in models.py.
 		#This is going to be less resource intensive, which is not the primary reason I moved the randomization to pages.py but is an added benefit.
-		self.participant.vars['show_message_page_next']=True
-		self.participant.vars['problems_attempted_first_task']+=1
 		new_ints=[]
 		new_solution=0
 		for i in range(0,25):
@@ -155,7 +156,10 @@ class first_task_page(Page):
 		
 		self.participant.vars['int_list'] = new_ints
 		self.participant.vars['solution'] = new_solution
-		
+		self.participant.vars['problems_attempted_first_task']+=1
+		self.participant.vars['show_message_page_next']=True
+
+
 class message_page(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
@@ -191,13 +195,13 @@ class second_task_page(Page):
 		return self.participant.vars['out_of_time_second_task'] - time.time()
 	
 	def is_displayed(self):
-		return (self.participant.vars['show_second_task_next'] and self.player.second_task_timer>0)
+		return (self.participant.vars['show_second_task_next'] and (self.participant.vars['out_of_time_second_task'] - time.time() > 0))
 	
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']
 		self.solution = self.participant.vars['solution']
-		total_payoff = 0
+		total_payoff_second_task = 0
 		#num_attempted = 0
 		#Repeating the logic from the beginning of this class so that every page is different.
 		for p in self.player.in_all_rounds():
@@ -215,7 +219,7 @@ class second_task_page(Page):
         
 		return {
 			'problems_attempted_second_task':round(self.participant.vars['problems_attempted_second_task']), 
-			'total_payoff': round(total_payoff),
+			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
 			'int0' : ints[0],
@@ -250,11 +254,12 @@ class second_task_page(Page):
 	def before_next_page(self):
 		if self.player.user_input == self.participant.vars['solution']:
 			self.player.score_round_second_task(True)
+			self.participant.vars['problems_correct_second_task']+=1
 			#print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
 			self.player.score_round_second_task(False)
 			#print("incorrect... solution was: ",self.participant.vars['solution'], "you inputted: ", self.player.user_input)
-		self.participant.vars['show_message_page_next']=True
+		
 		new_ints=[]
 		new_solution=0
 		for i in range(0,25):
@@ -262,6 +267,7 @@ class second_task_page(Page):
 			new_ints.append(tmp)
 			new_solution += tmp
 		
+		self.participant.vars['show_feed_back_page']=True
 		self.participant.vars['int_list'] = new_ints
 		self.participant.vars['solution'] = new_solution
 		self.participant.vars['problems_attempted_second_task']+=1
@@ -271,11 +277,11 @@ class feedback_page(Page):
 
 
 	def is_displayed(self):
-		return self.participant.vars['show_feed_back_page']
+		return (self.participant.vars['show_feed_back_page'] and (self.participant.vars['out_of_time_second_task']-time.time()<=0))
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = True
-		self.participant.vars['show_first_task_page_next'] = False
+		#self.participant.vars['show_first_task_page_next'] = False
 		self.participant.vars['show_feed_back_page'] = False
 
 		
@@ -289,6 +295,9 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
 	def is_displayed(self):
 		return self.participant.vars['show_results_page_next']
+		
+	def before_next_page(self):
+		self.participant.vars['show_results_page_next'] = False
 		
 	def vars_for_template(self):
 
