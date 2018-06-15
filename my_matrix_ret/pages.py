@@ -43,6 +43,8 @@ class start_page(Page):
 			
 		self.participant.vars['int_list'] = list
 		self.participant.vars['solution'] = tmpsolution
+		self.participant.vars['problems_attempted_first_task'] = 0
+		self.participant.vars['problems_attempted_second_task'] = 0
 		#print(self.participant.vars['int_list'])
 		#print(self.participant.vars['solution'])
 	def vars_for_template(self):
@@ -80,14 +82,14 @@ class first_task_page(Page):
 		ints = self.participant.vars['int_list']
 		#self.solution = self.participant.vars['solution']
 		total_payoff = 0
-		num_attempted = 0
+		#num_attempted = 0
 		
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.first_payoff_score != None: 
 				total_payoff += p.first_payoff_score 
-				num_attempted += p.problems_attempted_first_task
+				#num_attempted += p.problems_attempted_first_task
 				
-			if num_attempted==0: #on very first task dont display the correctness of previous answer.
+			if self.participant.vars['problems_attempted_first_task']==0: #on very first task dont display the correctness of previous answer.
 					correct_last_round = "<br>"
 			else: #all subsequent tasks display the correctness of previous answer.
 				#using num_attemped as a helper variable so that on the first attempt the user won't see "correctly answered 0 out of None"
@@ -97,7 +99,7 @@ class first_task_page(Page):
 					correct_last_round = "Your last answer was <font color='red'>incorrect</font>"
         
 		return {
-			'problems_attempted_first_task':round(num_attempted), 
+			'problems_attempted_first_task':round(self.participant.vars['problems_attempted_first_task']), 
 			'total_payoff': round(total_payoff),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
@@ -143,6 +145,7 @@ class first_task_page(Page):
 		#This is done every time this page is exited, rather than randomizing all problems for all rounds at once like it was doing when the randomization was in models.py.
 		#This is going to be less resource intensive, which is not the primary reason I moved the randomization to pages.py but is an added benefit.
 		self.participant.vars['show_message_page_next']=True
+		self.participant.vars['problems_attempted_first_task']+=1
 		new_ints=[]
 		new_solution=0
 		for i in range(0,25):
@@ -195,14 +198,14 @@ class second_task_page(Page):
 		ints = self.participant.vars['int_list']
 		self.solution = self.participant.vars['solution']
 		total_payoff = 0
-		num_attempted = 0
+		#num_attempted = 0
 		#Repeating the logic from the beginning of this class so that every page is different.
 		for p in self.player.in_all_rounds():
 			if p.second_payoff_score != None: 
 				total_payoff_second_task += p.second_payoff_score
-				num_attempted += p.problems_attempted_second_task
+				#num_attempted += p.problems_attempted_second_task
 
-			if num_attempted==0: 
+			if (self.participant.vars['problems_attempted_second_task']==0): 
 					correct_last_round = "<br>"
 			else: #all subsequent tasks displace the correctness of previous answer.
 				if self.player.in_previous_rounds()[-1].is_correct:
@@ -211,7 +214,7 @@ class second_task_page(Page):
 					correct_last_round = "Your last answer was <font color='red'>incorrect</font>"
         
 		return {
-			'problems_attempted_second_task_task':round(num_attempted), 
+			'problems_attempted_second_task':round(self.participant.vars['problems_attempted_second_task']), 
 			'total_payoff': round(total_payoff),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
@@ -261,6 +264,7 @@ class second_task_page(Page):
 		
 		self.participant.vars['int_list'] = new_ints
 		self.participant.vars['solution'] = new_solution
+		self.participant.vars['problems_attempted_second_task']+=1
 		
 	
 class feedback_page(Page):
