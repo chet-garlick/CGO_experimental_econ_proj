@@ -23,23 +23,7 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    #TODO:: Write stuff in here intializing int1-in25 correctly and finding the solution.
-	#How can we randomize the matrix each round? Will a simple call to a random number generator work?
-	def creating_session(self):
-		players = self.get_players()
-		if 'first_task_timer' in self.session.config:
-			first_task_timer = self.session.config['first_task_timer']
-		else:
-			first_task_timer = Constants.first_task_timer
-		if 'second_task_timer' in self.session.config:
-			second_task_timer = self.session.config['second_task_timer']
-		else:
-			second_task_timer = Constants.second_task_timer
-		for p in self.get_players():
-			p.first_task_timer = first_task_timer
-			p.second_task_timer = second_task_timer
-			
-
+	pass
 class Group(BaseGroup):
     pass #I don't think I need anything here, because it is not a multi-player game.
 
@@ -55,28 +39,13 @@ class Player(BasePlayer):
 			self.first_payoff_score=0
 			
 	def score_round_second_task(self, correct_answer):
-		self.problems_attempted_second_task=1
+		#self.problems_attempted_second_task=1
 		if(correct_answer):
 			self.is_correct = True
-			self.second_payoff_score=1
+			#self.second_payoff_score=1
 		else:
 			self_is_correct = False
-			self.second_payoff_score=0
-			
-			
-			
-			
-	first_task_timer = models.PositiveIntegerField(
-        doc="The length of the first real effort task timer."
-    )
-	
-	second_task_timer = models.PositiveIntegerField(
-        doc="The length of the second real effort task timer."
-    )
-	
-	solution = models.PositiveIntegerField(
-        doc="this round's correct solution"
-	)
+			#self.second_payoff_score=0
 
 	user_input = models.PositiveIntegerField(
 		min = 0,

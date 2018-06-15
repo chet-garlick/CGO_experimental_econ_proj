@@ -59,7 +59,7 @@ class instructions_quiz_page(Page):
 		return self.round_number == 2
 		
 	def before_next_page(self):
-		self.participant.vars['out_of_time_first_task'] = time.time() + self.player.first_task_timer
+		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
 		self.participant.vars['show_first_task_page_next'] = True
 			
 		
@@ -182,7 +182,7 @@ class investment_page(Page):
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = True
-		self.participant.vars['out_of_time_second_task'] = time.time() + self.player.second_task_timer
+		self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer
 		
 		
 class second_task_page(Page):
