@@ -300,74 +300,12 @@ class Results(Page):
 		self.participant.vars['show_results_page_next'] = False
 		
 	def vars_for_template(self):
-
-		total_payoff_first_task = 0
-		total_payoff_second_task = 0
-		total_probs_attempted_task_one = 0
-		total_probs_attempted_task_two = 0
-		for p in self.player.in_all_rounds():
-			if p.first_payoff_score != None: 
-				total_payoff_first_task += p.first_payoff_score
-			if p.second_payoff_score != None:
-				total_payoff_second_task += p.second_payoff_score
-			if p.problems_attempted_first_task != None:
-				total_probs_attempted_task_one += p.problems_attempted_first_task
-			if p.problems_attempted_second_task != None:
-				total_probs_attempted_task_two += p.problems_attempted_second_task
-				
-
-		self.participant.vars['task_1_score'] = total_payoff_first_task
-		self.participant.vars['task_2_score'] = total_payoff_second_task
-		table_rows = []
-		for prev_player in self.player.in_all_rounds():
-			if (prev_player.user_input != None):
-				if (prev_player.user_input > 0):
-					row = {
-					"""
-						'round_number': prev_player.round_number,
-						'int1': prev_player.int1,
-						'int2': prev_player.int2,
-						'int3': prev_player.int3,
-						'int4': prev_player.int4,
-						'int5': prev_player.int5,
-						'int6': prev_player.int6,
-						'int7': prev_player.int7,
-						'int8': prev_player.int8,
-						'int9': prev_player.int9,
-						'int10': prev_player.int10,
-						'int11': prev_player.int11,
-						'int12': prev_player.int12,
-						'int13': prev_player.int13,
-						'int14': prev_player.int14,
-						'int15': prev_player.int15,
-						'int16': prev_player.int16,
-						'int17': prev_player.int17,
-						'int18': prev_player.int18,
-						'int19': prev_player.int19,
-						'int20': prev_player.int20,
-						'int21': prev_player.int21,
-						'int22': prev_player.int22,
-						'int23': prev_player.int23,
-						'int24': prev_player.int24,
-						'int25': prev_player.int25,
-						
-						
-                        'number_of_ones': prev_player.solution,
-                        'player_input': round(prev_player.user_input),
-						'payoff': round(prev_player.first_payoff_score),"""
-                        'is_correct':prev_player.is_correct,
-                        
-                    }
-					table_rows.append(row)
-
-		self.participant.vars['t1_results'] = table_rows
-
+	
 		return {
-		'table_rows': table_rows,
-		'total_payoff_first_task':total_payoff_first_task,
-		'problems_attempted_first_task': total_probs_attempted_task_one,
-		'total_payoff_second_task':total_payoff_second_task,
-		'problems_attempted_second_task':total_probs_attempted_task_two
+			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
+			'problems_attempted_first_task': round(self.participant.vars['problems_attempted_first_task']),
+			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
+			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
 		
 

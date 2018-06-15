@@ -7,9 +7,9 @@
 
 {% block content %}
 	<p>
-        <h4>You correctly answered {{ total_payoff_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. </h4>
+        <h4>You correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. </h4>
 		<br>	
-		<h4>You correctly answered {{ total_payoff_second_task }} out of {{ problems_attempted_second_task }} problems attempted on the second task. </h4>
+		<h4>You correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task }} problems attempted on the second task. </h4>
     </p>
     {% next_button %}
 {% endblock %}
