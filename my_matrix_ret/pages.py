@@ -20,6 +20,23 @@ class start_page(Page):
 		self.participant.vars['show_feed_back_page'] = False
 		self.participant.vars['out_of_time_second_task'] = 0
 		
+		
+		
+		#Testing this section as a way to store the random integers and solution so that they are unique to each player.
+		#If this works, then they won't show up as unecessary extra information in the data export.
+		self.participant.vars['solution']=0
+		list = []
+		tmpsolution=0
+		for i in range (0,25):
+			tmp= random.randint(0,1)
+			
+			list.append(tmp)
+			tmpsolution += tmp
+			
+		self.participant.vars['int_list'] = list
+		self.participant.vars['solution'] = tmpsolution
+		print(self.participant.vars['int_list'])
+		print(self.participant.vars['solution'])
 	def vars_for_template(self):
 
 		return {
@@ -40,16 +57,9 @@ class instructions_quiz_page(Page):
 class first_task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
-	solution=0 #variable containing corect solution for this counting exercise
-	m=[] #list containing the list of integers used to populate the counting exercise, named 'm' for 'matrix'
-	for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
-		x = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
-		#x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
-		m.append(x) #adds the new random integer to the list 'm'
-		solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
-
 	timer_text = 'Time left to solve problems:'
-	
+	solution=0
+	#solution=self.participant.vars['solution']
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
@@ -61,15 +71,18 @@ class first_task_page(Page):
 		
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
+		ints = self.participant.vars['int_list']
+		self.solution = self.participant.vars['solution']
 		total_payoff = 0
 		num_attempted = 0
 		#Repeating the logic from the beginning of this class so that every page is different.
-		self.solution=0 #variable containing corect solution for this counting exercise
+		"""self.solution=0 #variable containing corect solution for this counting exercise
 		for i in range(0,25): #for loop that randomly creates 25 ones and zeros then adding them to the list 'm'
 			self.m[i] = random.randint(0,1) #random.randint is comes from python's built in random library, the arguments 0,1 will grab a one or a zero.
 			#x = 1 # testing this to see if the correct solution is counted. the line above is what we want to have in production.
 			self.m.append(x) #adds the new random integer to the list 'm'
 			self.solution+=x #increments the solution by the new random integer, either 0 (no change) or 1
+		"""
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.first_payoff_score != None: 
 				total_payoff += p.first_payoff_score 
@@ -89,46 +102,54 @@ class first_task_page(Page):
 			'total_payoff': round(total_payoff),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
-			'int0' : self.m[0],
-			'int1' : self.m[1],
-			'int2' : self.m[2],
-			'int3' : self.m[3],
-			'int4' : self.m[4],
-			'int5' : self.m[5],
-			'int6' : self.m[6],
-			'int7' : self.m[7],
-			'int8' : self.m[8],
-			'int9' : self.m[9],
-			'int10' : self.m[10],
-			'int11' : self.m[11],
-			'int12' : self.m[12],
-			'int13' : self.m[13],
-			'int14' : self.m[14],
-			'int15' : self.m[15],
-			'int16' : self.m[16],
-			'int17' : self.m[17],
-			'int18' : self.m[18],
-			'int19' : self.m[19],
-			'int20' : self.m[20],
-			'int21' : self.m[21],
-			'int22' : self.m[22],
-			'int23' : self.m[23],
-			'int24' : self.m[24],
-			'solution' : self.solution
+			'int0' : ints[0],
+			'int1' : ints[1],
+			'int2' : ints[2],
+			'int3' : ints[3],
+			'int4' : ints[4],
+			'int5' : ints[5],
+			'int6' : ints[6],
+			'int7' : ints[7],
+			'int8' : ints[8],
+			'int9' : ints[9],
+			'int10' : 	ints[10],
+			'int11' : 	ints[11],
+			'int12' : 	ints[12],
+			'int13' : 	ints[13],
+			'int14' : 	ints[14],
+			'int15' : 	ints[15],
+			'int16' : 	ints[16],
+			'int17' : 	ints[17],
+			'int18' : 	ints[18],
+			'int19' : 	ints[19],
+			'int20' : 	ints[20],
+			'int21' : 	ints[21],
+			'int22' : 	ints[22],
+			'int23' : 	ints[23],
+			'int24' : 	ints[24],
+			'solution' : self.participant.vars['solution']
 		}
 
 				
 	def before_next_page(self):
-	
-		self.participant.vars['show_message_page_next']=True
-		if self.player.user_input == self.solution:
+		if self.player.user_input == self.participant.vars['solution']:
 			correct_answer=True
+			print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
 			correct_answer = False
-
+			print("incorrect... solution was: ",self.participant.vars['solution'], "you inputted: ", self.player.user_input)
+			
 		self.player.score_round(correct_answer)
-
+		self.participant.vars['show_message_page_next']=True
+		new_ints=[]
+		new_solution=0
+		for i in range(0,25):
+			tmp = random.randint(0,1)
+			new_ints.append(tmp)
+			new_solution += tmp
 		
+		self.participant.vars['int_list'] = new_ints
+		self.participant.vars['solution'] = new_solution
 		
 class message_page(Page):
 	def before_next_page(self):
