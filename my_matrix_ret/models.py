@@ -30,7 +30,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	def score_round(self, correct_answer):
-		self.problems_attempted_first_task=1
 		self.round_attempted=True
 		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
@@ -39,7 +38,6 @@ class Player(BasePlayer):
 			self.first_payoff_score=0
 			
 	def score_round_second_task(self, correct_answer):
-		#self.problems_attempted_second_task=1
 		if(correct_answer):
 			self.is_correct = True
 		else:

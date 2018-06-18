@@ -106,21 +106,21 @@ class first_task_page(Page):
 			'int7' : ints[7],
 			'int8' : ints[8],
 			'int9' : ints[9],
-			'int10' : 	ints[10],
-			'int11' : 	ints[11],
-			'int12' : 	ints[12],
-			'int13' : 	ints[13],
-			'int14' : 	ints[14],
-			'int15' : 	ints[15],
-			'int16' : 	ints[16],
-			'int17' : 	ints[17],
-			'int18' : 	ints[18],
-			'int19' : 	ints[19],
-			'int20' : 	ints[20],
-			'int21' : 	ints[21],
-			'int22' : 	ints[22],
-			'int23' : 	ints[23],
-			'int24' : 	ints[24],
+			'int10' : ints[10],
+			'int11' : ints[11],
+			'int12' : ints[12],
+			'int13' : ints[13],
+			'int14' : ints[14],
+			'int15' : ints[15],
+			'int16' : ints[16],
+			'int17' : ints[17],
+			'int18' : ints[18],
+			'int19' : ints[19],
+			'int20' : ints[20],
+			'int21' : ints[21],
+			'int22' : ints[22],
+			'int23' : ints[23],
+			'int24' : ints[24],
 			'solution' : self.participant.vars['solution']
 		}
 
@@ -157,8 +157,11 @@ class message_page(Page):
 		self.participant.vars['show_investment_page_next'] = True
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next']		
-		
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next']	
+
+	"""def vars_for_template(self):
+		if(self.player.id_in_session % 3
+	"""
 class investment_page(Page):
 
 	def is_displayed(self):
@@ -280,8 +283,6 @@ class Results(Page):
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
 		
-
-
 page_sequence = [
 	start_page,
 	instructions_quiz_page,
