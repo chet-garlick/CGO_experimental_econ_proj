@@ -29,8 +29,6 @@ class start_page(Page):
 		self.participant.vars['show_feed_back_page'] = False
 		self.participant.vars['out_of_time_second_task'] = 0
 		
-		
-		
 		#Using this section as a way to store the random integers and solution so that they are unique to each player.
 		#If this works, then they don't need to be in models.py and won't show up as unecessary extra information in the data export.
 		#UPDATE: This works perfect.
@@ -47,8 +45,6 @@ class start_page(Page):
 		self.participant.vars['problems_attempted_second_task'] = 0
 		self.participant.vars['problems_correct_first_task'] = 0
 		self.participant.vars['problems_correct_second_task'] = 0
-		#print(self.participant.vars['int_list'])
-		#print(self.participant.vars['solution'])
 	def vars_for_template(self):
 		return {
 			'debug': settings.DEBUG,  
@@ -69,8 +65,6 @@ class first_task_page(Page):
 	form_model = models.Player
 	form_fields = ['user_input']
 	timer_text = 'Time left to solve problems:'
-	#solution=0
-	#solution=self.participant.vars['solution']
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
@@ -82,19 +76,16 @@ class first_task_page(Page):
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']
-		#self.solution = self.participant.vars['solution']
-		total_payoff = 0
-		#num_attempted = 0
-		
+		total_payoff = 0		
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.round_attempted: 
 				p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
 				p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
 				
 			if self.participant.vars['problems_attempted_first_task']==0: #on very first task dont display the correctness of previous answer.
+			#correct_last_round is a string containing actual HTML that is being passed to the display. If no problems have been attempted this task, it is "<br>" which is HTML for a line break.
 					correct_last_round = "<br>"
-			else: #all subsequent tasks display the correctness of previous answer.
-				#using num_attemped as a helper variable so that on the first attempt the user won't see "correctly answered 0 out of None"
+			else: #all subsequent tasks display the correctness of previous answer. The <font color= > </font> is HTML that colors the words correct/incorrect for a bit of flair.
 				if self.player.in_previous_rounds()[-1].is_correct:
 					correct_last_round = "Your last answer was <font color='green'>correct</font>"
 				else: 
@@ -138,15 +129,15 @@ class first_task_page(Page):
 		if self.player.user_input == self.participant.vars['solution']:
 			self.player.score_round(True)
 			self.participant.vars['problems_correct_first_task']+=1
-			#print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
 			self.player.score_round(False)
-			#print("incorrect... solution was: ",self.participant.vars['solution'], "you inputted: ", self.player.user_input)
-			
-		#The section below recreates a list of 25 0's and 1's, sums them up, then saves them to self.participant.vars. 
-		#This allows us to re-randomize a problem and solution after one is solved.
-		#This is done every time this page is exited, rather than randomizing all problems for all rounds at once like it was doing when the randomization was in models.py.
-		#This is going to be less resource intensive, which is not the primary reason I moved the randomization to pages.py but is an added benefit.
+		"""
+		The section below recreates a list of 25 0's and 1's, sums them up, then saves them to self.participant.vars. 
+		This allows us to re-randomize a problem and solution after one is solved.
+		This is done every time this page is exited, rather than randomizing all problems for all rounds at once like it was doing when the randomization was in models.py.
+		This is going to be less resource intensive, which is not the primary reason I moved the randomization to pages.py but is an added benefit.
+		new_ints, new_solution, and tmp are temporary variables used to generate the next problem and solution.
+		"""
 		new_ints=[]
 		new_solution=0
 		for i in range(0,25):
@@ -165,14 +156,8 @@ class message_page(Page):
 		self.participant.vars['show_message_page_next'] = False
 		self.participant.vars['show_investment_page_next'] = True
 
-
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next']
-		# Not sure about this logic, need to come up with the best way to ensure this page is displayed directly after first_task_page when that timer expires.
-		# Maybe the sequencing in 'page_sequence' at the bottom of this file is sufficient.
-		# I think adding a boolean to self somewhere or in the larger scope of each player's vars. that marks whether or not this page has been visited will allow us to do that.
-		
-		
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next']		
 		
 class investment_page(Page):
 
@@ -200,7 +185,6 @@ class second_task_page(Page):
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']
-		self.solution = self.participant.vars['solution']
 		
 		for p in self.player.in_all_rounds():
 			if p.round_attempted: 
@@ -208,8 +192,10 @@ class second_task_page(Page):
 				p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
 
 			if (self.participant.vars['problems_attempted_second_task']==0): 
-					correct_last_round = "<br>"
-			else: #all subsequent tasks displace the correctness of previous answer.
+			#correct_last_round is a string containing actual HTML that is being passed to the display.
+			#If no problems have been attempted this task, it is "<br>" which is HTML for a line break.
+				correct_last_round = "<br>"
+			else: #all subsequent tasks display the correctness of previous answer.
 				if self.player.in_previous_rounds()[-1].is_correct:
 					correct_last_round = "Your last answer was <font color='green'>correct</font>"
 				else: 
@@ -230,21 +216,21 @@ class second_task_page(Page):
 			'int7' : ints[7],
 			'int8' : ints[8],
 			'int9' : ints[9],
-			'int10' : 	ints[10],
-			'int11' : 	ints[11],
-			'int12' : 	ints[12],
-			'int13' : 	ints[13],
-			'int14' : 	ints[14],
-			'int15' : 	ints[15],
-			'int16' : 	ints[16],
-			'int17' : 	ints[17],
-			'int18' : 	ints[18],
-			'int19' : 	ints[19],
-			'int20' : 	ints[20],
-			'int21' : 	ints[21],
-			'int22' : 	ints[22],
-			'int23' : 	ints[23],
-			'int24' : 	ints[24],
+			'int10' : ints[10],
+			'int11' : ints[11],
+			'int12' : ints[12],
+			'int13' : ints[13],
+			'int14' : ints[14],
+			'int15' : ints[15],
+			'int16' : ints[16],
+			'int17' : ints[17],
+			'int18' : ints[18],
+			'int19' : ints[19],
+			'int20' : ints[20],
+			'int21' : ints[21],
+			'int22' : ints[22],
+			'int23' : ints[23],
+			'int24' : ints[24],
 			'solution' : self.participant.vars['solution']
 		}
 
@@ -253,10 +239,8 @@ class second_task_page(Page):
 		if self.player.user_input == self.participant.vars['solution']:
 			self.player.score_round_second_task(True)
 			self.participant.vars['problems_correct_second_task']+=1
-			#print("correct! solution was: ", self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		else: 
 			self.player.score_round_second_task(False)
-			#print("incorrect... solution was: ",self.participant.vars['solution'], "you inputted: ", self.player.user_input)
 		
 		new_ints=[]
 		new_solution=0
@@ -273,22 +257,12 @@ class second_task_page(Page):
 	
 class feedback_page(Page):
 
-
 	def is_displayed(self):
 		return (self.participant.vars['show_feed_back_page'] and (self.participant.vars['out_of_time_second_task']-time.time()<=0))
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = True
-		#self.participant.vars['show_first_task_page_next'] = False
 		self.participant.vars['show_feed_back_page'] = False
-
-		
-		
-class ResultsWaitPage(WaitPage):
-
-	def after_all_players_arrive(self):
-		pass
-
 
 class Results(Page):
 	def is_displayed(self):
