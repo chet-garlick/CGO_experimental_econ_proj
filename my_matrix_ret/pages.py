@@ -28,6 +28,7 @@ class start_page(Page):
 		self.participant.vars['show_second_task_next'] = False
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_feed_back_page'] = False
+		self.participant.vars['show_cog_reflect_one']= False
 		self.participant.vars['show_survey_next'] = False
 		
 		"""
@@ -280,7 +281,7 @@ class Results(Page):
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
-		self.participant.vars['show_survey_next'] = True
+		self.participant.vars['show_cog_reflect_one'] = True
 		
 	def vars_for_template(self):
 	
@@ -290,6 +291,26 @@ class Results(Page):
 			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
+		
+class cog_reflect_one(Page):
+
+	form_model='player'
+	form_fields=['cog_reflect_one_input']
+	
+	def is_displayed(self):
+		return self.participant.vars['show_cog_reflect_one']
+		
+	def before_next_page(self):	
+	
+		self.participant.vars['show_cog_reflect_one'] = False
+		self.participant.vars['show_survey_next'] = True
+		
+		if(self.player.cog_reflect_one_input == .05):
+			self.player.cog_reflect_one_correct = True
+		else:
+			self.player.cog_reflect_one_correct = False
+
+		
 		
 		
 class survey(Page):
@@ -311,6 +332,8 @@ class survey(Page):
 	def before_next_page(self):
 		self.participant.vars['show_survey_next'] = False
 		
+		
+
 page_sequence = [
 	start_page,
 	instructions_quiz_page,
@@ -320,5 +343,6 @@ page_sequence = [
 	second_task_page,
 	feedback_page,
 	Results,
+	cog_reflect_one,
 	survey
 ]

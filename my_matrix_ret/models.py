@@ -70,6 +70,15 @@ class Player(BasePlayer):
 		doc="number of problems attempted in the second real effort task"
 	)
 	
+	cog_reflect_one_input = models.FloatField(
+		doc="User input for the first Cognitive Reflection Test Question.",
+		min=0
+	)
+	
+	cog_reflect_one_correct = models.BooleanField(
+		doc="Did the user get the first Cognitive Reflection Test Question correct?"
+	)
+	
 	gender = models.StringField(
 		choices=['Male','Female','Prefer Not To Answer'],
 		doc="Self-reported gender of the participant."
@@ -137,4 +146,5 @@ class Player(BasePlayer):
 		doc = "What year of their college education is the participant currently in?",
 		choices = ['Freshman','Sophomore','Junior','Senior', '5th year or more']
 	)
+	
 	
