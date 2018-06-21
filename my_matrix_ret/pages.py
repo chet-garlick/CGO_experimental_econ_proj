@@ -295,7 +295,7 @@ class Results(Page):
 class survey(Page):
 
 	form_model='player'
-	form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income']
+	form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income','credit_card','smoke','alcohol']
 	
 	def is_displayed(self):
 		return self.participant.vars['show_survey_next']

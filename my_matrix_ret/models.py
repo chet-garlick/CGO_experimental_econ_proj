@@ -109,3 +109,19 @@ class Player(BasePlayer):
 		doc = "Self-reported household annual income of participant.",
 		min = 0
 	)
+	
+	credit_card = models.StringField(
+		doc = "Does the participant have a credit card?",
+		choices = ['Yes','No']
+	)
+	
+	smoke = models.StringField(
+		doc = "Does the participant smoke?",
+		choices = ['Yes','No']
+	)
+	
+	alcohol = models.StringField(
+		doc = "Does the participant drink alcohol?",
+		choices = ['Yes','No']
+	)
+	
