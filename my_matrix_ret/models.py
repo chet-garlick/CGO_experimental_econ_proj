@@ -78,6 +78,34 @@ class Player(BasePlayer):
 	major = models.StringField(
 		doc = "Self-reported college major of the participant."
 	)
+	
+	age = models.PositiveIntegerField(
+		doc = "Self-reported age of participant.",
+		min=0,
+		max=100
+	)
+	
+	ethnicity = models.StringField(
+		doc = "Self-reported ethinicity of the participant.",
+		choices = ['White','Hispanic or Latino', 'African American', 'Native American or American Indian', 'Asian', 'Pacific Islander', 'Other']
+	)
+	
+	civil_status = models.StringField(
+		doc = "Self-rerported civil status of participant.",
+		choices=['Single, Never Married', 'Married/Domestic Partnership', 'Widowed', 'Divorced']		
+	)
+	
+	employment = models.StringField(
+		doc = "Employment status of participant.",
+		choices = ['Yes','No']
+	)
 		
-		
-		
+	insurance = models.StringField(
+		doc = "Insured status of participant.",
+		choices = ['Yes','No']
+	)
+	
+	annual_income = models.FloatField(
+		doc = "Self-reported household annual income of participant.",
+		min = 0
+	)

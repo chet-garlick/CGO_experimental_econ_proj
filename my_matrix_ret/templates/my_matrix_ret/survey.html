@@ -6,13 +6,25 @@
 {% endblock %}
 
 {% block content %}
-	<h2> Please answer the following survey questions. </h2>
+	<h4> Please answer the following survey questions. </h4>
     
 	<p> What is your gender? {% formfield player.gender %} </p>`
 	<br>
 	<p> What is your major? {% formfield player.major %} </p>
+
+	<p> What is your age? {% formfield player.age %} </p>
+	
+	<p> Please select the following choice that most closely represents your ethnicity. {% formfield player.ethnicity %} </p>
+	
+	<p> Please select the following choice that most closely represents your civil status.  {% formfield player.civil_status %} </p>
+	
+	<p> Are you currently employed? {% formfield player.employment %} </p>
+	
+	<p> Do you currently have health insurance? {% formfield player.insurance %} </p>
+	
+	<p> What is your household annual income?  {% formfield player.annual_income %} </p>
 	
 	
 	{% next_button %}
 
-{% endblock %}
+{% endblock %} 
