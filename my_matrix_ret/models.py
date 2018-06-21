@@ -74,7 +74,10 @@ class Player(BasePlayer):
 		choices=['Male','Female','Prefer Not To Answer'],
 		doc="Self-reported gender of the participant."
 	)	
-		
+	
+	major = models.StringField(
+		doc = "Self-reported college major of the participant."
+	)
 		
 		
 		

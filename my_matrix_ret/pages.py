@@ -32,7 +32,11 @@ class start_page(Page):
 		
 		"""
 		Additionally, I use boolean variables above in self.participant.vars as a way to gaurantee that pages are displayed in the correct order.
-		Without these, the display logic with the timers can cause unpredictable sequencing.		
+		Without these, the display logic with the timers can cause unpredictable sequencing.
+		This is because OTree will look through the page_sequence and attempt to display anything it can. 
+		On the pages with timers, is_displayed is necessary to ensure that they are displayed for the correct amount of time. Because of this,
+		oTree will display anything without is_displayed logic before anything with is_displayed logic.
+		To remedy this, I require all pages to have is_displayed logic in the form of a boolean variable in self.participant.vars.
 		"""
 		
 		list = []
@@ -276,6 +280,7 @@ class Results(Page):
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
+		self.participant.vars['show_survey_next'] = True
 		
 	def vars_for_template(self):
 	
@@ -290,7 +295,10 @@ class Results(Page):
 class survey(Page):
 
 	form_model='player'
-	form_fields=['gender']
+	form_fields=['gender','major']
+	
+	def is_displayed(self):
+		return self.participant.vars['show_survey_next']
 	
 	def vars_for_template(self):
 		
@@ -299,7 +307,8 @@ class survey(Page):
 		}
 	
 
-
+	def before_next_page(self):
+		self.participant.vars['show_survey_next'] = False
 		
 page_sequence = [
 	start_page,
