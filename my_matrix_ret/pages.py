@@ -20,18 +20,21 @@ class start_page(Page):
 		By defining most of the self.participant.vars entries here in start_page's before_next_page, it is gauranteed that they will be accessible everywhere.
 		This is because every participant goes through the start page before anything else happens, so we can initialize important stuff here.
 		"""
-		self.participant.vars['show_first_task_page_next'] = False
 		self.participant.vars['out_of_time_first_task'] = 0
+		self.participant.vars['out_of_time_second_task'] = 0
+		self.participant.vars['show_first_task_page_next'] = False
 		self.participant.vars['show_message_page_next'] = False
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = False
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_feed_back_page'] = False
-		self.participant.vars['out_of_time_second_task'] = 0
+		self.participant.vars['show_survey_next'] = False
 		
-		#Using this section as a way to store the random integers and solution so that they are unique to each player.
-		#If this works, then they don't need to be in models.py and won't show up as unecessary extra information in the data export.
-		#UPDATE: This works perfect.
+		"""
+		Additionally, I use boolean variables above in self.participant.vars as a way to gaurantee that pages are displayed in the correct order.
+		Without these, the display logic with the timers can cause unpredictable sequencing.		
+		"""
+		
 		list = []
 		tmpsolution=0
 		for i in range (0,25):
@@ -62,7 +65,7 @@ class instructions_quiz_page(Page):
 		
 		
 class first_task_page(Page):
-	form_model = models.Player
+	form_model = 'player'
 	form_fields = ['user_input']
 	timer_text = 'Time left to solve problems:'
 	def get_timeout_seconds(self):
@@ -175,7 +178,7 @@ class investment_page(Page):
 		
 class second_task_page(Page):
 
-	form_model = models.Player
+	form_model = 'player'
 	form_fields = ['user_input']	
 	timer_text = 'Time left to solve problems:'
 	
@@ -283,6 +286,21 @@ class Results(Page):
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
 		
+		
+class survey(Page):
+
+	form_model='player'
+	form_fields=['gender']
+	
+	def vars_for_template(self):
+		
+		return{
+			'debug' : settings.DEBUG
+		}
+	
+
+
+		
 page_sequence = [
 	start_page,
 	instructions_quiz_page,
@@ -291,5 +309,6 @@ page_sequence = [
 	investment_page,
 	second_task_page,
 	feedback_page,
-	Results
+	Results,
+	survey
 ]

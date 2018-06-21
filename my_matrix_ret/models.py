@@ -69,6 +69,11 @@ class Player(BasePlayer):
 	problems_attempted_second_task = models.PositiveIntegerField(
 		doc="number of problems attempted in the second real effort task"
 	)
+	
+	gender = models.StringField(
+		choices=['Male','Female','Prefer Not To Answer'],
+		doc="Self-reported gender of the participant."
+	)	
 		
 		
 		
