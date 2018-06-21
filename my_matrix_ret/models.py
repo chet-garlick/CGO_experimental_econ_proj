@@ -133,3 +133,8 @@ class Player(BasePlayer):
 		choices = ['Yes','No']
 	)
 	
+	year_in_school = models.StringField(
+		doc = "What year of their college education is the participant currently in?",
+		choices = ['Freshman','Sophomore','Junior','Senior', '5th year or more']
+	)
+	
