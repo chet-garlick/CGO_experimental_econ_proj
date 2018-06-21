@@ -8,27 +8,29 @@
 {% block content %}
 	<h4> Please answer the following survey questions. </h4>
     
-	<p> What is your gender? {% formfield player.gender %} </p>`
+	<p> {% formfield player.gender label = "What is your gender?" %} </p>`
 	<br>
-	<p> What is your major? {% formfield player.major %} </p>
+	<p>  {% formfield player.major label = "What is your major?" %} </p>
 
-	<p> What is your age? {% formfield player.age %} </p>
+	<p>  {% formfield player.age label = "What is your age?" %} </p>
 	
-	<p> Please select the following choice that most closely represents your ethnicity. {% formfield player.ethnicity %} </p>
+	<p>  {% formfield player.ethnicity label = "Please select the following choice that most closely represents your ethnicity. " %} </p>
 	
-	<p> Please select the following choice that most closely represents your civil status.  {% formfield player.civil_status %} </p>
+	<p> {% formfield player.civil_status label = "Please select the following choice that most closely represents your civil status." %} </p>
 	
-	<p> Are you currently employed? {% formfield player.employment %} </p>
+	<p>  {% formfield player.employment label = "Are you currently employed?" %} </p>
 	
-	<p> Do you currently have health insurance? {% formfield player.insurance %} </p>
+	<p>  {% formfield player.insurance label = "Do you currently have health insurance?" %} </p>
 	
-	<p> What is your household annual income?  {% formfield player.annual_income %} </p>
+	<p>   {% formfield player.annual_income label = "What is your household annual income?" %} </p>
 	
-	<p> Do you have a credit card? {% formfield player.credit_card %} </p>
+	<p>  {% formfield player.credit_card label = "Do you have a credit card?" %} </p>
 
-	<p> Do you smoke? {% formfield player.smoke %} </p>
+	<p> {% formfield player.smoke label = "Do you smoke?" %} </p>
 
-	<p> Do you comsume alcohol? {% formfield player.alcohol %} </p>
+	<p>  {% formfield player.alcohol label = "Do you comsume alcohol?" %} </p>
+	
+	<p>  {% formfield player.parent_education label = "What is the highest grade at least one of your parents completed?" %}
 	
 	
 	

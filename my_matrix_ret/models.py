@@ -115,6 +115,14 @@ class Player(BasePlayer):
 		choices = ['Yes','No']
 	)
 	
+	parent_education = models.StringField(
+		doc =  "Highest level of education one of the parents of the participant completed.",
+		choices = ['1st grade','2nd grade','3rd grade', '4th grade','5th grade','6th grade','7th grade',
+		'8th grade', '9th grade', '10th grade', '11th grade', 'Graduated High School', '1 year of college', 
+		'2 years of college','3 years of college', 'Graduated from college', 'Some graduate school', 'Completed graduate school']
+	
+	)
+	
 	smoke = models.StringField(
 		doc = "Does the participant smoke?",
 		choices = ['Yes','No']
