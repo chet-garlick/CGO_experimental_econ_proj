@@ -30,6 +30,7 @@ class start_page(Page):
 		self.participant.vars['show_feed_back_page'] = False
 		self.participant.vars['show_cog_reflect_one']= False
 		self.participant.vars['show_cog_reflect_two']= False
+		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
 		
 		"""
@@ -323,12 +324,31 @@ class cog_reflect_two(Page):
 	def before_next_page(self):	
 	
 		self.participant.vars['show_cog_reflect_two'] = False
-		self.participant.vars['show_survey_next'] = True
+		self.participant.vars['show_cog_reflect_three'] = True
 		
 		if(self.player.cog_reflect_two_input == 5):
 			self.player.cog_reflect_two_correct = True
 		else:
 			self.player.cog_reflect_two_correct = False
+			
+			
+class cog_reflect_three(Page):
+
+	form_model='player'
+	form_fields=['cog_reflect_three_input']
+	
+	def is_displayed(self):
+		return self.participant.vars['show_cog_reflect_three']
+		
+	def before_next_page(self):	
+	
+		self.participant.vars['show_cog_reflect_three'] = False
+		self.participant.vars['show_survey_next'] = True
+		
+		if(self.player.cog_reflect_three_input == 47):
+			self.player.cog_reflect_three_correct = True
+		else:
+			self.player.cog_reflect_three_correct = False
 
 		
 		
@@ -365,5 +385,6 @@ page_sequence = [
 	Results,
 	cog_reflect_one,
 	cog_reflect_two,
+	cog_reflect_three,
 	survey
 ]

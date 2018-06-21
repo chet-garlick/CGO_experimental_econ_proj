@@ -88,6 +88,15 @@ class Player(BasePlayer):
 		doc="Did the user get the second Cognitive Reflection Test Question correct?"
 	)
 	
+	cog_reflect_three_input = models.FloatField(
+		doc="User input for the third Cognitive Reflection Test Question.",
+		min=0
+	)
+	
+	cog_reflect_three_correct = models.BooleanField(
+		doc="Did the user get the third Cognitive Reflection Test Question correct?"
+	)
+	
 	gender = models.StringField(
 		choices=['Male','Female','Prefer Not To Answer'],
 		doc="Self-reported gender of the participant."
