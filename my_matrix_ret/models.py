@@ -5,9 +5,6 @@ from otree.api import (
 
 import random 
 
-
-
-
 author = 'Chet Garlick'
 
 doc = "Implementation of a real effort task that asks users to count to number of 1's in a 5x5 matrix of 1's and 0's."
@@ -35,7 +32,6 @@ class Player(BasePlayer):
 			self.is_correct = True
 		else:
 			self_is_correct = False
-			self.first_payoff_score=0
 			
 	def score_round_second_task(self, correct_answer):
 		if(correct_answer):
