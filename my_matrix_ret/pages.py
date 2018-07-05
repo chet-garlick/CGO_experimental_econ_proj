@@ -159,17 +159,30 @@ class first_task_page(Page):
 		self.participant.vars['problems_attempted_first_task']+=1
 		self.participant.vars['show_message_page_next']=True
 
-class message_page(Page):
+class message_page_1(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
 		self.participant.vars['show_investment_page_next'] = True
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next']	
+			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
+			
+class message_page_2(Page):
+	def before_next_page(self):
+		self.participant.vars['show_message_page_next'] = False
+		self.participant.vars['show_investment_page_next'] = True
 
-	"""def vars_for_template(self):
-		if(self.player.id_in_session % 3
-	"""
+	def is_displayed(self):
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==2
+			
+class message_page_3(Page):
+	def before_next_page(self):
+		self.participant.vars['show_message_page_next'] = False
+		self.participant.vars['show_investment_page_next'] = True
+
+	def is_displayed(self):
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==0
+	
 class investment_page(Page):
 
 	def is_displayed(self):
@@ -379,7 +392,9 @@ page_sequence = [
 	start_page,
 	instructions_quiz_page,
 	first_task_page,
-	message_page,
+	message_page_1,
+	message_page_2,
+	message_page_3,
 	investment_page,
 	second_task_page,
 	feedback_page,
