@@ -7,7 +7,7 @@ import random
 
 author = 'Chet Garlick'
 
-doc = "Implementation of a real effort task that asks users to count to number of 1's in a 5x5 matrix of 1's and 0's."
+doc = "Implementation of a real effort task that asks users to count to number of 1's in a 5x5 matrix of 1's and 0's. This app also contains an Eckel/Grossman risk task, a Cognitive Reflection test, and a handful of survey questions."
 
 
 class Constants(BaseConstants):

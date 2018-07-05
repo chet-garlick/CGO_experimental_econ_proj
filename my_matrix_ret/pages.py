@@ -69,9 +69,6 @@ class instructions_quiz_page(Page):
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
 		self.participant.vars['show_first_task_page_next'] = True
-			
-		
-		
 		
 class first_task_page(Page):
 	form_model = 'player'
@@ -162,7 +159,6 @@ class first_task_page(Page):
 		self.participant.vars['problems_attempted_first_task']+=1
 		self.participant.vars['show_message_page_next']=True
 
-
 class message_page(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
@@ -182,8 +178,7 @@ class investment_page(Page):
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = True
-		self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer
-		
+		self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer		
 		
 class second_task_page(Page):
 
@@ -248,7 +243,6 @@ class second_task_page(Page):
 			'int24' : ints[24],
 			'solution' : self.participant.vars['solution']
 		}
-
 				
 	def before_next_page(self):
 		if self.player.user_input == self.participant.vars['solution']:
@@ -267,8 +261,7 @@ class second_task_page(Page):
 		self.participant.vars['show_feed_back_page']=True
 		self.participant.vars['int_list'] = new_ints
 		self.participant.vars['solution'] = new_solution
-		self.participant.vars['problems_attempted_second_task']+=1
-		
+		self.participant.vars['problems_attempted_second_task']+=1		
 	
 class feedback_page(Page):
 
@@ -309,7 +302,6 @@ class risk_task(Page):
 	def before_next_page(self):
 		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one'] = True
-
 		
 class cog_reflect_one(Page):
 
@@ -327,8 +319,7 @@ class cog_reflect_one(Page):
 		if(self.player.cog_reflect_one_input == .05):
 			self.player.cog_reflect_one_correct = True
 		else:
-			self.player.cog_reflect_one_correct = False
-			
+			self.player.cog_reflect_one_correct = False		
 			
 class cog_reflect_two(Page):
 
@@ -346,8 +337,7 @@ class cog_reflect_two(Page):
 		if(self.player.cog_reflect_two_input == 5):
 			self.player.cog_reflect_two_correct = True
 		else:
-			self.player.cog_reflect_two_correct = False
-			
+			self.player.cog_reflect_two_correct = False		
 			
 class cog_reflect_three(Page):
 
@@ -367,9 +357,6 @@ class cog_reflect_three(Page):
 		else:
 			self.player.cog_reflect_three_correct = False
 
-		
-		
-		
 class survey(Page):
 
 	form_model='player'
@@ -384,13 +371,10 @@ class survey(Page):
 		return{
 			'debug' : settings.DEBUG
 		}
-	
 
 	def before_next_page(self):
 		self.participant.vars['show_survey_next'] = False
 		
-		
-
 page_sequence = [
 	start_page,
 	instructions_quiz_page,
