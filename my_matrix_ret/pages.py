@@ -199,6 +199,9 @@ class message(Page):
 
 	
 class investment_page(Page):
+	
+	form_model = 'player'
+	form_fields = ['investment_choice']
 
 	def is_displayed(self):
 		return self.participant.vars['show_investment_page_next']

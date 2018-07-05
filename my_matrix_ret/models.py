@@ -80,6 +80,15 @@ class Player(BasePlayer):
 	message_seen = models.BooleanField(
 		doc="Was the message seen by the participant?"
 	)
+	
+	investment_choice = models.BooleanField(
+		doc="Did the participant decide to make the investment or not?",
+		choices=[
+		[True,'Yes'],
+		[False,'No'],
+		]
+	)
+	
 	cog_reflect_one_input = models.FloatField(
 		doc="User input for the first Cognitive Reflection Test Question.",
 		min=0
