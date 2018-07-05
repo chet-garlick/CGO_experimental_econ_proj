@@ -68,14 +68,7 @@ class Player(BasePlayer):
 	
 	risk_choice = models.PositiveIntegerField(
 		doc="Which choice the participant made in the Eckel/Grossman single choice list risk task.",
-		choices=[
-		[1,'One'],
-		[2,'Two'],
-		[3,'Three'],
-		[4,'Four'],
-		[5,'Five'],
-		],
-		widget=widgets.RadioSelect
+		choices=[1,2,3,4,5],
 	)
 	
 	cog_reflect_one_input = models.FloatField(

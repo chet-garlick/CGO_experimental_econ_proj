@@ -5,25 +5,50 @@
     Risk Task
 {% endblock %}
 
+{% block styles %}
+	<style>
+	#risk table, #risk th, #risk td, #risk tr {
+		border: 1px solid black; 
+		padding: 10px;
+		text-align: left;
+	}
+	#risk tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+
+{% endblock %}
+
 {% block content %}
 	<p>
-        lets get risky
+        In the table below, you are presented with 5 different lotteries. 
+		In each lottery, the result is randomly picked and both Payoff 1 and Payoff 2 have a 50% probability to be chosen.
+		Please choose which game you would prefer to play in the dropdown menu below the table.
 		
-		<table>
+	 </p>
 		
-			<th>
-			Table header shtuff
-			</th>
+		<table id="risk">
+		
+			<th> Option </th> <th> Payoff 1 </th> <th> Payoff 2 </th> 
 			
-			<tr>
-			{% formfield player.risk_choice label = "Preferred?" %}
+			<tr> 
+				<td> #1 </td> <td> Payoff 1: $16.00 </td> <td> Payoff 2: $16.00 </td> 
 			</tr>
-		
+			<tr> 
+				<td> #2 </td> <td> Payoff 1: $12.00 </td> <td> Payoff 2: $24.00 </td> 
+			</tr>
+			<tr>
+				<td> #3 </td> <td> Payoff 1: $8.00 </td> <td> Payoff 2: $32.00 </td>
+			</tr>
+			<tr>
+				<td> #4 </td> <td> Payoff 1: $4.00 </td> <td> Payoff 2: $40.00 </td> 
+			</tr>
+			<tr>
+				<td> #5 </td> <td> Payoff 1: $0.00 </td> <td> Payoff 2: $48.00 </td> 
+			</tr>
 		
 		</table>
 		
 		
-		
-    </p>
+		{% formfield player.risk_choice label = "Option Number:" %}
+  
     {% next_button %}
 {% endblock %}
