@@ -28,10 +28,12 @@ class start_page(Page):
 		self.participant.vars['show_second_task_next'] = False
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_feed_back_page'] = False
+		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one']= False
 		self.participant.vars['show_cog_reflect_two']= False
 		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
+		
 		
 		"""
 		Additionally, I use boolean variables above in self.participant.vars as a way to gaurantee that pages are displayed in the correct order.
@@ -283,7 +285,8 @@ class Results(Page):
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
-		self.participant.vars['show_cog_reflect_one'] = True
+		self.participant.vars['show_risk_task'] = True
+
 		
 	def vars_for_template(self):
 	
@@ -293,6 +296,16 @@ class Results(Page):
 			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
+		
+class risk_task(Page):
+	def is_displayed(self):
+		return self.participant.vars['show_risk_task']
+		
+		
+	def before_next_page(self):
+		self.participant.vars['show_risk_task'] = False
+		self.participant.vars['show_cog_reflect_one'] = True
+
 		
 class cog_reflect_one(Page):
 
@@ -383,6 +396,7 @@ page_sequence = [
 	second_task_page,
 	feedback_page,
 	Results,
+	risk_task,
 	cog_reflect_one,
 	cog_reflect_two,
 	cog_reflect_three,
