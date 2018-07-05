@@ -24,6 +24,7 @@ class start_page(Page):
 		self.participant.vars['out_of_time_second_task'] = 0
 		self.participant.vars['show_first_task_page_next'] = False
 		self.participant.vars['show_message_page_next'] = False
+		self.participant.vars['show_actual_message'] = False
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = False
 		self.participant.vars['show_results_page_next'] = False
@@ -160,17 +161,21 @@ class first_task_page(Page):
 		self.participant.vars['show_message_page_next']=True
 
 class message_page_1(Page):
+	form_model = 'player'
+	form_fields = ['message_choice']
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
-		self.participant.vars['show_investment_page_next'] = True
-
+		if(self.player.message_choice=='Yes'):
+			self.participant.vars['show_actual_message']=True
+		elif(self.player.message_choice=='No'):
+			self.participant.vars['show_investment_page_next'] = True
+		#NOTE: need to add logic here so that if the user picks no to seeing the message, show_investment_page_next goes to true and the actual message is skipped.
 	def is_displayed(self):
 			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
 			
 class message_page_2(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
-		self.participant.vars['show_investment_page_next'] = True
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==2
@@ -182,6 +187,16 @@ class message_page_3(Page):
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==0
+	
+class message(Page):
+	def is_displayed(self):
+		return self.participant.vars['show_actual_message']
+		
+	def before_next_page(self):
+		self.participant.vars['show_investment_page_next'] = True
+		self.participant.vars['show_actual_message']=False
+		self.player.message_seen = True
+
 	
 class investment_page(Page):
 
@@ -395,6 +410,7 @@ page_sequence = [
 	message_page_1,
 	message_page_2,
 	message_page_3,
+	message,
 	investment_page,
 	second_task_page,
 	feedback_page,

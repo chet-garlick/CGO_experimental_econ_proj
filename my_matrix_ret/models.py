@@ -71,6 +71,15 @@ class Player(BasePlayer):
 		choices=[1,2,3,4,5],
 	)
 	
+	message_choice = models.StringField(
+		doc= "The choice of participants that have the option whether or not to see the message. For the other participants who don't have a choice, this will remain blank.",
+		choices=['Yes','No'],
+		widget=widgets.RadioSelect
+	)
+	
+	message_seen = models.BooleanField(
+		doc="Was the message seen by the participant?"
+	)
 	cog_reflect_one_input = models.FloatField(
 		doc="User input for the first Cognitive Reflection Test Question.",
 		min=0
