@@ -298,6 +298,10 @@ class Results(Page):
 		}
 		
 class risk_task(Page):
+
+	form_model='player'
+	form_fields=['risk_choice']
+
 	def is_displayed(self):
 		return self.participant.vars['show_risk_task']
 		

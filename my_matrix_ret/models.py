@@ -12,8 +12,8 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 15
-	second_task_timer = 15
+	first_task_timer = 3
+	second_task_timer = 3
 	players_per_group = None
 	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
@@ -64,6 +64,18 @@ class Player(BasePlayer):
 	)
 	problems_attempted_second_task = models.PositiveIntegerField(
 		doc="number of problems attempted in the second real effort task"
+	)
+	
+	risk_choice = models.PositiveIntegerField(
+		doc="Which choice the participant made in the Eckel/Grossman single choice list risk task.",
+		choices=[
+		[1,'One'],
+		[2,'Two'],
+		[3,'Three'],
+		[4,'Four'],
+		[5,'Five'],
+		],
+		widget=widgets.RadioSelect
 	)
 	
 	cog_reflect_one_input = models.FloatField(
