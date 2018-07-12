@@ -229,7 +229,7 @@ class second_task_page(Page):
 		
 		for p in self.player.in_all_rounds():
 			if p.round_attempted: 
-				p.problems_attempted_second_task = self.participant.vars['problems_attempted_first_task']
+				p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
 				p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
 
 			if (self.participant.vars['problems_attempted_second_task']==0): 
@@ -344,66 +344,55 @@ class cog_reflect_one(Page):
 		return self.participant.vars['show_cog_reflect_one']
 		
 	def before_next_page(self):	
-	
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_one_correct = self.player.cog_reflect_one_correct
 		self.participant.vars['show_cog_reflect_one'] = False
 		self.participant.vars['show_cog_reflect_two'] = True
-		
 		if(self.player.cog_reflect_one_input == .05):
 			self.player.cog_reflect_one_correct = True
 		else:
 			self.player.cog_reflect_one_correct = False		
 			
 class cog_reflect_two(Page):
-
 	form_model='player'
 	form_fields=['cog_reflect_two_input']
-	
 	def is_displayed(self):
 		return self.participant.vars['show_cog_reflect_two']
-		
 	def before_next_page(self):	
-	
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_two_correct = self.player.cog_reflect_two_correct
 		self.participant.vars['show_cog_reflect_two'] = False
 		self.participant.vars['show_cog_reflect_three'] = True
-		
 		if(self.player.cog_reflect_two_input == 5):
 			self.player.cog_reflect_two_correct = True
 		else:
 			self.player.cog_reflect_two_correct = False		
 			
 class cog_reflect_three(Page):
-
 	form_model='player'
 	form_fields=['cog_reflect_three_input']
-	
 	def is_displayed(self):
 		return self.participant.vars['show_cog_reflect_three']
-		
 	def before_next_page(self):	
-	
 		self.participant.vars['show_cog_reflect_three'] = False
 		self.participant.vars['show_survey_next'] = True
-		
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_three_correct = self.player.cog_reflect_three_correct
 		if(self.player.cog_reflect_three_input == 47):
 			self.player.cog_reflect_three_correct = True
 		else:
 			self.player.cog_reflect_three_correct = False
 
 class survey(Page):
-
 	form_model='player'
 	form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income',
 	'credit_card','smoke','alcohol','parent_education','year_in_school']
-	
 	def is_displayed(self):
 		return self.participant.vars['show_survey_next']
-	
 	def vars_for_template(self):
-		
 		return{
 			'debug' : settings.DEBUG
 		}
-
 	def before_next_page(self):
 		#This section takes the values from the survey and updates every round with these values, hopefully making the data look a little cleaner.
 		self.participant.vars['show_survey_next'] = False
