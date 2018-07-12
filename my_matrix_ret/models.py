@@ -15,6 +15,8 @@ class Constants(BaseConstants):
 	first_task_timer = 20
 	second_task_timer = 20
 	players_per_group = None
+	investment_effectiveness = 1.0 #This controls one of the treatment variables, which increases how much the investment would mitigate losses in the case of a red card.
+	card_message_correclation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
 	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 
