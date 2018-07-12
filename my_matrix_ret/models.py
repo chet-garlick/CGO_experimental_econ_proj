@@ -45,7 +45,7 @@ class Player(BasePlayer):
 			p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
 			p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
 			p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
-			p.problems_attempted_second_task = self.participant.vars['problems_correct_second_task']
+			p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
 
 	user_input = models.PositiveIntegerField(
 		min = 0,
