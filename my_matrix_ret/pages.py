@@ -221,7 +221,9 @@ class investment_page(Page):
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = True
-		self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer		
+		self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer	
+		for p in self.player.in_all_rounds():
+			p.investment_choice = self.player.investment_choice
 		
 class second_task_page(Page):
 
@@ -346,6 +348,8 @@ class risk_task(Page):
 	def before_next_page(self):
 		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one'] = True
+		for p in self.player.in_all_rounds():
+			p.risk_choice = self.player.risk_choice
 		
 class cog_reflect_one(Page):
 
@@ -356,14 +360,15 @@ class cog_reflect_one(Page):
 		return self.participant.vars['show_cog_reflect_one']
 		
 	def before_next_page(self):	
-		for p in self.player.in_all_rounds():
-			p.cog_reflect_one_correct = self.player.cog_reflect_one_correct
+		
 		self.participant.vars['show_cog_reflect_one'] = False
 		self.participant.vars['show_cog_reflect_two'] = True
 		if(self.player.cog_reflect_one_input == .05):
 			self.player.cog_reflect_one_correct = True
 		else:
 			self.player.cog_reflect_one_correct = False		
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_one_correct = self.player.cog_reflect_one_correct
 			
 class cog_reflect_two(Page):
 	form_model='player'
@@ -371,14 +376,16 @@ class cog_reflect_two(Page):
 	def is_displayed(self):
 		return self.participant.vars['show_cog_reflect_two']
 	def before_next_page(self):	
-		for p in self.player.in_all_rounds():
-			p.cog_reflect_two_correct = self.player.cog_reflect_two_correct
+		
 		self.participant.vars['show_cog_reflect_two'] = False
 		self.participant.vars['show_cog_reflect_three'] = True
 		if(self.player.cog_reflect_two_input == 5):
 			self.player.cog_reflect_two_correct = True
 		else:
 			self.player.cog_reflect_two_correct = False		
+			
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_two_correct = self.player.cog_reflect_two_correct
 			
 class cog_reflect_three(Page):
 	form_model='player'
@@ -388,12 +395,14 @@ class cog_reflect_three(Page):
 	def before_next_page(self):	
 		self.participant.vars['show_cog_reflect_three'] = False
 		self.participant.vars['show_survey_next'] = True
-		for p in self.player.in_all_rounds():
-			p.cog_reflect_three_correct = self.player.cog_reflect_three_correct
+		
 		if(self.player.cog_reflect_three_input == 47):
 			self.player.cog_reflect_three_correct = True
 		else:
 			self.player.cog_reflect_three_correct = False
+			
+		for p in self.player.in_all_rounds():
+			p.cog_reflect_three_correct = self.player.cog_reflect_three_correct
 
 class survey(Page):
 	form_model='player'
