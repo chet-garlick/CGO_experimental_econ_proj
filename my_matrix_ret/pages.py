@@ -87,7 +87,7 @@ class first_task_page(Page):
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']		
-		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
+		for p in self.player.in_all_rounds(): #This loops over every round and totals the rounds attempted and correctly answered.
 			if p.round_attempted: 
 				p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
 				p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
@@ -174,6 +174,8 @@ class message_page_1(Page):
 		for p in self.player.in_all_rounds():
 			p.message_page_version = 1
 			p.message_choice = self.player.message_choice
+			if(self.player.message_choice=='No'):
+				p.message_seen = False
 			
 	def is_displayed(self):
 			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
