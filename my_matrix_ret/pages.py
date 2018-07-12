@@ -405,7 +405,23 @@ class survey(Page):
 		}
 
 	def before_next_page(self):
+		#This section takes the values from the survey and updates every round with these values, hopefully making the data look a little cleaner.
 		self.participant.vars['show_survey_next'] = False
+		for p in self.player.in_all_rounds():
+			p.gender = self.player.gender
+			p.major = self.player.major
+			p.age = self.player.age
+			p.ethnicity = self.player.ethnicity
+			p.civil_status = self.player.civil_status
+			p.employment = self.player.employment
+			p.insurance = self.player.insurance
+			p.annual_income = self.player.annual_income
+			p.credit_card = self.player.credit_card
+			p.smoke = self.player.smoke
+			p.alcohol = self.player.alcohol
+			p.parent_education = self.player.parent_education
+			p.year_in_school = self.player.year_in_school
+			
 		
 page_sequence = [
 	start_page,

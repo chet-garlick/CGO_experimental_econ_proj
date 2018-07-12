@@ -39,12 +39,13 @@ class Player(BasePlayer):
 		else:
 			self_is_correct = False
 			
-			
+	#The funciton below updates all rounds with the correct amount of total problems attempted and done correct, hopfully making the data cleaner.
 	def update_all_rounds(self):
 		for p in self.in_all_rounds():
-			p.problems_attempted_first_task = self.participant.vars['problems_correct_first_task']
+			p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
 			p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
-			
+			p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
+			p.problems_attempted_second_task = self.participant.vars['problems_correct_second_task']
 
 	user_input = models.PositiveIntegerField(
 		min = 0,
