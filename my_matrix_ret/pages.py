@@ -324,7 +324,12 @@ class Results(Page):
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_risk_task'] = True
-		self.player.update_all_rounds()
+		for p in self.player.in_all_rounds():
+			p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
+			p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
+			p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
+			p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
+			
 		self.player.determine_payoff()
 
 		
