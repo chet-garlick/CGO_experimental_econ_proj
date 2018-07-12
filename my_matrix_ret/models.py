@@ -79,6 +79,11 @@ class Player(BasePlayer):
 		choices=[1,2,3,4,5],
 	)
 	
+	message_page_version = models.PositiveIntegerField(
+		doc = "Which version of the message page the participant views. If 1, the participant has the option to choose whether or not to see the message. If 2, the participant is forced to see the message. If 3, the user is forced to not see the message.",
+		choices=[1,2,3],
+	)
+	
 	message_choice = models.StringField(
 		doc= "The choice of participants that have the option whether or not to see the message. For the other participants who don't have a choice, this will remain blank.",
 		choices=['Yes','No'],

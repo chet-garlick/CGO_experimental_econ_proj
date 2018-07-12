@@ -165,17 +165,24 @@ class message_page_1(Page):
 	form_fields = ['message_choice']
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
+		
 		if(self.player.message_choice=='Yes'):
 			self.participant.vars['show_actual_message']=True
 		elif(self.player.message_choice=='No'):
 			self.participant.vars['show_investment_page_next'] = True
-		#NOTE: need to add logic here so that if the user picks no to seeing the message, show_investment_page_next goes to true and the actual message is skipped.
+			
+		for p in self.player.in_all_rounds():
+			p.message_page_version = 1
+			p.message_choice = self.player.message_choice
+			
 	def is_displayed(self):
 			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
 			
 class message_page_2(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
+		for p in self.player.in_all_rounds():
+			p.message_page_version = 2
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==2
@@ -184,6 +191,9 @@ class message_page_3(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
 		self.participant.vars['show_investment_page_next'] = True
+		for p in self.player.in_all_rounds():
+			p.message_page_version = 3
+			p.message_seen = False
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==0
@@ -196,6 +206,8 @@ class message(Page):
 		self.participant.vars['show_investment_page_next'] = True
 		self.participant.vars['show_actual_message']=False
 		self.player.message_seen = True
+		for p in self.player.in_all_rounds():
+			p.message_seen = True
 
 	
 class investment_page(Page):
