@@ -325,6 +325,7 @@ class Results(Page):
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_risk_task'] = True
 		self.player.update_all_rounds()
+		self.player.determine_payoff()
 
 		
 	def vars_for_template(self):

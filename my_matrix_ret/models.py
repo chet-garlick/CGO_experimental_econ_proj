@@ -48,7 +48,12 @@ class Player(BasePlayer):
 			p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
 			p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
 			p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
+			
+			
+	def determine_payoff(self):
+		pass
 
+	
 	user_input = models.PositiveIntegerField(
 		min = 0,
 		max = 100,
