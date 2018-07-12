@@ -12,8 +12,8 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 3
-	second_task_timer = 3
+	first_task_timer = 20
+	second_task_timer = 20
 	players_per_group = None
 	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
@@ -38,6 +38,13 @@ class Player(BasePlayer):
 			self.is_correct = True
 		else:
 			self_is_correct = False
+			
+			
+	def update_all_rounds(self):
+		for p in self.in_all_rounds():
+			p.problems_attempted_first_task = self.participant.vars['problems_correct_first_task']
+			p.problems_attempted_second_task = self.participant.vars['problems_attempted_second_task']
+			
 
 	user_input = models.PositiveIntegerField(
 		min = 0,

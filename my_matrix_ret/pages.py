@@ -58,6 +58,7 @@ class start_page(Page):
 		self.participant.vars['problems_attempted_second_task'] = 0
 		self.participant.vars['problems_correct_first_task'] = 0
 		self.participant.vars['problems_correct_second_task'] = 0
+		
 	def vars_for_template(self):
 		return {
 			'debug': settings.DEBUG,  
@@ -85,8 +86,7 @@ class first_task_page(Page):
 		
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
-		ints = self.participant.vars['int_list']
-		total_payoff = 0		
+		ints = self.participant.vars['int_list']		
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the payoff scores for each player.
 			if p.round_attempted: 
 				p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
@@ -310,6 +310,7 @@ class Results(Page):
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
 		self.participant.vars['show_risk_task'] = True
+		self.player.update_all_rounds()
 
 		
 	def vars_for_template(self):
