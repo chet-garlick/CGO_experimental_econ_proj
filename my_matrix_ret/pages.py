@@ -227,6 +227,16 @@ class investment_page(Page):
 		for p in self.player.in_all_rounds():
 			p.investment_choice = self.player.investment_choice
 		
+		
+	def vars_for_template(self):
+		
+		return {
+			'investment_cost' : Constants.investment_cost,
+			'investment_effectiveness' : Constants.investment_effectiveness,
+			'red_card_modifier' : Constants.red_card_modifier
+		
+		}
+	
 class second_task_page(Page):
 
 	form_model = 'player'

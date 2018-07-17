@@ -12,11 +12,11 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 
-	investment_effectiveness = 0.75 #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
+	investment_effectiveness = c(0.75) #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
 	card_message_correclation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	participation_fee = 0.0
-	investment_cost = 0.0
-	red_card_modifier = 0.5
+	participation_fee = c(0.0)
+	investment_cost = c(0.0)
+	red_card_modifier = c(0.5)
 	
 	name_in_url = 'my_matrix_ret'
 	first_task_timer = 20
@@ -73,10 +73,6 @@ class Player(BasePlayer):
 			
 		total_payoff = participation fee + score from first task, and score from second task
 		"""
-			
-		for p in self.in_all_rounds():
-			self.total_payoff = tmp_payoff
-			
 	total_payoff = models.FloatField(
 		doc="The total dollar amount the participant earned by being a part of the experiment",
 	)
