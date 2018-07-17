@@ -11,13 +11,17 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 
 class Constants(BaseConstants):
+
+	investment_effectiveness = 0.75 #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
+	card_message_correclation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
+	participation_fee = 0.0
+	investment_cost = 0.0
+	red_card_modifier = 0.5
+	
 	name_in_url = 'my_matrix_ret'
 	first_task_timer = 20
 	second_task_timer = 20
 	players_per_group = None
-	investment_effectiveness = 1.0 #This controls one of the treatment variables, which increases how much the investment would mitigate losses in the case of a red card.
-	investment_cost = 0.0
-	card_message_correclation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
 	num_rounds = 100
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 
@@ -30,7 +34,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	def score_round(self, correct_answer):
-		self.round_attempted=True
+		self.round_attempted = True
 		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
 			self.is_correct = True
 		else:
@@ -43,30 +47,35 @@ class Player(BasePlayer):
 			self_is_correct = False
 			
 	def determine_payoff(self):
-		for p in self.in_all_rounds():
-			self.total_payoff = 1
+		self.payoff = Constants.participation_fee + self.problems_correct_first_task
+		# self.total_payoff = 1
+		if (self.investment_choice == True):
+			self.payoff = self.payoff - Constants.investment_cost
+		
+
+
+		
+		""" Psuedo-code section for determining total_payoff. (Insert joke here about how python is just pseudo-code that compiles) ha ha ha
 			
-			""" Psuedo-code section for determining total_payoff. (Insert joke here about how python is just pseudo-code that compiles) ha ha ha
+		num_correct_first_task = one point each  #not affected by card color
 			
-			num_correct_first_task = one point each  #not affected by card color
-			
-			if investment_choice == yes, 
-				total_payoff = total_payoff - investment_cost
+		if investment_choice == yes, 
+			total_payoff = total_payoff - investment_cost
 				
-			if CARD_COLOR == Green
-				MODIFIER = 1.0 
-			else if CARD_COLOR == Red and investment_choice == Yes
-				MODIFIER = invested red card modifier
-			else if CARD_COLOR == Red and investment_choice == None
-				MODIFIER = non=invested red card modifier
+		if CARD_COLOR == Green
+			MODIFIER = 1.0 
+		else if CARD_COLOR == Red and investment_choice == Yes
+			MODIFIER = invested red card modifier
+		else if CARD_COLOR == Red and investment_choice == None
+			MODIFIER = non=invested red card modifier
 			
-			score from second task = num_corrrect_second_task times MODIFIER
+		score from second task = num_corrrect_second_task times MODIFIER
 			
-			total_payoff = participation fee + score from first task, and score from second task
-			"""
+		total_payoff = participation fee + score from first task, and score from second task
+		"""
 			
-			
-			
+		for p in self.in_all_rounds():
+			self.total_payoff = tmp_payoff
 			
 	total_payoff = models.FloatField(
 		doc="The total dollar amount the participant earned by being a part of the experiment",
@@ -117,7 +126,7 @@ class Player(BasePlayer):
 	message_choice = models.BooleanField(
 		doc= "The choice of participants that have the option whether or not to see the message. For the other participants who don't have a choice, this will remain blank.",
 		choices=[
-		[1,'Yes'],[2,'No']
+		[True,'Yes'],[False,'No']
 		],
 		widget=widgets.RadioSelect
 	)
