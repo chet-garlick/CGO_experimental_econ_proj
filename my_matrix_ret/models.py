@@ -114,9 +114,11 @@ class Player(BasePlayer):
 		choices=[1,2,3],
 	)
 	
-	message_choice = models.StringField(
+	message_choice = models.BooleanField(
 		doc= "The choice of participants that have the option whether or not to see the message. For the other participants who don't have a choice, this will remain blank.",
-		choices=['Yes','No'],
+		choices=[
+		[1,'Yes'],[2,'No']
+		],
 		widget=widgets.RadioSelect
 	)
 	
