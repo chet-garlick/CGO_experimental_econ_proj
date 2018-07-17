@@ -166,9 +166,9 @@ class message_page_1(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
 		
-		if(self.player.message_choice=='Yes'):
+		if(self.player.message_choice==True):
 			self.participant.vars['show_actual_message']=True
-		elif(self.player.message_choice=='No'):
+		elif(self.player.message_choice==False):
 			self.participant.vars['show_investment_page_next'] = True
 			
 		for p in self.player.in_all_rounds():
