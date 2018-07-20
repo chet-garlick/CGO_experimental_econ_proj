@@ -5,6 +5,18 @@
     Counting Questions
 {% endblock %}
 
+{% block styles %}
+	<style>
+	#task table, #task th, #task td, #task tr {
+		border: 1px solid black; 
+		padding: 10px;
+		text-align: center;
+	}
+	#task tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+
+{% endblock %}
+
 {% block content %}
 	<p>
         <h4>You have correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task  }} problems so far. </h4>
@@ -12,15 +24,25 @@
 		<h4> The correct solution is: {{ solution }} </h4>
     </p>
 
-		<table>
-		<tr> {{ int0 }} {{ int1 }} {{ int2 }} {{ int3 }} {{ int4 }} </tr> <br>
-		<tr> {{ int5 }} {{ int6 }} {{ int7 }} {{ int8 }} {{ int9 }}  </tr> <br>
-		<tr> {{ int10 }} {{ int11 }} {{ int12 }} {{ int13 }} {{ int14 }}  </tr> <br>
-		<tr> {{ int15 }} {{ int16 }} {{ int17 }} {{ int18 }} {{ int19 }}  </tr> <br>
-		<tr> {{ int20 }} {{ int21 }} {{ int22 }} {{ int23 }} {{ int24 }}  </tr> <br>
+	<table id="task">
+		<tr>
+			<td>{{ int0 }} </td> <td>{{ int1 }} </td> <td>{{ int2 }} </td> <td>{{ int3 }} </td> <td>{{ int4 }}</td>
+		</tr>
+		<tr>
+			<td>{{ int5 }} </td> <td>{{ int6 }} </td> <td>{{ int7 }} </td> <td>{{ int8 }} </td> <td>{{ int9 }} </td>
+		</tr>
+		<tr>
+			<td>{{ int10 }} </td> <td>{{ int11 }} </td> <td>{{ int12 }} </td> <td>{{ int13 }} </td> <td>{{ int14 }} </td> 
+		</tr>
+		<tr> 
+			<td>{{ int15 }} </td> <td>{{ int16 }} </td> <td>{{ int17 }} </td> <td>{{ int18 }} </td> <td>{{ int19 }} </td>
+		</tr> <br>
+		<tr> 
+			<td>{{ int20 }} </td> <td>{{ int21 }} </td> <td>{{ int22 }} </td> <td>{{ int23 }} </td> <td>{{ int24 }} </td>
+		</tr> <br>
 	</table>
 
-	{% formfield player.user_input %}
+	{% formfield player.user_input label="Number of ones:"%}
     {% next_button %}
 	
 	<h2> {%autoescape off%} {{correct_last_round}} {%endautoescape %}</h2>
