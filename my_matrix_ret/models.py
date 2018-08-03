@@ -117,7 +117,7 @@ class Player(BasePlayer):
 		choices=[1,2,3,4,5],
 	)
 	
-	risk_payment=models.FloatField(
+	risk_payment=models.CurrencyField(
 		doc = "Payment received for the participants risk choice."
 	)
 	

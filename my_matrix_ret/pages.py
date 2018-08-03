@@ -375,6 +375,7 @@ class risk_task(Page):
 		
 		for p in self.player.in_all_rounds():
 			p.risk_choice = self.player.risk_choice
+			p.risk_payment = self.participant.vars['lotteries'][p.risk_choice-1][lottery_outcome]
 			
 			
 	def vars_for_template(self):
