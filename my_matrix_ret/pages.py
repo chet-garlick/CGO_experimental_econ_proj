@@ -358,6 +358,9 @@ class risk_task(Page):
 
 	form_model='player'
 	form_fields=['risk_choice']
+	
+	
+
 
 	def is_displayed(self):
 		return self.participant.vars['show_risk_task']
@@ -366,8 +369,42 @@ class risk_task(Page):
 	def before_next_page(self):
 		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one'] = True
+		lottery_outcome = random.randint(0,1)
+		
+		
+		
 		for p in self.player.in_all_rounds():
 			p.risk_choice = self.player.risk_choice
+			
+			
+	def vars_for_template(self):
+		self.participant.vars['lotteries'] =  [[0]*2 for i in range(5)]
+
+		self.participant.vars['lotteries'][0][0] = c(16.00)
+		self.participant.vars['lotteries'][0][1] = c(16.00)
+		self.participant.vars['lotteries'][1][0] = c(12.00)
+		self.participant.vars['lotteries'][1][1] = c(24.00)
+		self.participant.vars['lotteries'][2][0] = c(8.00)
+		self.participant.vars['lotteries'][2][1] = c(32.00)
+		self.participant.vars['lotteries'][3][0] = c(4.00)
+		self.participant.vars['lotteries'][3][1] = c(40.00)
+		self.participant.vars['lotteries'][4][0] = c(0.00)
+		self.participant.vars['lotteries'][4][1] = c(48.00)
+		
+		
+		return{
+		 'option1A':self.participant.vars['lotteries'][0][0],
+		 'option1B':self.participant.vars['lotteries'][0][1],
+		 'option2A':self.participant.vars['lotteries'][1][0],
+		 'option2B':self.participant.vars['lotteries'][1][1],
+		 'option3A':self.participant.vars['lotteries'][2][0],
+		 'option3B':self.participant.vars['lotteries'][2][1],
+		 'option4A':self.participant.vars['lotteries'][3][0],
+		 'option4B':self.participant.vars['lotteries'][3][1],
+		 'option5A':self.participant.vars['lotteries'][4][0],
+		 'option5B':self.participant.vars['lotteries'][4][1]		
+		}
+			
 		
 class cog_reflect_one(Page):
 
