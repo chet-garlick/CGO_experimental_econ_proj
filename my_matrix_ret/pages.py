@@ -35,6 +35,7 @@ class start_page(Page):
 		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
 		self.participant.vars['show_wait_page'] = False
+		self.participant.vars['show_final_page']=False
 		
 		
 		"""
@@ -66,6 +67,8 @@ class start_page(Page):
 		}
 
 class instructions_quiz_page(Page):
+	form_model = 'player'
+	form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
 	def is_displayed(self):
 		return self.round_number == 2
 		
@@ -482,6 +485,7 @@ class survey(Page):
 			'debug' : settings.DEBUG
 		}
 	def before_next_page(self):
+		self.participant.vars['show_final_page']=True
 		#This section takes the values from the survey and updates every round with these values, hopefully making the data look a little cleaner.
 		self.participant.vars['show_survey_next'] = False
 		for p in self.player.in_all_rounds():
@@ -498,6 +502,10 @@ class survey(Page):
 			p.alcohol = self.player.alcohol
 			p.parent_education = self.player.parent_education
 			p.year_in_school = self.player.year_in_school
+			
+class finalPage(Page):
+	def is_displayed(self):
+		return self.participant.vars['show_final_page']
 			
 		
 page_sequence = [
@@ -517,5 +525,6 @@ page_sequence = [
 	cog_reflect_one,
 	cog_reflect_two,
 	cog_reflect_three,
-	survey
+	survey,
+	finalPage
 ]

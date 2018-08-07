@@ -85,6 +85,20 @@ class Player(BasePlayer):
 		choices=['Red','Green']
 	)
 	
+	instructions_quiz_input1 = models.FloatField(
+	)
+	
+	instructions_quiz_input2 = models.FloatField(
+	)
+	
+	instructions_quiz_input3 = models.FloatField(
+	)
+	
+	instructions_quiz_input4 = models.FloatField(
+	)
+	
+	instructions_quiz_input5 = models.FloatField(
+	)
 	user_input = models.PositiveIntegerField(
 		min = 0,
 		max = 100,
