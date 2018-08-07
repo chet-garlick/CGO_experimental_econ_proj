@@ -34,6 +34,7 @@ class start_page(Page):
 		self.participant.vars['show_cog_reflect_two']= False
 		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
+		self.participant.vars['show_wait_page'] = False
 		
 		
 		"""
@@ -70,7 +71,19 @@ class instructions_quiz_page(Page):
 		
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
+		self.participant.vars['show_wait_page'] = True
 		self.participant.vars['show_first_task_page_next'] = True
+
+		
+class waitpage(WaitPage):
+	title_text = "Waiting"
+	body_text = "Waiting for all participants to get to this point."
+	def is_displayed(self):
+		return self.participant.vars['show_wait_page']
+		
+
+		
+
 		
 class first_task_page(Page):
 	form_model = 'player'
@@ -130,8 +143,7 @@ class first_task_page(Page):
 			'int21' : ints[21],
 			'int22' : ints[22],
 			'int23' : ints[23],
-			'int24' : ints[24],
-			'solution' : self.participant.vars['solution']
+			'int24' : ints[24]
 		}
 
 				
@@ -297,8 +309,7 @@ class second_task_page(Page):
 			'int21' : ints[21],
 			'int22' : ints[22],
 			'int23' : ints[23],
-			'int24' : ints[24],
-			'solution' : self.participant.vars['solution']
+			'int24' : ints[24]
 		}
 				
 	def before_next_page(self):
@@ -492,6 +503,7 @@ class survey(Page):
 page_sequence = [
 	start_page,
 	instructions_quiz_page,
+	waitpage,
 	first_task_page,
 	message_page_1,
 	message_page_2,
