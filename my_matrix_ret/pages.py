@@ -28,7 +28,6 @@ class start_page(Page):
 		self.participant.vars['show_investment_page_next'] = False
 		self.participant.vars['show_second_task_next'] = False
 		self.participant.vars['show_results_page_next'] = False
-		self.participant.vars['show_feed_back_page'] = False
 		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one']= False
 		self.participant.vars['show_cog_reflect_two']= False
@@ -66,6 +65,7 @@ class start_page(Page):
 			'debug': settings.DEBUG,  
 		}
 
+		
 class instructions_quiz_page(Page):
 	form_model = 'player'
 	form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
@@ -84,9 +84,6 @@ class waitpage(WaitPage):
 	def is_displayed(self):
 		return self.participant.vars['show_wait_page']
 		
-
-		
-
 		
 class first_task_page(Page):
 	form_model = 'player'
@@ -183,6 +180,7 @@ class first_task_page(Page):
 		self.participant.vars['problems_attempted_first_task']+=1
 		self.participant.vars['show_message_page_next']=True
 
+		
 class message_page_1(Page):
 	form_model = 'player'
 	form_fields = ['message_choice']
@@ -202,7 +200,8 @@ class message_page_1(Page):
 			
 	def is_displayed(self):
 			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
-			
+	
+	
 class message_page_2(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
@@ -211,7 +210,8 @@ class message_page_2(Page):
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==2
-			
+
+		
 class message_page_3(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
@@ -222,6 +222,7 @@ class message_page_3(Page):
 
 	def is_displayed(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==0
+	
 	
 class message(Page):
 	def is_displayed(self):
@@ -258,6 +259,7 @@ class investment_page(Page):
 			'investment_effectiveness' : Constants.investment_effectiveness,
 			'red_card_modifier' : Constants.red_card_modifier
 		}
+	
 	
 class second_task_page(Page):
 
@@ -342,23 +344,15 @@ class second_task_page(Page):
 			new_ints.append(tmp)
 			new_solution += tmp
 		
-		self.participant.vars['show_feed_back_page']=True
+		self.participant.vars['show_results_page_next']=True
 		self.participant.vars['int_list'] = new_ints
 		self.participant.vars['solution'] = new_solution
-		self.participant.vars['problems_attempted_second_task']+=1		
-	
-class feedback_page(Page):
+		self.participant.vars['problems_attempted_second_task']+=1
 
-	def is_displayed(self):
-		return (self.participant.vars['show_feed_back_page'] and (self.participant.vars['out_of_time_second_task']-time.time()<=0))
 		
-	def before_next_page(self):
-		self.participant.vars['show_results_page_next'] = True
-		self.participant.vars['show_feed_back_page'] = False
-
 class Results(Page):
 	def is_displayed(self):
-		return self.participant.vars['show_results_page_next']
+		return (self.participant.vars['show_results_page_next'] and (self.participant.vars['out_of_time_second_task']-time.time()<=0))
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
@@ -381,14 +375,12 @@ class Results(Page):
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
 		}
 		
+		
 class risk_task(Page):
 
 	form_model='player'
 	form_fields=['risk_choice']
 	
-	
-
-
 	def is_displayed(self):
 		return self.participant.vars['show_risk_task']
 		
@@ -397,8 +389,6 @@ class risk_task(Page):
 		self.participant.vars['show_risk_task'] = False
 		self.participant.vars['show_cog_reflect_one'] = True
 		lottery_outcome = random.randint(0,1)
-		
-		
 		
 		for p in self.player.in_all_rounds():
 			p.risk_choice = self.player.risk_choice
@@ -452,7 +442,8 @@ class cog_reflect_one(Page):
 			self.player.cog_reflect_one_correct = False		
 		for p in self.player.in_all_rounds():
 			p.cog_reflect_one_correct = self.player.cog_reflect_one_correct
-			
+	
+	
 class cog_reflect_two(Page):
 	form_model='player'
 	form_fields=['cog_reflect_two_input']
@@ -469,7 +460,8 @@ class cog_reflect_two(Page):
 			
 		for p in self.player.in_all_rounds():
 			p.cog_reflect_two_correct = self.player.cog_reflect_two_correct
-			
+	
+	
 class cog_reflect_three(Page):
 	form_model='player'
 	form_fields=['cog_reflect_three_input']
@@ -487,6 +479,7 @@ class cog_reflect_three(Page):
 		for p in self.player.in_all_rounds():
 			p.cog_reflect_three_correct = self.player.cog_reflect_three_correct
 
+			
 class survey(Page):
 	form_model='player'
 	form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income',
@@ -515,7 +508,8 @@ class survey(Page):
 			p.alcohol = self.player.alcohol
 			p.parent_education = self.player.parent_education
 			p.year_in_school = self.player.year_in_school
-			
+		
+		
 class finalPage(Page):
 	def is_displayed(self):
 		return self.participant.vars['show_final_page']
@@ -532,7 +526,6 @@ page_sequence = [
 	message,
 	investment_page,
 	second_task_page,
-	feedback_page,
 	Results,
 	risk_task,
 	cog_reflect_one,
