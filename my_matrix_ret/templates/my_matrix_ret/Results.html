@@ -15,6 +15,7 @@
 				If your card color is GREEN, you will have earned {{ earningsGREEN | c }} from the second section of counting questions. <br>
 				If your card color was RED, you will have earned {{ earningsRED | c }} from the second section of counting questions. <br>
 				If your card color was RED and you had chosen to spend, you will have earned {{ earningsREDinvest | c }} from the second section of counting questions. <br>
+				{%autoescape off%} {{ investText }} {%endautoescape %}
 			</p>
 		</div>
    </p>

@@ -371,6 +371,8 @@ class Results(Page):
 		earningsGREEN = self.participant.vars['problems_correct_second_task']
 		earningsRED = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
 		earningsREDinvest = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness
+		if(self.player.investment_choice == True): resultsInvestText = "Additionally, you chose to spend " + str(Constants.investment_cost) + " on mitigating potential losses."
+		else: resultsInvestText = ""
 	
 		return {
 			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
@@ -380,7 +382,8 @@ class Results(Page):
 			'earningsGREEN' : earningsGREEN,
 			'earningsRED' : earningsRED,
 			'earningsREDinvest' : earningsREDinvest,
-			'first_section_earnings' : Constants.first_five_minute_pay
+			'first_section_earnings' : Constants.first_five_minute_pay,
+			'investText' : resultsInvestText
 		}
 		
 		
