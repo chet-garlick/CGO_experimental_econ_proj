@@ -6,15 +6,16 @@
 {% endblock %}
 
 {% block content %}
-	<p>
-        <h4>You correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. </h4>	
-		<h4>You correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task }} problems attempted on the second task. </h4>
-		
-		<div style= "border: 1px solid black; padding: 10px; text-align:center">
-			You earned a flat rate of {{ first_section_earnings | c }} from the first section of counting questions.
-			If your card color is GREEN, you will have earned {{ earningsGREEN | c }} from the second section of counting questions. <br>
-			If your card color was RED, you will have earned {{ earningsRED | c }} from the second section of counting questions. <br>
-			If your card color was RED and you had chosen to spend, you will have earned {{ earningsREDinvest | c }} from the second section of counting questions. <br>
+	<p>		
+		<div style= "border: 0px solid black; padding: 10px; text-align:center;">
+			<p style="font-size: 14pt">
+				You correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. <br>
+				You correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task }} problems attempted on the second task. <br>
+				You earned a flat rate of {{ first_section_earnings | c }} from the first section of counting questions. <br>
+				If your card color is GREEN, you will have earned {{ earningsGREEN | c }} from the second section of counting questions. <br>
+				If your card color was RED, you will have earned {{ earningsRED | c }} from the second section of counting questions. <br>
+				If your card color was RED and you had chosen to spend, you will have earned {{ earningsREDinvest | c }} from the second section of counting questions. <br>
+			</p>
 		</div>
    </p>
     {% next_button %}
