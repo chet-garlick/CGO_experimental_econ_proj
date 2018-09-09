@@ -13,16 +13,28 @@
 		text-align: center;
 	}
 	#task tr:nth-child(even){background-color: #f2f2f2;}
+	
+	#payment div {
+		border-style: solid;
+		border: 5px black;	
+		padding: 10px;
+		text-align: center;
+	}
 	</style>
 
 {% endblock %}
 
 {% block content %}
-	<p>
-        <h4>You have correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task  }} counting problems so far. </h4>
+
+	<div id = "payment" style="border: 1px solid black; padding: 10px; text-align:center">
+			You have correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task  }} problems so far. <br>
+			During this question period, if your card color is GREEN, you will have earned {{ earningsGREEN | c }} so far. <br>
+			During this question period, if your card color was RED, you will have earned {{ earningsRED | c }} so far. <br>
+			During this question period, if your card color was RED and you had chosen to spend, you will have earned {{ earningsREDinvest | c }} so far. <br>
+	</div>
+	<p>        
 		<h4>Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.</h4> 
     </p>
-
 	<table id="task">
 		<tr>
 			<td>{{ int0 }} </td> <td>{{ int1 }} </td> <td>{{ int2 }} </td> <td>{{ int3 }} </td> <td>{{ int4 }}</td>

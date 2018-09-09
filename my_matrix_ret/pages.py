@@ -257,7 +257,6 @@ class investment_page(Page):
 			'investment_cost' : Constants.investment_cost,
 			'investment_effectiveness' : Constants.investment_effectiveness,
 			'red_card_modifier' : Constants.red_card_modifier
-		
 		}
 	
 class second_task_page(Page):
@@ -275,6 +274,9 @@ class second_task_page(Page):
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
 		ints = self.participant.vars['int_list']
+		earningsGREEN = self.participant.vars['problems_correct_second_task']
+		earningsRED = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness
+		earningsREDinvest = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
 		
 		for p in self.player.in_all_rounds():
 			if p.round_attempted: 
@@ -320,7 +322,10 @@ class second_task_page(Page):
 			'int21' : ints[21],
 			'int22' : ints[22],
 			'int23' : ints[23],
-			'int24' : ints[24]
+			'int24' : ints[24],
+			'earningsGREEN' : earningsGREEN,
+			'earningsRED' : earningsRED,
+			'earningsREDinvest' : earningsREDinvest
 		}
 				
 	def before_next_page(self):
