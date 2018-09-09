@@ -92,6 +92,7 @@ class first_task_page(Page):
 	form_model = 'player'
 	form_fields = ['user_input']
 	timer_text = 'Time left to solve problems:'
+
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
@@ -102,12 +103,16 @@ class first_task_page(Page):
 		
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
+		earningsGREEN = self.participant.vars['problems_correct_first_task']
+		earningsRED = self.participant.vars['problems_correct_first_task'] * Constants.investment_effectiveness
+		earningsREDinvest = self.participant.vars['problems_correct_first_task'] * Constants.red_card_modifier
 		ints = self.participant.vars['int_list']		
 		for p in self.player.in_all_rounds(): #This loops over every round and totals the rounds attempted and correctly answered.
 			if p.round_attempted: 
 				p.problems_attempted_first_task = self.participant.vars['problems_attempted_first_task']
 				p.problems_correct_first_task = self.participant.vars['problems_correct_first_task']
 				
+		
 			if self.participant.vars['problems_attempted_first_task']==0: #on very first task dont display the correctness of previous answer.
 			#correct_last_round is a string containing actual HTML that is being passed to the display. If no problems have been attempted this task, it is "<br>" which is HTML for a line break.
 					correct_last_round = "<br>"
@@ -146,7 +151,10 @@ class first_task_page(Page):
 			'int21' : ints[21],
 			'int22' : ints[22],
 			'int23' : ints[23],
-			'int24' : ints[24]
+			'int24' : ints[24],
+			'earningsGREEN' : earningsGREEN,
+			'earningsRED' : earningsRED,
+			'earningsREDinvest' : earningsREDinvest
 		}
 
 				
