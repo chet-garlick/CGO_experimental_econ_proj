@@ -205,6 +205,7 @@ class message_page_1(Page):
 class message_page_2(Page):
 	def before_next_page(self):
 		self.participant.vars['show_message_page_next'] = False
+		self.participant.vars['show_actual_message']=True
 		for p in self.player.in_all_rounds():
 			p.message_page_version = 2
 
