@@ -367,12 +367,19 @@ class Results(Page):
 
 		
 	def vars_for_template(self):
+		earningsGREEN = self.participant.vars['problems_correct_second_task']
+		earningsRED = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
+		earningsREDinvest = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness
 	
 		return {
 			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
 			'problems_attempted_first_task': round(self.participant.vars['problems_attempted_first_task']),
 			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
 			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
+			'earningsGREEN' : earningsGREEN,
+			'earningsRED' : earningsRED,
+			'earningsREDinvest' : earningsREDinvest,
+			'first_section_earnings' : Constants.first_five_minute_pay
 		}
 		
 		
