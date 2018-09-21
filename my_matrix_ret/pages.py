@@ -160,6 +160,8 @@ class first_task_page(Page):
 			'earningsRED' : earningsRED,
 			'earningsREDinvest' : earningsREDinvest
 		}
+		
+		
 
 				
 	def before_next_page(self):
@@ -188,6 +190,10 @@ class first_task_page(Page):
 		self.participant.vars['show_message_page_next']=True
 
 		
+class transition_page_2(Page):
+	pass
+		
+	
 class message_page_1(Page):
 	form_model = 'player'
 	form_fields = ['message_choice']
@@ -268,6 +274,9 @@ class investment_page(Page):
 			'red_card_modifier' : Constants.red_card_modifier
 		}
 	
+	
+class transition_page_3(Page):
+	pass
 	
 class second_task_page(Page):
 
@@ -357,6 +366,8 @@ class second_task_page(Page):
 		self.participant.vars['solution'] = new_solution
 		self.participant.vars['problems_attempted_second_task']+=1
 
+class transition_page_4(Page):
+	pass		
 		
 class Results(Page):
 	def is_displayed(self):
@@ -392,6 +403,9 @@ class Results(Page):
 			'first_section_earnings' : Constants.first_five_minute_pay,
 			'investText' : resultsInvestText
 		}
+		
+class transition_page_5(Page):
+	pass		
 		
 		
 class risk_task(Page):
@@ -539,13 +553,17 @@ page_sequence = [
 	waitpage,
 	transition_page_1,
 	first_task_page,
+	transition_page_2,
 	message_page_1,
 	message_page_2,
 	message_page_3,
 	message,
 	investment_page,
+	transition_page_3,
 	second_task_page,
+	transition_page_4,
 	Results,
+	transition_page_5,
 	risk_task,
 	cog_reflect_one,
 	cog_reflect_two,
