@@ -34,7 +34,9 @@ class start_page(Page):
 		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
 		self.participant.vars['show_wait_page'] = False
+		self.participant.vars['show_transition_page_1'] = False
 		self.participant.vars['show_final_page']=False
+		self.participant.vars['show_instructions_quiz'] = True
 		
 		
 		"""
@@ -70,12 +72,13 @@ class instructions_quiz_page(Page):
 	form_model = 'player'
 	form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
 	def is_displayed(self):
-		return self.round_number == 2
+		return self.participant.vars['show_instructions_quiz']
 		
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
 		self.participant.vars['show_wait_page'] = True
-		self.participant.vars['show_first_task_page_next'] = True
+		self.participant.vars['show_transition_page_1'] = True
+
 
 		
 class waitpage(WaitPage):
@@ -83,6 +86,15 @@ class waitpage(WaitPage):
 	body_text = "Waiting for all participants to get to this point."
 	def is_displayed(self):
 		return self.participant.vars['show_wait_page']
+		
+class transition_page_1(Page):
+	#def is_displayed(self):
+	#	return (self.participant.vars['show_transition_page_1'])
+		
+	def before_next_page(self):
+		self.participant.vars['show_first_task_page_next'] = True
+		self.participant.vars['show_transition_page_1'] = False
+	
 		
 		
 class first_task_page(Page):
@@ -530,6 +542,7 @@ page_sequence = [
 	start_page,
 	instructions_quiz_page,
 	waitpage,
+	transition_page_1,
 	first_task_page,
 	message_page_1,
 	message_page_2,
