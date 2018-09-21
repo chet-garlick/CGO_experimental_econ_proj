@@ -34,7 +34,6 @@ class start_page(Page):
 		self.participant.vars['show_cog_reflect_three']= False
 		self.participant.vars['show_survey_next'] = False
 		self.participant.vars['show_wait_page'] = False
-		self.participant.vars['show_transition_page_1'] = False
 		self.participant.vars['show_final_page']=False
 		self.participant.vars['show_instructions_quiz'] = True
 		
@@ -77,7 +76,8 @@ class instructions_quiz_page(Page):
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
 		self.participant.vars['show_wait_page'] = True
-		self.participant.vars['show_transition_page_1'] = True
+		self.participant.vars['show_first_task_page_next'] = True
+
 
 
 		
@@ -88,12 +88,7 @@ class waitpage(WaitPage):
 		return self.participant.vars['show_wait_page']
 		
 class transition_page_1(Page):
-	#def is_displayed(self):
-	#	return (self.participant.vars['show_transition_page_1'])
-		
-	def before_next_page(self):
-		self.participant.vars['show_first_task_page_next'] = True
-		self.participant.vars['show_transition_page_1'] = False
+	pass
 	
 		
 		
@@ -240,7 +235,7 @@ class message_page_3(Page):
 class message(Page):
 	def is_displayed(self):
 		return self.participant.vars['show_actual_message']
-		
+	
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = True
 		self.participant.vars['show_actual_message']=False
