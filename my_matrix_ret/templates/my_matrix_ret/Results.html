@@ -5,8 +5,19 @@
     Your Results
 {% endblock %}
 
+{% block styles %}
+	<style>
+	#res table, #res th, #res td, #res tr {
+		border: 1px solid black; 
+		padding: 10px;
+		text-align: left;
+	}
+	#res tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+{% endblock %}
+
 {% block content %}
-	<p>		
+	<!---<p>		
 		<div style= "border: 0px solid black; padding: 10px; text-align:center;">
 			<p style="font-size: 14pt">
 				You correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. <br>
@@ -18,7 +29,26 @@
 				{%autoescape off%} {{ investText }} {%endautoescape %}
 			</p>
 		</div>
-   </p>
+   </p> -->
+   
+   <table id="res">
+		<th>  Participation Fee </th> <th> Your Earnings from First Section of Counting Exercises </th> <th> Your Earnings from First Section of Counting Exercises </th> 
+			<tr>
+				<td> data </td> <td> data2 </td> <td> data3 </td>
+			</tr>
+
+		
+   </table>
+   
+   
+   <br>
+   
+   
+   
+   
+   
+   
+   
     {% next_button %}
 {% endblock %}
 
