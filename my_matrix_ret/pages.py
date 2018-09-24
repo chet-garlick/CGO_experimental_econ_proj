@@ -84,8 +84,8 @@ class instructions_quiz_page(Page):
 class waitpage(WaitPage):
 	title_text = "Waiting"
 	body_text = "Waiting for all participants to get to this point."
-	def is_displayed(self):
-		return self.participant.vars['show_wait_page']
+	"""def is_displayed(self):
+		return self.participant.vars['show_wait_page']"""
 		
 class transition_page_1(Page):
 	pass
@@ -553,15 +553,18 @@ page_sequence = [
 	waitpage,
 	transition_page_1,
 	first_task_page,
+	waitpage,
 	transition_page_2,
 	message_page_1,
 	message_page_2,
 	message_page_3,
 	message,
 	investment_page,
+	waitpage,
 	transition_page_3,
 	second_task_page,
 	transition_page_4,
+	waitpage,
 	Results,
 	transition_page_5,
 	risk_task,
