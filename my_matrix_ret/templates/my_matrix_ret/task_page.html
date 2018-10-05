@@ -5,6 +5,17 @@
     Matrix Task
 {% endblock %}
 
+{% block styles %}
+	<style>
+	#risk table, #risk th, #risk td, #risk tr {
+		border: 1px solid black; 
+		padding: 10px;
+		text-align: left;
+	}
+	#risk tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+{% endblock %}
+
 {% block content %}
 	<p>
         <h4>You have correctly answered {{ total_payoff }} out of {{ round_count }} matrices so far.
@@ -16,7 +27,6 @@
 		<tr> {{ player.int11 }} {{ player.int12}} {{ player.int13}} {{ player.int14}} {{ player.int15}}  </tr> <br>
 		<tr> {{ player.int16 }} {{ player.int17}} {{ player.int18}} {{ player.int19}} {{ player.int20}}  </tr> <br>
 		<tr> {{ player.int21 }} {{ player.int22}} {{ player.int23}} {{ player.int24}} {{ player.int25}}  </tr> <br>
-	
 	</table>
 
 	{% formfield player.user_input %}

@@ -14,6 +14,14 @@
 	}
 	#task tr:nth-child(even){background-color: #f2f2f2;}
 	
+	#earns table, #earns th, #earns td, #earns tr {
+	
+		border: 1px solid black;
+		padding: 10px;
+		text-align: center;
+	}
+	#earns tr:nth-child(even){background-color: #f2f2f2;}
+
 	#payment div {
 		border-style: solid;
 		border: 5px black;	
@@ -25,12 +33,29 @@
 {% endblock %}
 {% block content %}
 
-	<div id = "payment" style="border: 1px solid black; padding: 10px; text-align:center">
+	<!---<div id = "payment" style="border: 1px solid black; padding: 10px; text-align:center">
 			You have correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task  }} problems so far. <br>
 			If this were the second question period, and your card color was GREEN, you would have earned {{ earningsGREEN | c }} <br>
 			If this were the second question period, and your card color was RED, you would have earned {{ earningsRED | c }} <br>
 			If this were the second question period, your card color was RED, and you had chosen to spend, you would have earned {{ earningsREDinvest | c }} <br>
-	</div>
+	</div> -->
+	
+	<p>
+	If this were the second section of counting exercises, your potential earnings would be represented in the table below:
+	</p>
+	
+	
+	<table id="earns">
+		<tr>
+			<th> GREEN card earnings </th> <th>  RED card earnings if you had not chosen to spend </th> <th> RED Card earnings if you had chosen to spend </th>
+		</tr>
+		<tr>
+			<td>   DATA1  </td> <td> DATA2  </td> <td> DATA3 </td>
+		</tr>
+	
+	</table>
+	
+	
 	<p>        
 		<h4>Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.</h4> 
     </p>
