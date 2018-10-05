@@ -20,13 +20,6 @@
 		text-align: center;
 	}
 	#earns tr:nth-child(even){background-color: #f2f2f2;}
-
-	#payment div {
-		border-style: solid;
-		border: 5px black;	
-		padding: 10px;
-		text-align: center;
-	}
 	</style>
 
 {% endblock %}
@@ -44,13 +37,16 @@
 			<td> Participation Fee </td> <td> AMOUNT </td>
 		</tr>
 		<tr>
-			<td>   Task 1: You solved X tables  </td> <td> AMOUNT  </td> 
+			<td> Task 1: You solved X tables  </td> <td> AMOUNT  </td> 
 		</tr>
 		<tr>
-			<td>   If this were Task 2, you solved X tables, and your card color was GREEN:  </td> <td> AMOUNT </td> 
+			<td> If this were Task 2, and you solved X tables</td> 
 		</tr>
 		<tr>
-			<td> If this were Task 2, you solved X tables, and your card color was RED: </td> <td> AMOUNT </td>
+			<td> If your card color was RED: </td> <td> AMOUNT</td>
+		</tr>
+		<tr>
+			<td> If your card color was GREEN: </td> <td> AMOUNT </td>
 		</tr>
 		
 	</table>
