@@ -25,13 +25,6 @@
 {% endblock %}
 {% block content %}
 
-	<!---<div id = "payment" style="border: 1px solid black; padding: 10px; text-align:center">
-			You have correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task  }} problems so far. <br>
-			If this were the second question period, and your card color was GREEN, you would have earned {{ earningsGREEN | c }} <br>
-			If this were the second question period, and your card color was RED, you would have earned {{ earningsRED | c }} <br>
-			If this were the second question period, your card color was RED, and you had chosen to spend, you would have earned {{ earningsREDinvest | c }} <br>
-	</div> -->
-
 	<table id="earns">
 		<tr>
 			<td> Participation Fee </td> <td> AMOUNT </td>
@@ -40,13 +33,13 @@
 			<td> Task 1: You solved X tables  </td> <td> AMOUNT  </td> 
 		</tr>
 		<tr>
-			<td> If this were Task 2, and you solved X tables</td> 
+			<td> If this were Task 2, and you solved X tables,</td> 
 		</tr>
 		<tr>
-			<td> If your card color was RED: </td> <td> AMOUNT</td>
+			<td> if your card color was RED: </td> <td> AMOUNT</td>
 		</tr>
 		<tr>
-			<td> If your card color was GREEN: </td> <td> AMOUNT </td>
+			<td> if your card color was GREEN: </td> <td> AMOUNT </td>
 		</tr>
 		
 	</table>
