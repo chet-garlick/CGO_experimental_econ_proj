@@ -13,9 +13,8 @@ doc = "Implementation of a real effort task that asks users to count to number o
 class Constants(BaseConstants):
 
 	investment_effectiveness = c(0.75) #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
-	#first_five_minute_pay = c(0.0)
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	participation_fee = c(1.0)
+	participation_fee = c(1.0) #
 	investment_cost = c(0.0)
 	red_card_modifier = c(0.5)
 	first_task_payoff = c(1.0)
