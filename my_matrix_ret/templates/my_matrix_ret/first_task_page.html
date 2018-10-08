@@ -20,26 +20,26 @@
 		text-align: center;
 	}
 	#earns tr:nth-child(even){background-color: #f2f2f2;}
-	</style>
+	</style> 
 
 {% endblock %}
 {% block content %}
 
 	<table id="earns">
 		<tr>
-			<td> Participation Fee </td> <td> AMOUNT </td>
+			<td> Participation Fee </td> <td> {{ participation_fee }} </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved X tables  </td> <td> AMOUNT  </td> 
+			<td> Task 1: You solved {{ num_correct_first_task }} tables  </td> <td> {{first_task_payoff}}  </td> 
 		</tr>
 		<tr>
-			<td> If this were Task 2, and you solved X tables,</td> 
+			<td> If this were Task 2, and you solved {{ num_correct_first_task }} tables,</td> 
 		</tr>
 		<tr>
-			<td> if your card color was RED: </td> <td> AMOUNT</td>
+			<td> if your card color was RED: </td> <td> {{ if_second_task_red_card }} </td>
 		</tr>
 		<tr>
-			<td> if your card color was GREEN: </td> <td> AMOUNT </td>
+			<td> if your card color was GREEN: </td> <td> {{ if_second_task_green_card }} </td>
 		</tr>
 		
 	</table>

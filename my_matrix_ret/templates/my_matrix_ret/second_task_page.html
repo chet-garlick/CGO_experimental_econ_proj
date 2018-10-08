@@ -28,22 +28,19 @@
 
 	<table id="earns">
 		<tr>
-			<td> Participation Fee </td> <td> AMOUNT </td>
+			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved X tables  </td> <td> AMOUNT  </td> 
+			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff}}  </td> 
 		</tr>
 		<tr>
-			<td> This is Task 2, and you solved X tables so far. </td> 
+			<td> This is Task 2, and you solved {{num_correct_second_task}} tables so far. </td> 
 		</tr>
 		<tr>
-			<td> If your card color was RED: </td> <td> AMOUNT</td>
+			<td> If your card color was RED: </td> <td> {{ earningsRED }}</td>
 		</tr>
 		<tr>
-			<td> If your card color was RED and you chose to spend: </td> <td> AMOUNT</td>
-		</tr>
-		<tr>
-			<td> If your card color was GREEN: </td> <td> AMOUNT </td>
+			<td> If your card color was GREEN: </td> <td> {{earningsGREEN}}	</td>
 		</tr>
 		
 	</table>

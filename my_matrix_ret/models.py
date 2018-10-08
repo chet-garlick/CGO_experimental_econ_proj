@@ -13,17 +13,20 @@ doc = "Implementation of a real effort task that asks users to count to number o
 class Constants(BaseConstants):
 
 	investment_effectiveness = c(0.75) #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
-	first_five_minute_pay = c(0.0)
+	#first_five_minute_pay = c(0.0)
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	participation_fee = c(0.0)
+	participation_fee = c(1.0)
 	investment_cost = c(0.0)
 	red_card_modifier = c(0.5)
+	first_task_payoff = c(1.0)
+	green_card_payoff = c(1.0)
+	num_rounds = 100
 	
 	name_in_url = 'my_matrix_ret'
 	first_task_timer = 20
 	second_task_timer = 20
 	players_per_group = None
-	num_rounds = 100
+
 	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 
 
@@ -34,6 +37,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
 	def score_round(self, correct_answer):
 		self.round_attempted = True
 		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
@@ -48,7 +52,7 @@ class Player(BasePlayer):
 			self_is_correct = False
 			
 	def determine_payoff(self):
-		self.payoff = Constants.participation_fee + Constants.first_five_minute_pay
+		#self.payoff = Constants.participation_fee + 
 		# self.total_payoff = 1
 		if (self.investment_choice == True):
 			self.payoff = self.payoff - Constants.investment_cost
@@ -82,7 +86,8 @@ class Player(BasePlayer):
 	
 	card_color = models.StringField(
 		doc = "The color of the participant's card.",
-		choices=['Red','Green']
+		choices=['RED','GREEN'],
+		initial='GREEN'
 	)
 	
 	instructions_quiz_input1 = models.FloatField(

@@ -7,41 +7,32 @@
 
 {% block styles %}
 	<style>
-	#res table, #res th, #res td, #res tr {
-		border: 1px solid black; 
+	#earns table, #earns th, #earns td, #earns tr {
+		border: 1px solid black;
 		padding: 10px;
-		text-align: left;
+		text-align: center;
 	}
-	#res tr:nth-child(even){background-color: #f2f2f2;}
+	#earns tr:nth-child(even){background-color: #f2f2f2;}
 	</style>
 {% endblock %}
 
 {% block content %}
-	<!---<p>		
-		<div style= "border: 0px solid black; padding: 10px; text-align:center;">
-			<p style="font-size: 14pt">
-				You correctly answered {{ num_correct_first_task }} out of {{ problems_attempted_first_task }} problems attempted on the first task. <br>
-				You correctly answered {{ num_correct_second_task }} out of {{ problems_attempted_second_task }} problems attempted on the second task. <br>
-				You earned a flat rate of {{ first_section_earnings | c }} from the first section of counting questions. <br>
-				If your card color is GREEN, you will have earned {{ earningsGREEN | c }} from the second section of counting questions. <br>
-				If your card color was RED, you will have earned {{ earningsRED | c }} from the second section of counting questions. <br>
-				If your card color was RED and you had chosen to spend, you will have earned {{ earningsREDinvest | c }} from the second section of counting questions. <br>
-				{%autoescape off%} {{ investText }} {%endautoescape %}
-			</p>
-		</div>
-   </p> -->
-   
-   <table id="res">
-		<th>  Participation Fee </th> <th> Your Earnings from First Section of Counting Exercises </th> <th> Your Earnings from Second Section of Counting Exercises </th> 
-			<tr>
-				<td> data </td> <td> data2 </td> <td> data3 </td>
-			</tr>
-
+  
+   	<table id="earns">
+		<tr>
+			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
+		</tr>
+		<tr>
+			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff}}  </td> 
+		</tr>
+		<tr>
+			<td> Task 2: You solved {{num_correct_second_task}} tables.</td> 
+		</tr>
+		<tr>
+			<td> Your card color was {{ card_color }} </td> <td> {{ second_task_earnings}} </td>
+		</tr>
 		
-   </table>
-   
-   
-   <br>
+	</table>
    
    
    
