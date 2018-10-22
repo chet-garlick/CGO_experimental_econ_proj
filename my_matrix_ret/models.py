@@ -12,21 +12,29 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 
-	investment_effectiveness = c(0.75) #This is one of the treatment variables, which controls how much the investment would mitigate losses in the case of a red card, and replaces red_card_modifier as the factor by which num_corrrect_second_task is multiplied by.
+	first_task_payoff = c(1.0) #This is the flat amount each participant earns during the first section.
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	participation_fee = c(1.0) #
-	investment_cost = c(0.0)
-	red_card_modifier = c(0.5)
-	first_task_payoff = c(1.0)
-	green_card_payoff = c(1.0)
-	num_rounds = 100
+	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
+	investment_cost = c(0.0) #This is the cost of investing to mitigate red-card losses.
+	red_card_modifier = c(0.02) #This is the amount earned per answer if no investment is made and the participant has a red card.
+	investment_effectiveness = c(0.10) #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
+	#One treatment for the experiment is to set investment_effectiveness to c(.10) - which is 10 cents per correct question.
+	#Another treatment for the experiment is to set it to c(0.05) - which is 5 cents per correct question.
+	#This only affects payoffs if the participant's card is red and they chose to invest.
+	green_card_payoff = c(0.15) #This is the amount earned per answer if the participant's card is green.
+	first_task_timer = 20 #Length of first task - in seconds.
+	second_task_timer = 20 #Length of second task - in seconds.
+	message_version = 1 #This setting controls which version of the message page the participants will see. 
+	#Setting it to 1 will give all users the option to choose whether or not they want the message.
+	#Setting this to 2 will force all users to see the message.
+	#Setting this to 3 will prevent all of the users from seeing the message at all.
 	
+	
+	
+	num_rounds = 100  #Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 	name_in_url = 'my_matrix_ret'
-	first_task_timer = 20
-	second_task_timer = 20
 	players_per_group = None
 
-	#Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 
 
 class Subsession(BaseSubsession):

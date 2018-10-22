@@ -4,11 +4,48 @@
 {% block title %}
 {% endblock %}
 
+{% block styles %}
+	<style>
+	#earns table, #earns th, #earns td, #earns tr {
+		border: 1px solid black;
+		padding: 10px;
+		text-align: center;
+	}
+	#earns tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+{% endblock %}
+
 {% block content %}
 	<h4>
 		
 		Thank you for participating in the experiment. Please wait quietly until you are called.
 		
     </h4>
+	
+	   	<table id="earns">
+		<tr>
+			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
+		</tr>
+		<tr>
+			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff}}  </td> 
+		</tr>
+		<tr>
+			<td> Task 2: You solved {{num_correct_second_task}} tables.</td> 
+		</tr>
+		<tr>
+			<td> Your card color was {{ card_color }} </td> <td> {{ second_task_earnings}} </td>
+		</tr>
+		<tr>
+			<td> Payment from your lottery choice:  </td> <td> {{ risk_payment }} </td>
+		</tr>
+		
+	</table>
 
 {% endblock %}
+  
+
+   
+   
+   
+   
+   

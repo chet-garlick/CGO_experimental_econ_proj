@@ -67,6 +67,8 @@ class start_page(Page):
 		self.participant.vars['problems_correct_first_task'] = 0
 		self.participant.vars['problems_correct_second_task'] = 0
 		
+		print(self.participant.payoff)
+		
 	def vars_for_template(self):
 		return {
 			'debug': settings.DEBUG,  
@@ -112,7 +114,6 @@ class first_task_page(Page):
 	timer_text = 'Time left to solve problems:'
 
 	def get_timeout_seconds(self):
-		#print(str(self.participant.vars['show_first_task_page_next']) + str(self.participant.vars['out_of_time_first_task'] - time.time()))
 		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
 	def is_displayed(self):
@@ -236,7 +237,7 @@ class message_page_1(Page):
 				p.message_seen = False
 			
 	def is_displayed(self):
-			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==1
+			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==1
 	
 	
 class message_page_2(Page):
@@ -247,7 +248,7 @@ class message_page_2(Page):
 			p.message_page_version = 2
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==2
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==2
 
 		
 class message_page_3(Page):
@@ -259,7 +260,7 @@ class message_page_3(Page):
 			p.message_seen = False
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and self.player.id_in_group%3==0
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==3
 	
 	
 class message(Page):
@@ -420,7 +421,6 @@ class Results(Page):
 			p.problems_correct_second_task = self.participant.vars['problems_correct_second_task']
 			
 		self.player.determine_payoff()
-
 		
 	def vars_for_template(self):
 		earningsGREEN = self.participant.vars['problems_correct_second_task']
@@ -433,13 +433,7 @@ class Results(Page):
 			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness - Constants.investment_cost
 		else:
 			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
-		
-		
-		"""earningsRED = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
-		earningsREDinvest = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness
-		if(self.player.investment_choice == True): resultsInvestText = "Additionally, you chose to spend " + str(Constants.investment_cost) + " on mitigating potential losses."
-		else: resultsInvestText = ""
-		"""
+
 	
 		return {
 			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
@@ -592,11 +586,35 @@ class survey(Page):
 			p.alcohol = self.player.alcohol
 			p.parent_education = self.player.parent_education
 			p.year_in_school = self.player.year_in_school
+			print(self.participant.payoff)
+
 		
 		
 class finalPage(Page):
 	def is_displayed(self):
 		return self.participant.vars['show_final_page']
+		
+	def vars_for_template(self):
+		earningsGREEN = self.participant.vars['problems_correct_second_task']
+		if(self.player.card_color=='GREEN'): 
+			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.green_card_payoff
+		elif(self.player.card_color=='RED' and self.player.investment_choice):
+			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness - Constants.investment_cost
+		else:
+			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
+
+	
+		return {
+			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
+			'problems_attempted_first_task': round(self.participant.vars['problems_attempted_first_task']),
+			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
+			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
+			'card_color' : self.player.card_color,
+			'second_task_earnings': second_task_earnings,
+			'first_task_payoff' : Constants.first_task_payoff,	
+			'participation_fee' : Constants.participation_fee,		
+			'risk_payment' : self.participant.risk_payment,
+		}
 			
 		
 page_sequence = [
