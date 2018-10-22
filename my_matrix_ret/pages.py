@@ -612,8 +612,7 @@ class finalPage(Page):
 			'card_color' : self.player.card_color,
 			'second_task_earnings': second_task_earnings,
 			'first_task_payoff' : Constants.first_task_payoff,	
-			'participation_fee' : Constants.participation_fee,		
-			'risk_payment' : self.participant.risk_payment,
+			'participation_fee' : Constants.participation_fee,
 		}
 			
 		

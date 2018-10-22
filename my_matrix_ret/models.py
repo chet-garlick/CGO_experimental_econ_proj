@@ -12,9 +12,9 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 
+	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
 	first_task_payoff = c(1.0) #This is the flat amount each participant earns during the first section.
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
 	investment_cost = c(0.0) #This is the cost of investing to mitigate red-card losses.
 	red_card_modifier = c(0.02) #This is the amount earned per answer if no investment is made and the participant has a red card.
 	investment_effectiveness = c(0.10) #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
@@ -59,34 +59,20 @@ class Player(BasePlayer):
 			self_is_correct = False
 			
 	def determine_payoff(self):
-		#self.payoff = Constants.participation_fee + 
-		# self.total_payoff = 1
+		payoff=Constants.participation_fee
+		payoff+=Constants.first_task_payoff
+		if(self.card_color=='GREEN'):
+			payoff+=Constants.green_card_payoff * self.problems_correct_second_task
+		elif(self.card_color=='RED' and self.investment_choice):
+			payoff+=Constants.investment_effectiveness * self.problems_correct_second_task
+		else:
+			payoff+=Constants.red_card_modifier * self.problems_correct_second_task
 		if (self.investment_choice == True):
-			self.payoff = self.payoff - Constants.investment_cost
-		
+			payoff = payoff - Constants.investment_cost
+			
+		self.payoff = payoff
 
-
 		
-		""" Psuedo-code section for determining total_payoff. (Insert joke here about how python is just pseudo-code that compiles) ha ha ha
-			
-		not paid for num correct in first task, just a flat payment
-		
-		first five min pay + participation_fee
-			
-		if investment_choice == yes, 
-			total_payoff = total_payoff - investment_cost
-				
-		if CARD_COLOR == Green
-			MODIFIER = 1.0 
-		else if CARD_COLOR == Red and investment_choice == Yes
-			MODIFIER = invested red card modifier
-		else if CARD_COLOR == Red and investment_choice == None
-			MODIFIER = non=invested red card modifier
-			
-		score from second task = num_corrrect_second_task times MODIFIER
-			
-		total_payoff = participation fee + score from first task, and score from second task
-		"""
 	total_payoff = models.FloatField(
 		doc="The total dollar amount the participant earned by being a part of the experiment",
 	)
