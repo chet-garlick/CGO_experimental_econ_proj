@@ -18,6 +18,12 @@ SESSION_CONFIGS = [
         'num_demo_participants': 1,
         'app_sequence': ['my_matrix_ret'],
     },
+	{
+		'name': 'contest_with_damage',
+		'display_name': "Contest With Damage",
+		'num_demo_participants': 2,
+		'app_sequence': ['contest_with_damage'],
+	},
 ]
 
 

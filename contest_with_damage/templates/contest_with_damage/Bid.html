@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Make your Bid!`
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        The value of the item is {{Constants.item_value}}
+    </p>
+
+    <p>
+        Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}.
+    </p>
+
+{% formfield player.bid_amount label="Bid amount" %}
+{% next_button %}
+
+{%endblock%}
