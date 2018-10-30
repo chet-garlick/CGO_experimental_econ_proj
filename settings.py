@@ -15,7 +15,7 @@ SESSION_CONFIGS = [
 	{
         'name': 'my_matrix_ret',
         'display_name': "My Matrix Real Effort Task",
-        'num_demo_participants': 1,
+        'num_demo_participants': 3,
         'app_sequence': ['my_matrix_ret'],
     },
 	{

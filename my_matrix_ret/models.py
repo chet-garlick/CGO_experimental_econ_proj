@@ -12,6 +12,10 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 
+	red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
+	message_version = 1 #This setting controls which version of the message page the participants will see. 
+
+
 	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
 	first_task_payoff = c(1.0) #This is the flat amount each participant earns during the first section.
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
@@ -24,7 +28,6 @@ class Constants(BaseConstants):
 	green_card_payoff = c(0.15) #This is the amount earned per answer if the participant's card is green.
 	first_task_timer = 20 #Length of first task - in seconds.
 	second_task_timer = 20 #Length of second task - in seconds.
-	message_version = 1 #This setting controls which version of the message page the participants will see. 
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.
 	#Setting this to 3 will prevent all of the users from seeing the message at all.
@@ -44,6 +47,11 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
+	def set_card_color(self):
+		if(self.id_in_group in Constants.red_card_participant_IDs):
+			self.card_color = 'RED'
+		
 
 	def score_round(self, correct_answer):
 		self.round_attempted = True
@@ -80,7 +88,7 @@ class Player(BasePlayer):
 	card_color = models.StringField(
 		doc = "The color of the participant's card.",
 		choices=['RED','GREEN'],
-		initial='GREEN'
+		initial='GREEN',
 	)
 	
 	instructions_quiz_input1 = models.FloatField(

@@ -67,7 +67,8 @@ class start_page(Page):
 		self.participant.vars['problems_correct_first_task'] = 0
 		self.participant.vars['problems_correct_second_task'] = 0
 		
-		print(self.participant.payoff)
+		for p in self.player.in_all_rounds():
+			p.set_card_color() #This line initialzes all of the red card participants according to the list of participants to be assigned red cards in the Constants section in models.py.
 		
 	def vars_for_template(self):
 		return {
@@ -237,7 +238,7 @@ class message_page_1(Page):
 				p.message_seen = False
 			
 	def is_displayed(self):
-			return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==1
+		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==1
 	
 	
 class message_page_2(Page):
