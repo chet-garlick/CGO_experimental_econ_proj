@@ -10,16 +10,15 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+	
 @csrf_exempt
 def verify(request):
-	
-	user_input = request.GET.get('user_input',None)
-	
-	
-	print("success!")
-	
-	data = ({'foo':'bar'})
-	
+	user_input = request.GET.get('user_input')
+	solution = request.GET.get('s')
+	id = request.GET.get('id')
+	models.score_first_task(id,user_input,solution)
+	#self.player.score_round_task1(user_input,solution)	
+	data = ({'foo':'bar'})	
 	return JsonResponse(data)
 
 class start_page(Page):
@@ -128,6 +127,7 @@ class first_task_page(Page):
 	form_fields = ['user_input']
 	timer_text = 'Time left to solve problems:'
 
+
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
 		
@@ -194,7 +194,8 @@ class first_task_page(Page):
 			'participation_fee' : Constants.participation_fee,
 			'first_task_payoff' : Constants.first_task_payoff,
 			'if_second_task_red_card' : earningsRED,
-			'if_second_task_green_card' : earningsGREEN
+			'if_second_task_green_card' : earningsGREEN,
+			'id' : self.player.pk,
 		}
 		
 		

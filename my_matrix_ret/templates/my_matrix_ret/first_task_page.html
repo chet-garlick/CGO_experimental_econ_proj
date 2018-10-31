@@ -72,7 +72,6 @@
 	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
 	
 	<input type="text" name="Number of Ones" id="num_of_ones"/>
-	<input type="text" name="other thing" id="other_thing"/>
 	<input type="hidden" name="user.input" id ="user.input"/>
 	
 	<button type="button" id="submitButton"> {% csrf_token %} Submit </button>
@@ -90,16 +89,14 @@
 	<script>
 	
 		$ ( " #submitButton " ).click(function() {
-			var user_input=$(" #num_of_ones ").serialize();
+			var user_input=$(" #num_of_ones ").val();
 			var s='{{ solution }} '
-			$(" #other_thing ").val(s);
+			var id = '{{ id }}'
 			$.ajax({
-				type:"POST",
+				data: {'user_input': user_input, 's':s, 'id':id},
 				url: '{% url "verify" %}',
 				dataType:'json',
 			});
-			console.log("hi");
-
 		});
 	</script>
 {%endblock%}

@@ -38,7 +38,13 @@ class Constants(BaseConstants):
 	name_in_url = 'my_matrix_ret'
 	players_per_group = None
 
-
+def score_first_task(id,input,sol):
+	player = Player.objects.get(pk=id)
+	player.problems_attempted_first_task+=1
+	if(input==sol):
+		player.problems_correct_first_task+=1
+	player.save()
+	
 
 class Subsession(BaseSubsession):
 	pass
@@ -51,6 +57,13 @@ class Player(BasePlayer):
 	def set_card_color(self):
 		if(self.id_in_group in Constants.red_card_participant_IDs):
 			self.card_color = 'RED'
+			
+	def score_round_task1(input, sol):
+		self.problems_attempted_first_task+=1
+		if(input==sol):
+			self.problems_correct_first_task+=1
+		
+			
 		
 
 	def score_round(self, correct_answer):
@@ -120,16 +133,20 @@ class Player(BasePlayer):
         doc="did the user get the task correct?"
 	)
 	problems_attempted_first_task = models.PositiveIntegerField(
-		doc="number of problems the user attempted"
+		doc="number of problems the user attempted",
+		initial=0
 	)
 	problems_correct_first_task = models.PositiveIntegerField(
-            doc = 'number of problems correctly solved in first task'
+            doc = 'number of problems correctly solved in first task',
+			initial=0
 	)	
 	problems_correct_second_task = models.PositiveIntegerField(
-		doc="number of problems correctly solved in second task"
+		doc="number of problems correctly solved in second task",
+		initial=0
 	)
 	problems_attempted_second_task = models.PositiveIntegerField(
-		doc="number of problems attempted in the second real effort task"
+		doc="number of problems attempted in the second real effort task",
+		initial=0
 	)
 	
 	risk_choice = models.PositiveIntegerField(
