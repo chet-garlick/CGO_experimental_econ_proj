@@ -26,7 +26,7 @@ class Constants(BaseConstants):
 	#Another treatment for the experiment is to set it to c(0.05) - which is 5 cents per correct question.
 	#This only affects payoffs if the participant's card is red and they chose to invest.
 	green_card_payoff = c(0.15) #This is the amount earned per answer if the participant's card is green.
-	first_task_timer = 20 #Length of first task - in seconds.
+	first_task_timer = 2000000 #Length of first task - in seconds.
 	second_task_timer = 20 #Length of second task - in seconds.
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.

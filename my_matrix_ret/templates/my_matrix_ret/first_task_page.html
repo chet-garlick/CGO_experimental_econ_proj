@@ -66,6 +66,18 @@
 			<td>{{ int20 }} </td> <td>{{ int21 }} </td> <td>{{ int22 }} </td> <td>{{ int23 }} </td> <td>{{ int24 }} </td>
 		</tr> <br>
 	</table>
+	
+	<br>
+	
+	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
+	
+	<input type="text" name="Number of Ones" id="num_of_ones"/>
+	<input type="text" name="other thing" id="other_thing"/>
+	<input type="hidden" name="user.input" id ="user.input"/>
+	
+	<button type="button" id="submitButton"> {% csrf_token %} Submit </button>
+	
+	</form>
 
 	{% formfield player.user_input label="Number of ones:"%}
     {% next_button %}
@@ -73,3 +85,21 @@
 	<h2> {%autoescape off%} {{correct_last_round}} {%endautoescape %}</h2>
 
 {% endblock %}
+
+{% block scripts %}
+	<script>
+	
+		$ ( " #submitButton " ).click(function() {
+			var user_input=$(" #num_of_ones ").serialize();
+			var s='{{ solution }} '
+			$(" #other_thing ").val(s);
+			$.ajax({
+				type:"POST",
+				url: '{% url "verify" %}',
+				dataType:'json',
+			});
+			console.log("hi");
+
+		});
+	</script>
+{%endblock%}

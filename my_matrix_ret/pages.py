@@ -6,6 +6,22 @@ from django.conf import settings
 import time
 import random
 
+from django.http import HttpResponse 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def verify(request):
+	
+	user_input = request.GET.get('user_input',None)
+	
+	
+	print("success!")
+	
+	data = ({'foo':'bar'})
+	
+	return JsonResponse(data)
+
 class start_page(Page):
 	def is_displayed(self):
 		return self.round_number == 1
@@ -89,14 +105,12 @@ class instructions_quiz_page(Page):
 		self.participant.vars['show_instructions_quiz'] = False
 		
 
-
-
-		
 class waitpage(WaitPage):
 	title_text = "Waiting"
 	body_text = "Waiting for all participants to get to this point."
-	"""def is_displayed(self):
-		return self.participant.vars['show_wait_page']"""
+	
+	def is_displayed(self):
+		return self.participant.vars['show_wait_page']
 		
 class transition_page_1(Page):
 	def is_displayed(self):
@@ -106,9 +120,9 @@ class transition_page_1(Page):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
 		self.participant.vars['show_first_task_page_next'] = True
 		self.participant.vars['show_transition_1'] = False
+		self.participant.vars['show_wait_page'] = False
 	
-		
-		
+	
 class first_task_page(Page):
 	form_model = 'player'
 	form_fields = ['user_input']
@@ -148,6 +162,7 @@ class first_task_page(Page):
 			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
 			'debug': settings.DEBUG,
 			'correct_last_round': correct_last_round,
+			'solution':self.participant.vars['solution'],
 			'int0' : ints[0],
 			'int1' : ints[1],
 			'int2' : ints[2],
@@ -209,9 +224,11 @@ class first_task_page(Page):
 		self.participant.vars['solution'] = new_solution
 		self.participant.vars['problems_attempted_first_task']+=1
 		self.participant.vars['show_message_page_next']=True
-		if(self.participant.vars['out_of_time_first_task'] - time.time() <= 0):
+		if(self.participant.vars['out_of_time_first_task'] - time.time() <= 1):
 			self.participant.vars['show_first_task_page_next'] = False
 			self.participant.vars['show_transition_2'] = True
+			self.participant.vars['show_wait_page'] = True
+
 			
 class transition_page_2(Page):
 	def is_displayed(self):
