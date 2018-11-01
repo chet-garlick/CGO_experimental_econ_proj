@@ -92,8 +92,9 @@
 			var user_input=$(" #num_of_ones ").val();
 			var s='{{ solution }} '
 			var id = '{{ id }}'
+			var page_version = '{{ version }}'
 			$.ajax({
-				data: {'user_input': user_input, 's':s, 'id':id},
+				data: {'user_input': user_input, 's':s, 'id':id,'page_version':page_version},
 				url: '{% url "verify" %}',
 				dataType:'json',
 			});

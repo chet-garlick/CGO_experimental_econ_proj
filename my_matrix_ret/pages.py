@@ -16,8 +16,11 @@ def verify(request):
 	user_input = request.GET.get('user_input')
 	solution = request.GET.get('s')
 	id = request.GET.get('id')
-	models.score_first_task(id,user_input,solution)
-	#self.player.score_round_task1(user_input,solution)	
+	version=request.GET.get('page_version')
+	if(version=="1"):
+		models.score_first_task(id,user_input,solution)
+	elif(version=="2"):
+		models.score_second_task(id,user_input,solution)	
 	data = ({'foo':'bar'})	
 	return JsonResponse(data)
 
@@ -196,6 +199,7 @@ class first_task_page(Page):
 			'if_second_task_red_card' : earningsRED,
 			'if_second_task_green_card' : earningsGREEN,
 			'id' : self.player.pk,
+			'version' : 1,
 		}
 		
 		
@@ -395,6 +399,9 @@ class second_task_page(Page):
 			'earningsRED' : earningsRED,
 			'first_task_payoff': Constants.first_task_payoff,
 			'participation_fee': Constants.participation_fee,
+			'solution' : self.participant.vars['solution'],
+			'version': 2,
+			'id': self.player.pk,
 		}
 				
 	def before_next_page(self):

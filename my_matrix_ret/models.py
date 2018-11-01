@@ -41,8 +41,15 @@ class Constants(BaseConstants):
 def score_first_task(id,input,sol):
 	player = Player.objects.get(pk=id)
 	player.problems_attempted_first_task+=1
-	if(input==sol):
+	if(int(input)==int(sol)):
 		player.problems_correct_first_task+=1
+	player.save()
+	
+def score_second_task(id,input,sol):
+	player = Player.objects.get(pk=id)
+	player.problems_attempted_second_task+=1
+	if(int(input)==int(sol)):
+		player.problems_correct_second_task+=1
 	player.save()
 	
 
