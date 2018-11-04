@@ -81,11 +81,18 @@
 			var s='{{ solution }} '
 			var id = '{{ id }}'
 			var page_version = '{{ version }}'
-			$.ajax({
-				data: {'user_input': user_input, 's':s, 'id':id,'page_version':page_version},
-				url: '{% url "verify" %}',
-				dataType:'json',
-			});
+			if(!isNaN(user_input) && !($.trim(user_input).length === 0) ){
+				$.ajax({
+					data: {'user_input': user_input, 's':s, 'id':id,'page_version':page_version},
+					url: '{% url "verify" %}',
+					dataType:'json',
+					success: function(result) {
+
+					},
+				});	
+			}else{
+				alert("An error has occurred. Please only input a number.");	
+			}
 		});
 	</script>
 {%endblock%}
