@@ -51,19 +51,19 @@
 
 	<table id="task">
 		<tr>
-			<td id="int0">{{ int0 }} </td> <td>{{ int1 }} </td> <td>{{ int2 }} </td> <td>{{ int3 }} </td> <td>{{ int4 }}</td>
+			<td id="int0">{{ int0 }} </td> <td id="int1">{{ int1 }} </td> <td id="int2">{{ int2 }} </td> <td id="int3">{{ int3 }} </td> <td id="int4">{{ int4 }}</td>
 		</tr>
 		<tr>
-			<td>{{ int5 }} </td> <td>{{ int6 }} </td> <td>{{ int7 }} </td> <td>{{ int8 }} </td> <td>{{ int9 }} </td>
+			<td id="int5">{{ int5 }} </td> <td id="int6">{{ int6 }} </td> <td id="int7">{{ int7 }} </td> <td id="int8">{{ int8 }} </td> <td id="int9">{{ int9 }} </td>
 		</tr>
 		<tr>
-			<td>{{ int10 }} </td> <td>{{ int11 }} </td> <td>{{ int12 }} </td> <td>{{ int13 }} </td> <td>{{ int14 }} </td> 
+			<td id="int10">{{ int10 }} </td> <td id="int11">{{ int11 }} </td> <td id="int12">{{ int12 }} </td> <td id="int13">{{ int13 }} </td> <td id="int14">{{ int14 }} </td> 
 		</tr>
 		<tr> 
-			<td>{{ int15 }} </td> <td>{{ int16 }} </td> <td>{{ int17 }} </td> <td>{{ int18 }} </td> <td>{{ int19 }} </td>
+			<td id="int15">{{ int15 }} </td> <td id="int16">{{ int16 }} </td> <td id="int17">{{ int17 }} </td> <td id="int18">{{ int18 }} </td> <td id="int19">{{ int19 }} </td>
 		</tr> <br>
 		<tr> 
-			<td>{{ int20 }} </td> <td>{{ int21 }} </td> <td>{{ int22 }} </td> <td>{{ int23 }} </td> <td>{{ int24 }} </td>
+			<td id="int20">{{ int20 }} </td> <td id="int21">{{ int21 }} </td> <td id="int22">{{ int22 }} </td> <td id="int23">{{ int23 }} </td> <td id="int24">{{ int24 }} </td>
 		</tr> <br>
 	</table>
 	
@@ -99,7 +99,9 @@
 					url: '{% url "verify" %}',
 					dataType:'json',
 					success: function(result) {
-
+						for (let i = 0; i < 25; i++) {
+							document.getElementById("int" + i).innerHTML = result.ints[i]
+						}
 					},
 				});	
 			}else{

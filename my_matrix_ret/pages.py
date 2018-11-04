@@ -21,7 +21,14 @@ def verify(request):
 		models.score_first_task(id,user_input,solution)
 	elif(version=="2"):
 		models.score_second_task(id,user_input,solution)	
-	data = ({'foo':'bar'})	
+	ints = []
+	solution=0
+	for i in range (0,25):
+		tmp= random.randint(0,1)
+		ints.append(tmp)
+		solution += tmp
+	
+	data = ({'ints':ints, 'solution':solution})	
 	return JsonResponse(data)
 
 class start_page(Page):
