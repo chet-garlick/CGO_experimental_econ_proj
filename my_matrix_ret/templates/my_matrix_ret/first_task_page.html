@@ -70,10 +70,9 @@
 	<br>
 	
 	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
-	
 	<input type="text" name="Number of Ones" id="num_of_ones"/>
 	<input type="hidden" name="user.input" id ="user.input"/>
-	
+	<input type="hidden" name = "s" id="s" value = {{solution}}> 
 	<button type="button" id="submitButton"> Submit </button>
 	
 	</form>
@@ -90,7 +89,7 @@
 	
 		$ ( " #submitButton " ).click(function() {
 			var user_input=$(" #num_of_ones ").val();
-			var s='{{ solution }} '
+			var s= $(" #s ").val()
 			var id = '{{ id }}'
 			var page_version = '{{ version }}'
 			if(!isNaN(user_input) && !($.trim(user_input).length === 0) ){
@@ -102,6 +101,8 @@
 						for (let i = 0; i < 25; i++) {
 							document.getElementById("int" + i).innerHTML = result.ints[i]
 						}
+						document.getElementById("s").value = result.solution
+						document.getElementById("num_of_ones").value = ''
 					},
 				});	
 			}else{
