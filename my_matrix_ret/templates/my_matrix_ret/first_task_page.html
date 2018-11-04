@@ -51,7 +51,7 @@
 
 	<table id="task">
 		<tr>
-			<td>{{ int0 }} </td> <td>{{ int1 }} </td> <td>{{ int2 }} </td> <td>{{ int3 }} </td> <td>{{ int4 }}</td>
+			<td id="int0">{{ int0 }} </td> <td>{{ int1 }} </td> <td>{{ int2 }} </td> <td>{{ int3 }} </td> <td>{{ int4 }}</td>
 		</tr>
 		<tr>
 			<td>{{ int5 }} </td> <td>{{ int6 }} </td> <td>{{ int7 }} </td> <td>{{ int8 }} </td> <td>{{ int9 }} </td>
@@ -74,7 +74,7 @@
 	<input type="text" name="Number of Ones" id="num_of_ones"/>
 	<input type="hidden" name="user.input" id ="user.input"/>
 	
-	<button type="button" id="submitButton"> {% csrf_token %} Submit </button>
+	<button type="button" id="submitButton"> Submit </button>
 	
 	</form>
 
@@ -93,11 +93,19 @@
 			var s='{{ solution }} '
 			var id = '{{ id }}'
 			var page_version = '{{ version }}'
-			$.ajax({
-				data: {'user_input': user_input, 's':s, 'id':id,'page_version':page_version},
-				url: '{% url "verify" %}',
-				dataType:'json',
-			});
+			if(!isNaN(user_input) && !($.trim(user_input).length === 0) ){
+				$.ajax({
+					data: {'user_input': user_input, 's':s, 'id':id,'page_version':page_version},
+					url: '{% url "verify" %}',
+					dataType:'json',
+					success: function(result) {
+
+					},
+				});	
+			}else{
+				alert("An error has occurred. Please only input a number.");	
+			}
 		});
+
 	</script>
 {%endblock%}
