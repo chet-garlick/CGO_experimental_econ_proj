@@ -1,15 +1,8 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
-{% block title %}
-Question 1
-{% endblock %}
-
 {% block content %}
-	<p>
-        <h6> </h6>
-		<h6>{% formfield player.cog_reflect_one_input label = "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?" %} </h6>
-		
-    </p>
+		<p>{% formfield player.cog_reflect_one_input label = "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?" %} </p>
+
     {% next_button %}
 {% endblock %}

@@ -17,7 +17,7 @@ SESSION_CONFIGS = [
 	{
         'name': 'my_matrix_ret',
         'display_name': "My Matrix Real Effort Task",
-        'num_demo_participants': 1,
+        'num_demo_participants': 2,
         'app_sequence': ['my_matrix_ret'],
     },
 	{
@@ -60,8 +60,8 @@ ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 
 # Consider '', None, and '0' to be empty/false
 #DEBUG = (environ.get('OTREE_PRODUCTION') in {None, '', '0'})
-#DEBUG = 0 #Debugger is OFF
-DEBUG = 1 #Debugger is ON
+DEBUG = 0 #Debugger is OFF
+#DEBUG = 1 #Debugger is ON
 
 
 DEMO_PAGE_INTRO_HTML = """ """

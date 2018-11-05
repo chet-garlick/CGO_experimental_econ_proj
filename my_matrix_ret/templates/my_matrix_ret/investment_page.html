@@ -4,12 +4,12 @@
 
 {% block content %}
 	<p>
-		<h4>Over the next 20 minutes you will continue to answer questions like you did previously. Now, however, the amount you earn per correct answer may be less if the color of the card in your envelope is red.
-        You have the opportunity to spend some of what your have earned so far in order to mitigate potential losses. </h4>
-		<h4>Doing so costs {{ investment_cost | c}}, but, if your card color is RED, you will earn {{ investment_effectiveness | c }} per question instead of {{ red_card_modifier | c}}. </h4>
+		Over the next 20 minutes you will continue to answer questions like you did previously. Now, however, the amount you earn per correct answer may be less if the color of the card in your envelope is red.
+        You have the opportunity to spend some of what your have earned so far in order to mitigate potential losses. </p>
+		<p>Doing so costs {{ investment_cost | c}}, but, if your card color is RED, you will earn {{ investment_effectiveness | c }} per question instead of {{ red_card_modifier | c}}. </p>
 		
 		
-		<h4>{% formfield player.investment_choice label = "Would you like to do so?" %} </h4>
+		<p>{% formfield player.investment_choice label = "Would you like to do so?" %} </p>
 		
 		
     </p>

@@ -82,7 +82,6 @@ class transition_page_1(Page):
 	
 class first_task_page(Page):
 	form_model = 'player'
-	form_fields = ['user_input']
 	timer_text = 'Time left to solve problems:'
 
 	def get_timeout_seconds(self):
@@ -223,8 +222,7 @@ class transition_page_3(Page):
 	
 class second_task_page(Page):
 
-	form_model = 'player'
-	form_fields = ['user_input']	
+	form_model = 'player'	
 	timer_text = 'Time left to solve problems:'
 	
 	def get_timeout_seconds(self):
@@ -298,7 +296,7 @@ class Results(Page):
 			'num_correct_second_task': round(self.player.problems_correct_second_task),
 			'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
 			'card_color' : self.player.card_color,
-			'second_task_earnings': second_task_earnings,
+			'second_task_earnings': round(second_task_earnings,2),
 			'first_task_payoff' : Constants.first_task_payoff,	
 			'participation_fee' : Constants.participation_fee,			
 		}

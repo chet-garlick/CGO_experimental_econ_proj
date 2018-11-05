@@ -33,6 +33,7 @@ class Constants(BaseConstants):
 	#Setting this to 3 will prevent all of the users from seeing the message at all.
 	name_in_url = 'my_matrix_ret'
 	players_per_group = None
+	num_rounds = 1
 
 def score_first_task(id,input,sol):
 	player = Player.objects.get(pk=id)
@@ -108,20 +109,7 @@ class Player(BasePlayer):
 	
 	instructions_quiz_input5 = models.FloatField(
 	)
-	user_input = models.PositiveIntegerField(
-		min = 0,
-		max = 100,
-		doc="user's summation",
-		widget=widgets.TextInput(attrs={'autocomplete':'off'})
-	)
-	round_attempted = models.BooleanField(
-		doc="Did the user attempt to answer this problem?",
-		initial=False
-	)
 	
-	is_correct = models.BooleanField(
-        doc="did the user get the task correct?"
-	)
 	problems_attempted_first_task = models.PositiveIntegerField(
 		doc="number of problems the user attempted",
 		initial=0

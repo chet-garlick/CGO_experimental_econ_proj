@@ -1,15 +1,8 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
-{% block title %}
- Question 3
-{% endblock %}
 
 {% block content %}
-	<p>
-        <h6> </h6>
-		<h6>{% formfield player.cog_reflect_three_input label = "In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake?" %} </h6>
-		
-    </p>
+	<p>{% formfield player.cog_reflect_three_input label = "In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake?" %} </p>
     {% next_button %}
 {% endblock %}
