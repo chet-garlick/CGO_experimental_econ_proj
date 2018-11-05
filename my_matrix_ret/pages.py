@@ -465,18 +465,18 @@ class Results(Page):
 		
 		
 		if(self.player.card_color=='GREEN'): 
-			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.green_card_payoff
+			second_task_earnings = self.player.problems_correct_second_task * Constants.green_card_payoff
 		elif(self.player.card_color=='RED' and self.player.investment_choice):
-			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.investment_effectiveness - Constants.investment_cost
+			second_task_earnings = self.player.problems_correct_second_task * Constants.investment_effectiveness - Constants.investment_cost
 		else:
-			second_task_earnings = self.participant.vars['problems_correct_second_task'] * Constants.red_card_modifier
+			second_task_earnings = self.player.problems_correct_second_task * Constants.red_card_modifier
 
 	
 		return {
-			'num_correct_first_task': round(self.participant.vars['problems_correct_first_task']),
-			'problems_attempted_first_task': round(self.participant.vars['problems_attempted_first_task']),
-			'num_correct_second_task': round(self.participant.vars['problems_correct_second_task']),
-			'problems_attempted_second_task': round(self.participant.vars['problems_attempted_second_task']),
+			'num_correct_first_task': round(self.player.problems_correct_first_task),
+			'problems_attempted_first_task': round(self.player.problems_attempted_first_task),
+			'num_correct_second_task': round(self.player.problems_correct_second_task),
+			'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
 			'card_color' : self.player.card_color,
 			'second_task_earnings': second_task_earnings,
 			'first_task_payoff' : Constants.first_task_payoff,	
