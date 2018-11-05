@@ -104,8 +104,10 @@
 						document.getElementById("num_of_ones").value = ''
 						document.getElementById("num_correct_first_task").innerHTML = result.num_correct_first_task;
 						document.getElementById("num_correct_second_task").innerHTML = result.num_correct_second_task;
-						document.getElementById("earningsGREEN").innerHTML = result.earningsRED;
-						document.getElementById("earningsRED").innerHTML = result.earningsGREEN;
+						var r = result.earningsRED;
+						document.getElementById("earningsGREEN").innerHTML = r.toFixed(2);
+						var g = result.earningsGREEN;
+						document.getElementById("earningsRED").innerHTML = g.toFixed(2);
 					},
 				});	
 			}else{
