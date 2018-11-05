@@ -27,8 +27,12 @@ def verify(request):
 		tmp= random.randint(0,1)
 		ints.append(tmp)
 		solution += tmp
-	
-	data = ({'ints':ints, 'solution':solution})	
+		
+	player_data=models.get_data(id)
+	earningsGREEN = Constants.green_card_payoff * player_data['num_correct_second_task']
+	if(player_data["investment_choice"]): earningsRED = player_data['num_correct_second_task'] * Constants.investment_effectiveness - Constants.investment_cost 
+	else: earningsRED = player_data['num_correct_second_task'] * Constants.red_card_modifier
+	data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player_data["num_correct_first_task"], 'num_correct_second_task':player_data["num_correct_second_task"], 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED })	
 	return JsonResponse(data)
 
 class start_page(Page):

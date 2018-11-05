@@ -16,17 +16,17 @@ class Constants(BaseConstants):
 	message_version = 1 #This setting controls which version of the message page the participants will see. 
 
 
-	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
-	first_task_payoff = c(1.0) #This is the flat amount each participant earns during the first section.
+	participation_fee = 1.0 #This is the aomunt user participant earns for showing up.
+	first_task_payoff = 1.0 #This is the flat amount each participant earns during the first section.
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	investment_cost = c(0.0) #This is the cost of investing to mitigate red-card losses.
-	red_card_modifier = c(0.02) #This is the amount earned per answer if no investment is made and the participant has a red card.
-	investment_effectiveness = c(0.10) #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
+	investment_cost = 0.0 #This is the cost of investing to mitigate red-card losses.
+	red_card_modifier = 0.02 #This is the amount earned per answer if no investment is made and the participant has a red card.
+	investment_effectiveness = 0.10 #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
 	#One treatment for the experiment is to set investment_effectiveness to c(.10) - which is 10 cents per correct question.
 	#Another treatment for the experiment is to set it to c(0.05) - which is 5 cents per correct question.
 	#This only affects payoffs if the participant's card is red and they chose to invest.
-	green_card_payoff = c(0.15) #This is the amount earned per answer if the participant's card is green.
-	first_task_timer = 2000000 #Length of first task - in seconds.
+	green_card_payoff = 0.15 #This is the amount earned per answer if the participant's card is green.
+	first_task_timer = 20 #Length of first task - in seconds.
 	second_task_timer = 20 #Length of second task - in seconds.
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.
@@ -51,6 +51,15 @@ def score_second_task(id,input,sol):
 	if(int(input)==int(sol)):
 		player.problems_correct_second_task+=1
 	player.save()
+	
+def get_data(id):
+	player = Player.objects.get(pk=id)
+	data={
+		"num_correct_first_task": player.problems_correct_first_task,
+		"num_correct_second_task": player.problems_correct_second_task,
+		"investment_choice":player.investment_choice,
+	}
+	return data
 	
 
 class Subsession(BaseSubsession):

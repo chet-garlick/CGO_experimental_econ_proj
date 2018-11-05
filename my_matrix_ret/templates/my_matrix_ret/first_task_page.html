@@ -30,16 +30,16 @@
 			<td> Participation Fee </td> <td> {{ participation_fee }} </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved {{ num_correct_first_task }} tables  </td> <td> {{first_task_payoff}}  </td> 
+			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff}}  </td> 
 		</tr>
 		<tr>
-			<td> If this were Task 2, and you solved {{ num_correct_first_task }} tables,</td> 
+			<td> If this were Task 2, and you solved <span id="num_correct_first_task">{{ num_correct_first_task }} </span> tables,</td> 
 		</tr>
 		<tr>
-			<td> if your card color was RED: </td> <td> {{ if_second_task_red_card }} </td>
+			<td> if your card color was RED: </td> <td id="pay_if_red_card"> {{ if_second_task_red_card }} </td>
 		</tr>
 		<tr>
-			<td> if your card color was GREEN: </td> <td> {{ if_second_task_green_card }} </td>
+			<td> if your card color was GREEN: </td> <td id="pay_if_green_card"> {{ if_second_task_green_card }} </td>
 		</tr>
 		
 	</table>
@@ -99,10 +99,15 @@
 					dataType:'json',
 					success: function(result) {
 						for (let i = 0; i < 25; i++) {
-							document.getElementById("int" + i).innerHTML = result.ints[i]
+							document.getElementById("int" + i).innerHTML = result.ints[i];
 						}
-						document.getElementById("s").value = result.solution
-						document.getElementById("num_of_ones").value = ''
+						document.getElementById("s").value = result.solution;
+						document.getElementById("num_of_ones").value = '';
+						document.getElementById("num_correct_first_task").innerHTML = result.num_correct_first_task;
+						var r = result.num_correct_first_task * result.red_card_modifier;
+						document.getElementById("pay_if_red_card").innerHTML = r.toFixed(2);
+						var g = result.num_correct_first_task * result.green_card_payoff;
+						document.getElementById("pay_if_green_card").innerHTML = g.toFixed(2);
 					},
 				});	
 			}else{
