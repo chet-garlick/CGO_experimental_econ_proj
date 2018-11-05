@@ -70,7 +70,18 @@ class start_page(Page):
 class instructions_quiz_page(Page):
 	form_model = 'player'
 	form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']		
-
+	def error_message(self,values):
+		if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness*37):
+			return ("There was an issue with question one. Please try again.")
+		if( float(values['instructions_quiz_input2'])!=Constants.green_card_payoff*37):
+			return ("There was an issue with question two. Please try again.")
+		if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):
+			return ("There was an issue with question three. Please try again.")
+		if( float(values['instructions_quiz_input4'])!=Constants.red_card_likelihood * Constants.message_correlation):
+			return ("There was an issue with question four. Please try again.")
+		if( float(values['instructions_quiz_input5'])!=Constants.red_card_modifier):
+			return ("There was an issue with question five. Please try again.")
+	
 class waitpage(WaitPage):
 	title_text = "Waiting"
 	body_text = "Waiting for all participants to get to this point."

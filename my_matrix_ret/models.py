@@ -31,6 +31,8 @@ class Constants(BaseConstants):
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.
 	#Setting this to 3 will prevent all of the users from seeing the message at all.
+	message_correlation = .6
+	red_card_likelihood = .43
 	name_in_url = 'my_matrix_ret'
 	players_per_group = None
 	num_rounds = 1
