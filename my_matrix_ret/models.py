@@ -31,10 +31,6 @@ class Constants(BaseConstants):
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.
 	#Setting this to 3 will prevent all of the users from seeing the message at all.
-	
-	
-	
-	num_rounds = 100  #Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 	name_in_url = 'my_matrix_ret'
 	players_per_group = None
 
@@ -73,28 +69,6 @@ class Player(BasePlayer):
 	def set_card_color(self):
 		if(self.id_in_group in Constants.red_card_participant_IDs):
 			self.card_color = 'RED'
-			
-	def score_round_task1(input, sol):
-		self.problems_attempted_first_task+=1
-		if(input==sol):
-			self.problems_correct_first_task+=1
-		
-			
-		
-
-	def score_round(self, correct_answer):
-		self.round_attempted = True
-		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
-			self.is_correct = True
-		else:
-			self_is_correct = False
-			
-	def score_round_second_task(self, correct_answer):
-		if(correct_answer):
-			self.is_correct = True
-		else:
-			self_is_correct = False
-			
 	def determine_payoff(self):
 		payoff=Constants.participation_fee
 		payoff+=Constants.first_task_payoff
