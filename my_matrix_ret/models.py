@@ -194,7 +194,8 @@ class Player(BasePlayer):
 	)	
 	
 	major = models.StringField(
-		doc = "Self-reported college major of the participant."
+		doc = "Self-reported college major of the participant.",
+		choices = ['Business', 'Arts', 'Sciences', 'Agriculture', 'Engineering', 'Humanities', 'Social Sciences', 'Education','Natural Resources','Health' ]
 	)
 	
 	age = models.PositiveIntegerField(

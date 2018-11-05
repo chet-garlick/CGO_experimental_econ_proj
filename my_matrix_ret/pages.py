@@ -199,8 +199,6 @@ class message(Page):
 	
 	def before_next_page(self):
 		self.player.message_seen = True
-		for p in self.player.in_all_rounds():
-			p.message_seen = True
 
 	
 class investment_page(Page):
