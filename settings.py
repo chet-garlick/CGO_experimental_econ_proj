@@ -5,6 +5,8 @@ from os import environ
 # the session config can be accessed from methods in your apps as self.session.config,
 # e.g. self.session.config['participation_fee']
 
+ROOT_URLCONF = 'urls'
+
 SESSION_CONFIG_DEFAULTS = {
     'real_world_currency_per_point': 1.00,
     'participation_fee': 0.00,
@@ -15,7 +17,7 @@ SESSION_CONFIGS = [
 	{
         'name': 'my_matrix_ret',
         'display_name': "My Matrix Real Effort Task",
-        'num_demo_participants': 3,
+        'num_demo_participants': 2,
         'app_sequence': ['my_matrix_ret'],
     },
 	{

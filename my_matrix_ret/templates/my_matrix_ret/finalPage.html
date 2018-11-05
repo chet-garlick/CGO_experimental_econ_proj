@@ -16,27 +16,11 @@
 {% endblock %}
 
 {% block content %}
-	<h4>
+	<p>
 		
 		Thank you for participating in the experiment. Please wait quietly until you are called.
 		
-    </h4>
-	
-	   	<table id="earns">
-		<tr>
-			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
-		</tr>
-		<tr>
-			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff}}  </td> 
-		</tr>
-		<tr>
-			<td> Task 2: You solved {{num_correct_second_task}} tables.</td> 
-		</tr>
-		<tr>
-			<td> Your card color was {{ card_color }} </td> <td> {{ second_task_earnings}} </td>
-		</tr>
-		
-	</table>
+    </p>
 
 {% endblock %}
   

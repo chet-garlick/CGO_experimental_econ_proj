@@ -1,15 +1,8 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
-{% block title %}
- Question 2
-{% endblock %}
-
 {% block content %}
-	<p>
-        <h6> </h6>
-		<h6>{% formfield player.cog_reflect_two_input label = "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?" %} </h6>
-		
-    </p>
+		<p>{% formfield player.cog_reflect_two_input label = "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?" %} </p>
+
     {% next_button %}
 {% endblock %}

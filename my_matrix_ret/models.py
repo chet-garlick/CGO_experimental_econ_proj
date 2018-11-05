@@ -16,29 +16,48 @@ class Constants(BaseConstants):
 	message_version = 1 #This setting controls which version of the message page the participants will see. 
 
 
-	participation_fee = c(1.0) #This is the aomunt user participant earns for showing up.
-	first_task_payoff = c(1.0) #This is the flat amount each participant earns during the first section.
+	participation_fee = 1.0 #This is the aomunt user participant earns for showing up.
+	first_task_payoff = 1.0 #This is the flat amount each participant earns during the first section.
 	card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-	investment_cost = c(0.0) #This is the cost of investing to mitigate red-card losses.
-	red_card_modifier = c(0.02) #This is the amount earned per answer if no investment is made and the participant has a red card.
-	investment_effectiveness = c(0.10) #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
+	investment_cost = 0.0 #This is the cost of investing to mitigate red-card losses.
+	red_card_modifier = 0.02 #This is the amount earned per answer if no investment is made and the participant has a red card.
+	investment_effectiveness = 0.10 #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
 	#One treatment for the experiment is to set investment_effectiveness to c(.10) - which is 10 cents per correct question.
 	#Another treatment for the experiment is to set it to c(0.05) - which is 5 cents per correct question.
 	#This only affects payoffs if the participant's card is red and they chose to invest.
-	green_card_payoff = c(0.15) #This is the amount earned per answer if the participant's card is green.
+	green_card_payoff = 0.15 #This is the amount earned per answer if the participant's card is green.
 	first_task_timer = 20 #Length of first task - in seconds.
 	second_task_timer = 20 #Length of second task - in seconds.
 	#Setting it to 1 will give all users the option to choose whether or not they want the message.
 	#Setting this to 2 will force all users to see the message.
 	#Setting this to 3 will prevent all of the users from seeing the message at all.
-	
-	
-	
-	num_rounds = 100  #Some number sufficiently high such that no one can solve this many matrices in the total time alloted (see task_timer)
 	name_in_url = 'my_matrix_ret'
 	players_per_group = None
+	num_rounds = 1
 
-
+def score_first_task(id,input,sol):
+	player = Player.objects.get(pk=id)
+	player.problems_attempted_first_task+=1
+	if(int(input)==int(sol)):
+		player.problems_correct_first_task+=1
+	player.save()
+	
+def score_second_task(id,input,sol):
+	player = Player.objects.get(pk=id)
+	player.problems_attempted_second_task+=1
+	if(int(input)==int(sol)):
+		player.problems_correct_second_task+=1
+	player.save()
+	
+def get_data(id):
+	player = Player.objects.get(pk=id)
+	data={
+		"num_correct_first_task": player.problems_correct_first_task,
+		"num_correct_second_task": player.problems_correct_second_task,
+		"investment_choice":player.investment_choice,
+	}
+	return data
+	
 
 class Subsession(BaseSubsession):
 	pass
@@ -51,21 +70,6 @@ class Player(BasePlayer):
 	def set_card_color(self):
 		if(self.id_in_group in Constants.red_card_participant_IDs):
 			self.card_color = 'RED'
-		
-
-	def score_round(self, correct_answer):
-		self.round_attempted = True
-		if correct_answer: #If the subject gets the correct answer, give them a point for the answer.
-			self.is_correct = True
-		else:
-			self_is_correct = False
-			
-	def score_round_second_task(self, correct_answer):
-		if(correct_answer):
-			self.is_correct = True
-		else:
-			self_is_correct = False
-			
 	def determine_payoff(self):
 		payoff=Constants.participation_fee
 		payoff+=Constants.first_task_payoff
@@ -105,31 +109,22 @@ class Player(BasePlayer):
 	
 	instructions_quiz_input5 = models.FloatField(
 	)
-	user_input = models.PositiveIntegerField(
-		min = 0,
-		max = 100,
-		doc="user's summation",
-		widget=widgets.TextInput(attrs={'autocomplete':'off'})
-	)
-	round_attempted = models.BooleanField(
-		doc="Did the user attempt to answer this problem?",
-		initial=False
-	)
 	
-	is_correct = models.BooleanField(
-        doc="did the user get the task correct?"
-	)
 	problems_attempted_first_task = models.PositiveIntegerField(
-		doc="number of problems the user attempted"
+		doc="number of problems the user attempted",
+		initial=0
 	)
 	problems_correct_first_task = models.PositiveIntegerField(
-            doc = 'number of problems correctly solved in first task'
+            doc = 'number of problems correctly solved in first task',
+			initial=0
 	)	
 	problems_correct_second_task = models.PositiveIntegerField(
-		doc="number of problems correctly solved in second task"
+		doc="number of problems correctly solved in second task",
+		initial=0
 	)
 	problems_attempted_second_task = models.PositiveIntegerField(
-		doc="number of problems attempted in the second real effort task"
+		doc="number of problems attempted in the second real effort task",
+		initial=0
 	)
 	
 	risk_choice = models.PositiveIntegerField(
