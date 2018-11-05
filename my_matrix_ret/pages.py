@@ -36,8 +36,6 @@ def verify(request):
 	return JsonResponse(data)
 
 class start_page(Page):
-	def is_displayed(self):
-		return self.round_number == 1
 
 	def before_next_page(self):
 				
@@ -108,8 +106,7 @@ class start_page(Page):
 class instructions_quiz_page(Page):
 	form_model = 'player'
 	form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
-	def is_displayed(self):
-		return self.participant.vars['show_instructions_quiz']
+
 		
 	def before_next_page(self):
 
@@ -122,12 +119,10 @@ class waitpage(WaitPage):
 	title_text = "Waiting"
 	body_text = "Waiting for all participants to get to this point."
 	
-	def is_displayed(self):
-		return self.participant.vars['show_wait_page']
+
 		
 class transition_page_1(Page):
-	def is_displayed(self):
-		return self.participant.vars['show_transition_1']
+
 	
 	def before_next_page(self):
 		self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
@@ -144,11 +139,6 @@ class first_task_page(Page):
 
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_first_task'] - time.time()
-		
-	def is_displayed(self):
-		return (self.participant.vars['out_of_time_first_task'] - time.time() > 0 and self.participant.vars['show_first_task_page_next'])
-		#The line above returns true if the statements on either side of the 'and' operator return true. 
-		#This means that the is_displayed funtion will only return true (and display this page) if self.round_number is greater than two and there is still time left on the first timer.
 		
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
@@ -247,8 +237,7 @@ class first_task_page(Page):
 
 			
 class transition_page_2(Page):
-	def is_displayed(self):
-			return self.participant.vars['show_transition_2']
+
 	def before_next_page(self):
 		self.participant.vars['show_transition_2'] = False
 		
@@ -271,7 +260,7 @@ class message_page_1(Page):
 				p.message_seen = False
 			
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==1
+		return Constants.message_version==1
 	
 	
 class message_page_2(Page):
@@ -282,7 +271,7 @@ class message_page_2(Page):
 			p.message_page_version = 2
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==2
+		return Constants.message_version==2
 
 		
 class message_page_3(Page):
@@ -294,7 +283,7 @@ class message_page_3(Page):
 			p.message_seen = False
 
 	def is_displayed(self):
-		return self.participant.vars['out_of_time_first_task'] - time.time() < 0 and self.participant.vars['show_message_page_next'] and Constants.message_version==3
+		return Constants.message_version==3
 	
 	
 class message(Page):
@@ -313,9 +302,6 @@ class investment_page(Page):
 	
 	form_model = 'player'
 	form_fields = ['investment_choice']
-
-	def is_displayed(self):
-		return self.participant.vars['show_investment_page_next']
 
 	def before_next_page(self):
 		self.participant.vars['show_investment_page_next'] = False
@@ -336,8 +322,7 @@ class investment_page(Page):
 	
 	
 class transition_page_3(Page):
-	def is_displayed(self):
-		return self.participant.vars['show_transition_3']
+
 	def before_next_page(self):
 		self.participant.vars['show_transition_3'] = False
 	
@@ -349,9 +334,6 @@ class second_task_page(Page):
 	
 	def get_timeout_seconds(self):
 		return self.participant.vars['out_of_time_second_task'] - time.time()
-	
-	def is_displayed(self):
-		return (self.participant.vars['show_second_task_next'] and (self.participant.vars['out_of_time_second_task'] - time.time() > 0))
 	
 	def vars_for_template(self):
 		#Function defining some of necessary info for displaying this page.
@@ -438,14 +420,11 @@ class second_task_page(Page):
 			self.participant.vars['show_transition_4'] = True
 
 class transition_page_4(Page):
-	def is_displayed(self):
-		return self.participant.vars['show_transition_4']
+
 	def before_next_page(self):
 		self.participant.vars['show_transition_4'] = False	
 		
 class Results(Page):
-	def is_displayed(self):
-		return (self.participant.vars['show_results_page_next'] and (self.participant.vars['out_of_time_second_task']-time.time()<=0))
 		
 	def before_next_page(self):
 		self.participant.vars['show_results_page_next'] = False
@@ -484,9 +463,7 @@ class Results(Page):
 		}
 		
 class transition_page_5(Page):
-	def is_displayed(self):
-		return self.participant.vars['show_transition_5']
-		
+
 	def before_next_page(self):
 		self.participant.vars['show_transition_5'] = False
 		
@@ -494,11 +471,7 @@ class transition_page_5(Page):
 class risk_task(Page):
 
 	form_model='player'
-	form_fields=['risk_choice']
-	
-	def is_displayed(self):
-		return self.participant.vars['show_risk_task']
-		
+	form_fields=['risk_choice']	
 		
 	def before_next_page(self):
 		self.participant.vars['show_risk_task'] = False
@@ -543,9 +516,6 @@ class cog_reflect_one(Page):
 
 	form_model='player'
 	form_fields=['cog_reflect_one_input']
-	
-	def is_displayed(self):
-		return self.participant.vars['show_cog_reflect_one']
 		
 	def before_next_page(self):	
 		
@@ -562,8 +532,7 @@ class cog_reflect_one(Page):
 class cog_reflect_two(Page):
 	form_model='player'
 	form_fields=['cog_reflect_two_input']
-	def is_displayed(self):
-		return self.participant.vars['show_cog_reflect_two']
+
 	def before_next_page(self):	
 		
 		self.participant.vars['show_cog_reflect_two'] = False
@@ -580,8 +549,7 @@ class cog_reflect_two(Page):
 class cog_reflect_three(Page):
 	form_model='player'
 	form_fields=['cog_reflect_three_input']
-	def is_displayed(self):
-		return self.participant.vars['show_cog_reflect_three']
+
 	def before_next_page(self):	
 		self.participant.vars['show_cog_reflect_three'] = False
 		self.participant.vars['show_survey_next'] = True
@@ -599,8 +567,7 @@ class survey(Page):
 	form_model='player'
 	form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income',
 	'credit_card','smoke','alcohol','parent_education','year_in_school']
-	def is_displayed(self):
-		return self.participant.vars['show_survey_next']
+
 	def vars_for_template(self):
 		return{
 			'debug' : settings.DEBUG
@@ -628,8 +595,6 @@ class survey(Page):
 		
 		
 class finalPage(Page):
-	def is_displayed(self):
-		return self.participant.vars['show_final_page']
 		
 	def vars_for_template(self):
 		earningsGREEN = self.participant.vars['problems_correct_second_task']
