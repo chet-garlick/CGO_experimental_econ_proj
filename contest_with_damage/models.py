@@ -59,7 +59,6 @@ class Player(BasePlayer):
 	)
 	
 	def set_payoff(self, other_bid):
-		print(self.round_number)
 		if (self.is_winner and self.round_number!=1):
 			self.player_cash = self.in_round(self.round_number-1).player_cash + (self.group.item_value - self.bid_amount - other_bid)
 		elif(self.is_winner and self.round_number==1):

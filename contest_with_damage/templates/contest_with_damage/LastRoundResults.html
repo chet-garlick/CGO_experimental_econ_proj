@@ -1,41 +1,38 @@
 {% extends "global/Page.html" %}
 {% load otree %}
 
-{% block title %}
-    Results
-{% endblock %}
-
 {% block content %}
-
+	<h4>Results and Round History</h4>
     <p>
         {% if player.is_winner %}
-            You won the auction!
+            You won this round's auction!
             {% if is_greedy %}
                 However, your bid amount was higher than the actual value of the item. Your payoff is therefore zero.
             {% endif %}
         {% else %}
-            You did not win the auction.
+            You did not win the auction this round.
         {% endif %}
-    </p>
+		<br>
+		Your remaining cash: ${{player.player_cash}}
+	
+	</p>
+	
 
-    <table class="table" style="width:400px">
-
+    <table class="table">
         <tr>
-			<th>Player Cash</th>
-            <th>Your bid</th>
+            <th>Round</th>
             <th>Winning Bid</th>
 			<th>Losing Bid</th>
-            <th>Actual value</th>
+			<th>Item Value</th>
         </tr>
-
-    <tr>
-		<td>{{player.player_cash}}</td>
-        <td>{{ player.bid_amount }}</td>
-        <td>{{ group.highest_bid }}</td>
-		<td>{{group.lowest_bid}}</td>
-        <td>{{ group.item_value }}</td>
-    </tr>
-
+        {% for g in group_in_all_rounds %}
+            <tr>
+                <td>{{ g.round_number }}</td>
+				<td>{{g.highest_bid}}</td>
+				<td>{{g.lowest_bid}}</td>
+				<td> {{g.item_value}}</td>
+            </tr>
+        {% endfor %}
     </table>
 
     {% next_button %}

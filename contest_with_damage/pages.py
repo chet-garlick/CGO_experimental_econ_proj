@@ -14,8 +14,6 @@ class Bid(Page):
 	form_fields = ['bid_amount']
 	def is_displayed(self):
 		return self.participant.vars['bid_stage']
-	
-	
 
 class PostBidWaitPage(WaitPage):
 	def after_all_players_arrive(self):
@@ -28,9 +26,10 @@ class PostBidWaitPage(WaitPage):
 class LastRoundResults(Page):
 	def vars_for_template(self):
 		return {
-			'is_greedy': self.group.item_value - self.player.bid_amount < 0
-}
-class FinalResults(Page):
+			'is_greedy': self.group.item_value - self.player.bid_amount < 0,
+			'group_in_all_rounds':self.group.in_all_rounds(),
+		}
+class FinalPage(Page):
 	def	is_displayed(self):
 		return self.player.round_number == Constants.num_rounds
 
@@ -40,5 +39,5 @@ page_sequence = [
 	Bid,
     PostBidWaitPage,
 	LastRoundResults,
-	FinalResults,
+	FinalPage,
 ]
