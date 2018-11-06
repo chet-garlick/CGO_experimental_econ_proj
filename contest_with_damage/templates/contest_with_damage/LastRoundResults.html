@@ -6,14 +6,11 @@
     <p>
         {% if player.is_winner %}
             You won this round's auction!
-            {% if is_greedy %}
-                However, your bid amount was higher than the actual value of the item. Your payoff is therefore zero.
-            {% endif %}
         {% else %}
             You did not win the auction this round.
         {% endif %}
 		<br>
-		Your remaining cash: ${{player.player_cash}}
+		Your remaining cash: {{player.player_cash}}
 	
 	</p>
 	
