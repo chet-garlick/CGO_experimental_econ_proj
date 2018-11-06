@@ -12,8 +12,6 @@
             You won the auction!
             {% if is_greedy %}
                 However, your bid amount was higher than the actual value of the item. Your payoff is therefore zero.
-            {% elif player.payoff == 0 %}
-                Your payoff, however, is zero.
             {% endif %}
         {% else %}
             You did not win the auction.
@@ -23,17 +21,19 @@
     <table class="table" style="width:400px">
 
         <tr>
+			<th>Player Cash</th>
             <th>Your bid</th>
-            <th>Winning bid</th>
+            <th>Winning Bid</th>
+			<th>Losing Bid</th>
             <th>Actual value</th>
-            <th>Your payoff</th>
         </tr>
 
     <tr>
+		<td>{{player.player_cash}}</td>
         <td>{{ player.bid_amount }}</td>
         <td>{{ group.highest_bid }}</td>
+		<td>{{group.lowest_bid}}</td>
         <td>{{ group.item_value }}</td>
-        <td>{{ player.payoff }}</td>
     </tr>
 
     </table>

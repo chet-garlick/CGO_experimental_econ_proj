@@ -3,31 +3,42 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 class start(Page):
-	pass
+	def is_displayed(self):
+		return (self.player.round_number==1)
+	def before_next_page(self):
+		self.participant.vars['bid_stage'] = True
+		self.participant.vars['result_stage'] = False
 
 class Bid(Page):
-    form_model = 'player'
-    form_fields = ['bid_amount']
+	form_model = 'player'
+	form_fields = ['bid_amount']
+	def is_displayed(self):
+		return self.participant.vars['bid_stage']
+	
 	
 
-class ResultsWaitPage(WaitPage):
-
+class PostBidWaitPage(WaitPage):
 	def after_all_players_arrive(self):
 		self.group.set_winner()
 		for p in self.group.get_players():
-			p.set_payoff()
+			if p.is_winner: p.set_payoff(self.group.lowest_bid)
+			else: p.set_payoff(self.group.highest_bid)
 
 
-class Results(Page):
+class LastRoundResults(Page):
 	def vars_for_template(self):
 		return {
 			'is_greedy': self.group.item_value - self.player.bid_amount < 0
 }
+class FinalResults(Page):
+	def	is_displayed(self):
+		return self.player.round_number == Constants.num_rounds
 
 
 page_sequence = [
     start,
 	Bid,
-    ResultsWaitPage,
-    Results
+    PostBidWaitPage,
+	LastRoundResults,
+	FinalResults,
 ]
