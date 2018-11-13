@@ -46,7 +46,7 @@
 	
 	
 	<p>        
-		Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.
+		Please count the number of ones in the table below. Type your answer into the box, and click the Submit button.
     </p>
 
 	<table id="task">
@@ -109,6 +109,15 @@
 				alert("An error has occurred. Please only input a number.");	
 			}
 		});
+        
+        $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                    }
+            });
+        });
 
 	</script>
 {%endblock%}
