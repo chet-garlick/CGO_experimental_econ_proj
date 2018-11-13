@@ -37,30 +37,6 @@ class Constants(BaseConstants):
 	players_per_group = None
 	num_rounds = 1
 
-def score_first_task(id,input,sol):
-	player = Player.objects.get(pk=id)
-	player.problems_attempted_first_task+=1
-	if(int(input)==int(sol)):
-		player.problems_correct_first_task+=1
-	player.save()
-	
-def score_second_task(id,input,sol):
-	player = Player.objects.get(pk=id)
-	player.problems_attempted_second_task+=1
-	if(int(input)==int(sol)):
-		player.problems_correct_second_task+=1
-	player.save()
-	
-def get_data(id):
-	player = Player.objects.get(pk=id)
-	data={
-		"num_correct_first_task": player.problems_correct_first_task,
-		"num_correct_second_task": player.problems_correct_second_task,
-		"investment_choice":player.investment_choice,
-	}
-	return data
-	
-
 class Subsession(BaseSubsession):
 	pass
 class Group(BaseGroup):
