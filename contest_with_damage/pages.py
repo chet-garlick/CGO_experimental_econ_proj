@@ -27,10 +27,7 @@ class LastRoundResults(Page):
     def vars_for_template(self):
         partner = self.player.get_partner()
         return {
-            'group_in_all_rounds':self.group.in_all_rounds(),
-            'self_in_all_rounds':self.player.in_all_rounds(),
-            'other_player':partner.in_all_rounds(),
-            'subsession_in_all_rounds':self.subsession.in_all_rounds(),
+            'player_history':self.player.in_all_rounds(),
         }
 class FinalPage(Page):
     def is_displayed(self):

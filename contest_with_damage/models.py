@@ -41,12 +41,19 @@ class Group(BaseGroup):
         players_with_highest_bid = [p for p in players if p.bid_amount == self.highest_bid] #This matches the players who submitted the highest bid with that bid amount so that we can set the winner.
         winner = random.choice( players_with_highest_bid )  #This randomly selects one player from among the list of players who have the highest bid. This is to account for the situation where both players input the same bid. 
         winner.is_winner = True #Accesses the winning player, and sets their is_winner variable to true.
-
+        players.remove(winner)
+        loser=players[0]
+        winner.others_bid_amount = self.lowest_bid
+        loser.others_bid_amount = self.highest_bid
 
 class Player(BasePlayer):
     bid_amount = models.CurrencyField( #variable to hold the submitted bit amount for each player each round.
         min=Constants.min_allowable_bid, max=Constants.max_allowable_bid,
-        doc="""Amount bidded by the player"""
+        doc="""Amount bid by the player"""
+    )
+    
+    others_bid_amount = models.CurrencyField(
+        doc="""Amount bid by the player's oppoenent."""
     )
     
     is_winner = models.BooleanField( #variable to hold whether or not the player won that round. Defaults to false, AKA to a loss. It is changed by the set_winner function in the Group model.

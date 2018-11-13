@@ -18,16 +18,16 @@
     <table class="table">
         <tr>
             <th>Round</th>
-            <th>Winning Bid</th>
-			<th>Losing Bid</th>
-			<th>Item Value</th>
+            <th>Your Bid</th>
+			<th>Opponent's Bid</th>
+			<th>Did you win?</th>
         </tr>
-        {% for g in group_in_all_rounds %}
+        {% for p in player_history %}
             <tr>
-                <td>{{ g.round_number }}</td>
-				<td>{{g.highest_bid}}</td>
-				<td>{{g.lowest_bid}}</td>
-				<td> {{g.item_value}}</td>
+                <td>{{p.round_number}}</td>
+				<td>{{p.bid_amount}}</td>
+				<td>{{p.others_bid_amount}}</td>
+				<td>{%if p.is_winner%} You Won! {% else %} You Lost. {% endif %}</td>
             </tr>
         {% endfor %}
     </table>
