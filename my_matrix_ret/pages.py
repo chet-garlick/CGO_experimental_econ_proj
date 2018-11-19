@@ -290,7 +290,12 @@ class second_task_page(Page):
         }
 
 class transition_page_4(Page):
-    pass
+
+    form_model='player'
+    form_fields=['inputted_card_color']
+    def error_message(self,values):
+        if(values['inputted_card_color']!=self.player.card_color):
+            return ("That seems to be incorrect. Please try again.")
         
 class Results(Page):
         
@@ -332,16 +337,16 @@ class risk_task(Page):
             
     def vars_for_template(self):
         self.participant.vars['lotteries'] =  [[0]*2 for i in range(5)]
-        self.participant.vars['lotteries'][0][0] = c(16.00)
-        self.participant.vars['lotteries'][0][1] = c(16.00)
-        self.participant.vars['lotteries'][1][0] = c(12.00)
-        self.participant.vars['lotteries'][1][1] = c(24.00)
-        self.participant.vars['lotteries'][2][0] = c(8.00)
-        self.participant.vars['lotteries'][2][1] = c(32.00)
-        self.participant.vars['lotteries'][3][0] = c(4.00)
-        self.participant.vars['lotteries'][3][1] = c(40.00)
+        self.participant.vars['lotteries'][0][0] = c(4.00)
+        self.participant.vars['lotteries'][0][1] = c(4.00)
+        self.participant.vars['lotteries'][1][0] = c(3.00)
+        self.participant.vars['lotteries'][1][1] = c(6.00)
+        self.participant.vars['lotteries'][2][0] = c(2.00)
+        self.participant.vars['lotteries'][2][1] = c(8.00)
+        self.participant.vars['lotteries'][3][0] = c(2.00)
+        self.participant.vars['lotteries'][3][1] = c(10.00)
         self.participant.vars['lotteries'][4][0] = c(0.00)
-        self.participant.vars['lotteries'][4][1] = c(48.00)
+        self.participant.vars['lotteries'][4][1] = c(12.00)
         
         return{
          'option1A':self.participant.vars['lotteries'][0][0],
@@ -391,7 +396,7 @@ class cog_reflect_three(Page):
             
 class survey(Page):
     form_model='player'
-    form_fields=['gender','major','age','ethnicity','civil_status','employment','insurance','annual_income',
+    form_fields=['gender','major','age','ethnicity','marital_status','employment','insurance','annual_income',
     'credit_card','smoke','alcohol','parent_education','year_in_school']
 
     def vars_for_template(self):
