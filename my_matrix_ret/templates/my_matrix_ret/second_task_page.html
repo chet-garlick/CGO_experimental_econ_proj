@@ -27,23 +27,28 @@
 {% block content %}
 
 	<table id="earns">
+    
+        <th>Source of Earnings</th> <th>Amount in $</th>
 		<tr>
 			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
 		</tr>
 		<tr>
 			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff}}  </td> 
 		</tr>
-		<tr>
-			<td> This is Task 2, and you solved <span id="num_correct_second_task"> {{num_correct_second_task}} </span> tables so far. </td> 
-		</tr>
-		<tr>
-			<td> If your card color was RED: </td> <td id="earningsRED"> {{ earningsRED }}</td>
-		</tr>
-		<tr>
-			<td> If your card color was GREEN: </td> <td id="earningsGREEN"> {{earningsGREEN}}	</td>
-		</tr>
 		
 	</table>
+    <br>
+    <br>
+    <table id="earns">
+        <th> Potential earnings from this part of the experiment, you have solved <span id="num_correct_second_task"> {{num_correct_second_task}} </span> tables so far. </th> <th> Amount in $</th>
+		<tr>
+			<td> If your card color is RED: </td> <td id="earningsRED"> {{ earningsRED }}</td>
+		</tr>
+		<tr>
+			<td> If your card color is GREEN: </td> <td id="earningsGREEN"> {{earningsGREEN}}	</td>
+		</tr>
+    
+    </table>
 	
 	<p>        
 		Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.

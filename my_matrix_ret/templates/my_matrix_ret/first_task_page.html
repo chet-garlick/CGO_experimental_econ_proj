@@ -26,24 +26,32 @@
 {% block content %}
 
 	<table id="earns">
-		<tr>
+    
+		<th>Source of Earnings</th> <th>Amount in $</th>
+        <tr>
 			<td> Participation Fee </td> <td> {{ participation_fee }} </td>
 		</tr>
 		<tr>
 			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff}}  </td> 
 		</tr>
-		<tr>
-			<td> If this were Task 2, and you solved <span id="num_correct_first_task">{{ num_correct_first_task }} </span> tables,</td> 
-		</tr>
-		<tr>
-			<td> if your card color was RED: </td> <td id="pay_if_red_card"> {{ if_second_task_red_card }} </td>
-		</tr>
-		<tr>
-			<td> if your card color was GREEN: </td> <td id="pay_if_green_card"> {{ if_second_task_green_card }} </td>
-		</tr>
-		
+
 	</table>
-	
+    
+    <br>
+    <br>
+    
+    <table id="earns">
+        <th>Potential Earnings If This Were Task 2 and you solved <span id="num_correct_first_task">{{ num_correct_first_task }} </span> tables</th> <th>Amount in $</th>
+        <tr>
+			<td> If your card color was RED: </td> <td id="pay_if_red_card"> {{ if_second_task_red_card }} </td>
+		</tr>
+		<tr>
+			<td> If your card color was GREEN: </td> <td id="pay_if_green_card"> {{ if_second_task_green_card }} </td>
+		</tr>
+    </table>
+    
+	<br>
+    <br>
 	
 	<p>        
 		Please count the number of ones in the table below. Type your answer into the box, and click the Submit button.
