@@ -1,0 +1,13 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+	<h5>
+        From the lottery in the last page, you earned {{player.risk_payment}}.
+    </h5>
+	{% next_button %}
+
+{% endblock %}

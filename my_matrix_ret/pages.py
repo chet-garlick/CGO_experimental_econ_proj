@@ -361,6 +361,9 @@ class risk_task(Page):
          'option5B':self.participant.vars['lotteries'][4][1]        
         }   
         
+class transition_page_6(Page):
+    pass
+        
 class cog_reflect_one(Page):
 
     form_model='player'
@@ -429,6 +432,7 @@ page_sequence = [
     waitpage,
     transition_page_5,
     risk_task,
+    transition_page_6,
     cog_reflect_one,
     cog_reflect_two,
     cog_reflect_three,

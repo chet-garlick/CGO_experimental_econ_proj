@@ -6,13 +6,13 @@
 
 {% block content %}
 
-    <p>
-       <p> {% formfield player.inputted_card_color label = "Please select your card color from the menu."%} </p>
-    </p>
+    <h5>
+       {% formfield player.inputted_card_color label = "Please select your card color from the menu."%}
+    </h5>
 
-	<p>
+	<h5>
 		You will now see the results and your earnings from the experiment so far.
-	</p>
+	</h5>
 	{% next_button %}
 
 {% endblock %}

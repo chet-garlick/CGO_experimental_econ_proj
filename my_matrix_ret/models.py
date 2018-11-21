@@ -15,7 +15,6 @@ class Constants(BaseConstants):
     red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
     message_version = 1 #This setting controls which version of the message page the participants will see. 
 
-
     participation_fee = 1.0 #This is the aomunt user participant earns for showing up.
     first_task_payoff = 1.0 #This is the flat amount each participant earns during the first section.
     card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
@@ -61,7 +60,6 @@ class Player(BasePlayer):
             payoff = payoff - Constants.investment_cost
             
         self.payoff = payoff
-
         
     total_payoff = models.FloatField(
         doc="The total dollar amount the participant earned by being a part of the experiment",
@@ -116,7 +114,8 @@ class Player(BasePlayer):
     )
     
     risk_payment=models.CurrencyField(
-        doc = "Payment received for the participants risk choice."
+        doc = "Payment received for the participants risk choice.",
+        initial=0
     )
     
     message_page_version = models.PositiveIntegerField(
@@ -209,7 +208,11 @@ class Player(BasePlayer):
     
     annual_income = models.FloatField(
         doc = "Self-reported household annual income of participant.",
-        choices = [ 'category1','category2','category3','category4','category5','category6','category7',
+        choices = [ '$0-$5,000','$5,001-$10,000','$10,001-$15,000','$15,001-$20,000','$20,001-$25,000','$25,001-$30,000',
+        '$30,001-$35,000','$35,001-$40,000','$40,001-$45,000','$45,001-$50,000','$50,001-$55,000',
+        '$55,001-$60,000','$60,001-$65,000','$65,001-$70,000','$70,001-$75,000','$75,001-$80,000','$80,001-$85,000',
+        '$85,001-$90,000','$90,001-$95,000','$95,001-$100,000','$100,001-$105,000','$105,001-$110,000',
+        '$110,001-$115,000','$115,001-$120,000','$120,001-$125,000','Greater Than $125,000',
         ]
     )
     
@@ -238,7 +241,5 @@ class Player(BasePlayer):
     
     year_in_school = models.StringField(
         doc = "What year of their college education is the participant currently in?",
-        choices = ['Freshman','Sophomore','Junior','Senior', '5th year or more']
+        choices = ['Not A Student','Freshman','Sophomore','Junior','Senior', '5th year or more']
     )
-    
-    
