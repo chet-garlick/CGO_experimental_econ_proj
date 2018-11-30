@@ -14,6 +14,12 @@ class Bid(Page):
     form_fields = ['bid_amount']
     def is_displayed(self):
         return self.participant.vars['bid_stage']
+        
+    def vars_for_template(self):
+        partner = self.player.get_partner()
+        return {
+            'player_history':self.player.in_all_rounds(),
+        }
 
 class PostBidWaitPage(WaitPage):
     def after_all_players_arrive(self):

@@ -6,11 +6,32 @@
 {% endblock %}
 
 {% block content %}
-
+    {%if player.round_number > 1%}
+    <table class="table">
+        <tr>
+            <th>Round</th>
+            <th>Your Bid</th>
+			<th>Opponent's Bid</th>
+			<th>Did you win?</th>
+        </tr>
+        {% for p in player_history %}
+            {% if not forloop.last %}
+            <tr>
+                <td>{{p.round_number}}</td>
+				<td>{{p.bid_amount}}</td>
+				<td>{{p.others_bid_amount}}</td>
+				<td>{%if p.is_winner%} You Won! {% else %} You Lost. {% endif %}</td>
+            </tr>
+            {%endif%}
+        {% endfor %}
+    </table>
+    {%endif%}
     <p>
-        The value of the item is {{Constants.item_value}}
+        The value of the item is {{Constants.item_value}}.
+    <br>
+        The current round is {{player.round_number}}.
     </p>
-
+    
     <p>
         Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}.
     </p>
