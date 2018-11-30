@@ -3,6 +3,27 @@
 
 {% block content %}
 	<h4>Results and Round History</h4>
+    
+    <p>
+    
+    Your bid was {{player.bid_amount}}.
+    <br>
+    Your opponent's bid was {{player.others_bid_amount}}.
+    <br>
+    {%if player.is_winner%}
+        You obtained the good because your bid was highest.
+    {%else%}
+        You did not obtain the good because your opponent's bid was higher.
+    {%endif%}
+    <br>
+    Your payoff is:
+    <br>
+    {%if player.is_winner%} {{Constants.item_value}} {%else%} 0 {%endif%} - &#945; * {{player.bid_amount}} - &#946; * {{player.others_bid_amount}} = {{player.round_payoff}}
+    
+    
+    </p>
+    
+    
     <p>
         {% if player.is_winner %}
             You won this round's auction!

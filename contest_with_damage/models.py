@@ -18,6 +18,8 @@ class Constants(BaseConstants):
     num_rounds = 3
     min_allowable_bid = 0
     max_allowable_bid = 10
+    beta = 1 #IMPORTANT PARAMETERS
+    alpha = 1 #IMPORTANT PARAMETERS
     item_value = 5 #value of the item that participants are competing for. In this case, this will be held constant throughout the experiment.
     initial_player_cash = 10 #some initial starting value for the amount of money participants start with.
     players_per_group = 2 
@@ -65,16 +67,23 @@ class Player(BasePlayer):
         initial = Constants.initial_player_cash
     )
     
+    round_payoff = models.CurrencyField(
+        initial = 0
+    )
     def set_payoff(self, other_bid): #This function determines the amount of remaining cash a player has at the end of each round. It is also passed the parameter other_bid, which is the value of the other player's bid that round. 
         #We need to handle things differently if A, the player won that round and B, it is the first round or not.
         if (self.is_winner and self.round_number!=1):  #For rounds past round 1, the winner's remaining cash is their amount of cash last round plus the value of the good minus their bid minus their oppoenents bid.
-            self.player_cash = self.in_round(self.round_number-1).player_cash + (self.group.item_value - self.bid_amount - other_bid)
+            self.round_payoff = self.group.item_value - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)        
+            self.player_cash = self.in_round(self.round_number-1).player_cash + self.round_payoff
         elif(self.is_winner and self.round_number==1): #For the first round, there is no previous round to access, so the winner's cash is the cash they have that round.
-            self.player_cash = self.player_cash + (self.group.item_value - self.bid_amount - other_bid)
+            self.round_payoff = self.group.item_value - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
+            self.player_cash = self.player_cash + self.round_payoff
         elif(not self.is_winner and self.round_number!=1): #For the player that is not the winner, is is exactly the same but they do not gain the item value. 
-            self.player_cash = self.in_round(self.round_number-1).player_cash - self.bid_amount - other_bid
+            self.round_payoff = 0 - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
+            self.player_cash = self.in_round(self.round_number-1).player_cash + self.round_payoff
         else:
-            self.player_cash = self.player_cash - self.bid_amount - other_bid
+            self.round_payoff = 0 - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
+            self.player_cash = self.player_cash + self.round_payoff
 
     def get_partner(self): #This function grabs the other player from the pair of players so we can build the history table.
         return self.get_others_in_group()[0]       
