@@ -77,16 +77,30 @@ class instructions_quiz_page(Page):
     form_model = 'player'
     form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']        
     def error_message(self,values):
+        is_error = False
+        questions_wrong=[]
         if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness*37):
-            return ("There was an issue with question one. Please try again.")
+            questions_wrong.append(1)
+            is_error = True
         if( float(values['instructions_quiz_input2'])!=Constants.green_card_payoff*37):
-            return ("There was an issue with question two. Please try again.")
+            questions_wrong.append(2)
+            is_error = True
         if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):
-            return ("There was an issue with question three. Please try again.")
+            questions_wrong.append(3)
+            is_error = True
         if( float(values['instructions_quiz_input4'])!=Constants.message_correlation):
-            return ("There was an issue with question four. Please try again.")
+            questions_wrong.append(4)
+            is_error = True
         if( float(values['instructions_quiz_input5'])!=Constants.red_card_modifier):
-            return ("There was an issue with question five. Please try again.")
+            questions_wrong.append(5)
+            is_error = True
+            
+        if(is_error):
+            questions_wrong_str = ""
+            for i in range(len(questions_wrong)):
+                if(i==0): questions_wrong_str = questions_wrong_str + str(questions_wrong[i])
+                else: questions_wrong_str = questions_wrong_str + ", " + str(questions_wrong[i])
+            return ("Please try again. There was a problem with question(s): " + questions_wrong_str )
     
 class waitpage(WaitPage):
     title_text = "Waiting"
