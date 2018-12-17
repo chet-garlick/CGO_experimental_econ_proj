@@ -22,10 +22,16 @@ def verify(request):
         player.problems_attempted_first_task+=1
         if(int(user_input)==int(solution)):
             player.problems_correct_first_task+=1
+            player.correct_last_round = True
+        else:
+            player.correct_last_round = False
     elif(version=="2"):
         player.problems_attempted_second_task+=1
         if(int(user_input)==int(solution)):
             player.problems_correct_second_task+=1
+            player.correct_last_round = True
+        else:
+            player.correct_last_round = False
         
     player.save()
     ints = []
@@ -38,7 +44,7 @@ def verify(request):
     earningsGREEN = Constants.green_card_payoff * player.problems_correct_second_task
     if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness - Constants.investment_cost 
     else: earningsRED = player.problems_correct_second_task * Constants.red_card_modifier
-    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED })  
+    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})  
     return JsonResponse(data)
 
 class start_page(Page):
@@ -82,7 +88,7 @@ class instructions_quiz_page(Page):
         if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness):
             questions_wrong.append(1)
             is_error = True
-        if( float(values['instructions_quiz_input2'])!=Constants.green_card_payoff*37-Constants.investment_cost):
+        if( float(values['instructions_quiz_input2'])!=round(Constants.green_card_payoff*37-Constants.investment_cost,2)):    
             questions_wrong.append(2)
             is_error = True
         if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):

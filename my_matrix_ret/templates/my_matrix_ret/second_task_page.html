@@ -40,7 +40,7 @@
     <br>
     <br>
     <table id="earns">
-        <th> Potential earnings from this part of the experiment, you have solved <span id="num_correct_second_task"> {{num_correct_second_task}} </span> tables so far. </th> <th> Amount in $</th>
+        <th> Earnings from this part of the experiment, you have solved <span id="num_correct_second_task"> {{num_correct_second_task}} </span> tables so far. </th> <th> Amount in $</th>
 		<tr>
 			<td> If your card color is RED: </td> <td id="earningsRED"> {{ earningsRED }}</td>
 		</tr>
@@ -49,7 +49,12 @@
 		</tr>
     
     </table>
-	
+    <br>
+    
+    <span id="correct_last_round">
+    
+    </span>
+	<br>
 	<p>        
 		Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.
     </p>
@@ -108,6 +113,11 @@
 						document.getElementById("earningsGREEN").innerHTML = r.toFixed(2);
 						var g = result.earningsGREEN;
 						document.getElementById("earningsRED").innerHTML = g.toFixed(2);
+                        if(result.correct_last_round){
+                            document.getElementById("correct_last_round").innerHTML="Your last answer was correct.";
+                        } else{
+                            document.getElementById("correct_last_round").innerHTML="Your last answer was incorrect.";
+                        }
 					},
 				});	
 			}else{

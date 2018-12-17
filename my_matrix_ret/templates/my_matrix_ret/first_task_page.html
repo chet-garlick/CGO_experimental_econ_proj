@@ -36,19 +36,11 @@
 		</tr>
 
 	</table>
-    
-    <br>
     <br>
     
-    <table id="earns">
-        <th>Potential Earnings If This Were Task 2 and you solved <span id="num_correct_first_task">{{ num_correct_first_task }} </span> tables</th> <th>Amount in $</th>
-        <tr>
-			<td> If your card color was RED: </td> <td id="pay_if_red_card"> {{ if_second_task_red_card }} </td>
-		</tr>
-		<tr>
-			<td> If your card color was GREEN: </td> <td id="pay_if_green_card"> {{ if_second_task_green_card }} </td>
-		</tr>
-    </table>
+    <span id="correct_last_round">
+    
+    </span>
     
 	<br>
     <br>
@@ -107,11 +99,13 @@
 						document.getElementById("s").value = result.solution;
 						document.getElementById("num_of_ones").value = '';
 						document.getElementById("num_correct_first_task").innerHTML = result.num_correct_first_task;
-						var r = result.num_correct_first_task * result.red_card_modifier;
-						document.getElementById("pay_if_red_card").innerHTML = r.toFixed(2);
-						var g = result.num_correct_first_task * result.green_card_payoff;
-						document.getElementById("pay_if_green_card").innerHTML = g.toFixed(2);
-					},
+                        
+                        if(result.correct_last_round){
+                            document.getElementById("correct_last_round").innerHTML="Your last answer was correct.";
+                        } else{
+                            document.getElementById("correct_last_round").innerHTML="Your last answer was incorrect.";
+                        }
+                    },
 				});	
 			}else{
 				alert("An error has occurred. Please only input a number.");	
