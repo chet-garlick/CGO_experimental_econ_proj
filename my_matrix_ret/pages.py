@@ -79,10 +79,10 @@ class instructions_quiz_page(Page):
     def error_message(self,values):
         is_error = False
         questions_wrong=[]
-        if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness*37):
+        if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness):
             questions_wrong.append(1)
             is_error = True
-        if( float(values['instructions_quiz_input2'])!=Constants.green_card_payoff*37):
+        if( float(values['instructions_quiz_input2'])!=Constants.green_card_payoff*37-Constants.investment_cost):
             questions_wrong.append(2)
             is_error = True
         if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):

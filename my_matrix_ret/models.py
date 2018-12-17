@@ -15,10 +15,10 @@ class Constants(BaseConstants):
     red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
     message_version = 1 #This setting controls which version of the message page the participants will see. 
 
-    participation_fee = 1.0 #This is the aomunt user participant earns for showing up.
-    first_task_payoff = 1.0 #This is the flat amount each participant earns during the first section.
+    participation_fee = 5.0 #This is the aomunt user participant earns for showing up.
+    first_task_payoff = 4.0 #This is the flat amount each participant earns during the first section.
     card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
-    investment_cost = 0.0 #This is the cost of investing to mitigate red-card losses.
+    investment_cost = 5.0 #This is the cost of investing to mitigate red-card losses.
     red_card_modifier = 0.02 #This is the amount earned per answer if no investment is made and the participant has a red card.
     investment_effectiveness = 0.10 #This is the amount earned per answer if the participant's card color is red and they chose to make the investment.
     #One treatment for the experiment is to set investment_effectiveness to c(.10) - which is 10 cents per correct question.
@@ -188,7 +188,7 @@ class Player(BasePlayer):
     
     ethnicity = models.StringField(
         doc = "Self-reported ethinicity of the participant.",
-        choices = ['White','Hispanic or Latino', 'African American', 'Native American or American Indian', 'Asian', 'Pacific Islander', 'Other']
+        choices = ['White','Hispanic or Latino', 'African American', 'Native American or American Indian', 'Asian', 'Pacific Islander', 'Other', 'Prefer Not To Answer']
     )
     
     marital_status = models.StringField(
@@ -206,7 +206,7 @@ class Player(BasePlayer):
         choices = ['Yes','No']
     )
     
-    annual_income = models.FloatField(
+    annual_income = models.StringField(
         doc = "Self-reported household annual income of participant.",
         choices = [ '$0-$5,000','$5,001-$10,000','$10,001-$15,000','$15,001-$20,000','$20,001-$25,000','$25,001-$30,000',
         '$30,001-$35,000','$35,001-$40,000','$40,001-$45,000','$45,001-$50,000','$50,001-$55,000',
