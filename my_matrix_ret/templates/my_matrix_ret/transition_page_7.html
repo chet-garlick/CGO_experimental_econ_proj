@@ -1,0 +1,56 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Your Results
+{% endblock %}
+
+{% block styles %}
+	<style>
+	#earns table, #earns th, #earns td, #earns tr {
+		border: 1px solid black;
+		padding: 10px;
+		text-align: center;
+	}
+	#earns tr:nth-child(even){background-color: #f2f2f2;}
+	</style>
+{% endblock %}
+
+{% block content %}
+
+    <h5>
+         At this point please continue on and answer some questions while we prepare your earnings.
+                
+    </h5>
+    <br>
+   	<table id="earns">
+        <th>Source of Earnings</th> <th>Amount in $</th>
+		<tr>
+			<td> Participation Fee </td> <td> {{ participation_fee |c}}  </td>
+		</tr>
+		<tr>
+			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff|c}}  </td> 
+		</tr>
+        <tr>
+            <td> Money Spent on Investment </td> <td> {{investment_spending|c}}  </td>
+        </tr>
+		<tr>
+			<td> Task 2: You solved {{num_correct_second_task}} tables and your card color was {{ player.card_color }}.</td>  <td> {{ second_task_earnings|c}} </td>
+		</tr>
+        
+        <tr>
+            <td> Lottery Payment </td> <td> {{player.risk_payment}} </td>
+        </tr>
+        
+        <tr>
+            <td>  Total  </td> <td>  {{total_prev_earnings|c}}   </td>
+        </tr>
+		
+	</table>
+    
+   <br>
+   
+    {% next_button %}
+{% endblock %}
+
+
