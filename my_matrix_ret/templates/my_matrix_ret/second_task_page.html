@@ -56,7 +56,7 @@
     </span>
 	<br>
 	<p>        
-		Please count the number of ones in the table below. Type your answer into the box, and click the Next button or press the Enter key.
+		Please count the number of ones in the table below. Type your answer into the box, and click the Next button.
     </p>
 	<table id="task">
 		<tr>
@@ -110,9 +110,9 @@
 						document.getElementById("num_correct_first_task").innerHTML = result.num_correct_first_task;
 						document.getElementById("num_correct_second_task").innerHTML = result.num_correct_second_task;
 						var r = result.earningsRED;
-						document.getElementById("earningsGREEN").innerHTML = r.toFixed(2);
+						document.getElementById("earningsRED").innerHTML = r.toFixed(2);
 						var g = result.earningsGREEN;
-						document.getElementById("earningsRED").innerHTML = g.toFixed(2);
+						document.getElementById("earningsGREEN").innerHTML = g.toFixed(2);
                         if(result.correct_last_round){
                             document.getElementById("correct_last_round").innerHTML="Your last answer was correct.";
                         } else{

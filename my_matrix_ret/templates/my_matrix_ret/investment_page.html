@@ -5,8 +5,8 @@
 {% block content %}
 	<h5>
 		Over the next 15 minutes you will continue to answer questions like you did previously. Now, however, the amount you earn per correct answer may be less if the color of the card in your envelope is red.
-        You have the opportunity to spend some of what your have earned so far in order to mitigate potential losses. </p>
-		<h5>Doing so costs {{ investment_cost | c}}, but, if your card color is RED, you will earn {{ investment_effectiveness | c }} per question instead of {{ red_card_modifier | c}}. </p>
+        You have the opportunity to spend some of what your have earned so far in order to mitigate potential losses. 
+		Doing so costs {{ investment_cost | c}}, but, if your card color is RED, you will earn {{ investment_effectiveness | c }} per question instead of {{ red_card_modifier | c}}.
 		
 		
 		{% formfield player.investment_choice label = "Would you like to do so?" %}

@@ -42,7 +42,7 @@ def verify(request):
         solution += tmp
             
     earningsGREEN = Constants.green_card_payoff * player.problems_correct_second_task
-    if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness - Constants.investment_cost 
+    if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness 
     else: earningsRED = player.problems_correct_second_task * Constants.red_card_modifier
     data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})  
     return JsonResponse(data)
@@ -236,6 +236,18 @@ class message(Page):
     
     def before_next_page(self):
         self.player.message_seen = True
+        
+    def vars_for_template(self):
+        message_color = self.player.card_color
+        if(self.player.message_alignment == False and message_color=='RED'):
+            message_color='GREEN'
+        elif(self.player.message_alignment==False and message_color=='GREEN'):
+            message_color='RED'            
+            
+        return {
+            'accuracy_level':Constants.card_message_correlation * 100,
+            'message_color':message_color,
+        }
 
     
 class investment_page(Page):
@@ -315,6 +327,7 @@ class transition_page_4(Page):
     form_fields=['inputted_card_color']
     def error_message(self,values):
         if(values['inputted_card_color']!=self.player.card_color):
+            self.player.card_color_input_ever_incorrect = True
             return ("That seems to be incorrect. Please try again.")
         
 class Results(Page):
