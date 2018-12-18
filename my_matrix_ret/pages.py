@@ -279,9 +279,13 @@ class second_task_page(Page):
         #Function defining some of necessary info for displaying this page.
         ints = self.participant.vars['int_list']
         earningsGREEN = self.player.problems_correct_second_task * Constants.green_card_payoff
-        if(self.player.investment_choice): earningsRED = self.player.problems_correct_second_task * Constants.investment_effectiveness
-        else: earningsRED = self.player.problems_correct_second_task * Constants.red_card_modifier
-        
+        if(self.player.investment_choice): 
+            earningsRED = self.player.problems_correct_second_task * Constants.investment_effectiveness
+            investment_spending = Constants.investment_cost * -1
+        else: 
+            earningsRED = self.player.problems_correct_second_task * Constants.red_card_modifier
+            investment_spending = 0
+            
         return {
             'problems_attempted_second_task':round(self.player.problems_attempted_second_task), 
             'num_correct_second_task': round(self.player.problems_correct_second_task),
@@ -319,6 +323,8 @@ class second_task_page(Page):
             'solution' : self.participant.vars['solution'],
             'version': 2,
             'id': self.player.pk,
+            'investment_spending':investment_spending,
+            'total_prev_earnings': Constants.first_task_payoff + Constants.participation_fee + investment_spending,
         }
 
 class transition_page_4(Page):
