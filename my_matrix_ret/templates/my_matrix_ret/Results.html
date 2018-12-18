@@ -21,20 +21,20 @@
    	<table id="earns">
         <th>Source of Earnings</th> <th>Amount in $</th>
 		<tr>
-			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
+			<td> Participation Fee </td> <td> {{ participation_fee |c}}  </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff}}  </td> 
+			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff|c}}  </td> 
 		</tr>
         <tr>
-            <td> Money Spent on Investment </td> <td> {{investment_spending}}  </td>
+            <td> Money Spent on Investment </td> <td> {{investment_spending|c}}  </td>
         </tr>
 		<tr>
-			<td> Task 2: You solved {{num_correct_second_task}} tables and your card color was {{ player.card_color }}.</td>  <td> {{ second_task_earnings}} </td>
+			<td> Task 2: You solved {{num_correct_second_task}} tables and your card color was {{ player.card_color }}.</td>  <td> {{ second_task_earnings|c}} </td>
 		</tr>
         
         <tr>
-            <td>  Total  </td> <td>  {{total_prev_earnings}}   </td>
+            <td>  Total  </td> <td>  {{total_prev_earnings|c}}   </td>
         </tr>
 		
 	</table>

@@ -30,16 +30,16 @@
     
         <th>Source of Earnings</th> <th>Amount in $</th>
 		<tr>
-			<td> Participation Fee </td> <td> {{ participation_fee }}  </td>
+			<td> Participation Fee </td> <td> {{ participation_fee|c }}  </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff}}  </td> 
+			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff|c}}  </td> 
 		</tr>
         <tr>
-            <td> Amount Spent on Investment </td> <td> {{investment_spending}} </td>
+            <td> Amount Spent on Investment </td> <td> {{investment_spending|c}} </td>
         </tr>
         <tr>
-            <td> Total </td> <td> {{total_prev_earnings}}  </td>
+            <td> Total </td> <td> {{total_prev_earnings|c}}  </td>
 		</tr>
 	</table>
     <br>
