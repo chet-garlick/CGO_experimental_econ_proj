@@ -12,7 +12,7 @@ doc = "Implementation of a real effort task that asks users to count to number o
 
 class Constants(BaseConstants):
 
-    red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
+    #red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
     message_version = 1 #This setting controls which version of the message page the participants will see. 
 
     participation_fee = 5.0 #This is the aomunt user participant earns for showing up.
@@ -30,8 +30,7 @@ class Constants(BaseConstants):
     #Setting it to 1 will give all users the option to choose whether or not they want the message.
     #Setting this to 2 will force all users to see the message.
     #Setting this to 3 will prevent all of the users from seeing the message at all.
-    message_correlation = .6
-    red_card_likelihood = .43
+    red_card_likelihood = .43 #This is the likelihood that the color of any given card is RED.
     name_in_url = 'my_matrix_ret'
     players_per_group = None
     num_rounds = 1
@@ -45,8 +44,15 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     def set_card_color(self):
-        if(self.id_in_group in Constants.red_card_participant_IDs):
-            self.card_color = 'RED'
+        
+        if(random.randint(0,100)<43):
+            self.card_color='RED'
+        
+        if(random.randint(0,100) > 60):
+            self.message_alignment = False
+        else:
+            self.message_alignment = True
+            
     def determine_payoff(self):
         payoff=Constants.participation_fee
         payoff+=Constants.first_task_payoff
@@ -71,9 +77,18 @@ class Player(BasePlayer):
         initial='GREEN',
     )
     
+    message_alignment = models.BooleanField(
+        doc= "Whether or not the message that the participant may or may not see shows them the same color as the card that is actually in their envelope.",
+    )
+    
     inputted_card_color = models.StringField(
         doc = "The participant's self-reported card color.",
         choices=['RED','GREEN'],
+    )
+    
+    card_color_input_ever_incorrect = models.BooleanField(
+        doc = "This saves whether or not the participant inputs the incorrect card color when they are asked to.", 
+        initial = False,
     )
     
     instructions_quiz_input1 = models.FloatField(
