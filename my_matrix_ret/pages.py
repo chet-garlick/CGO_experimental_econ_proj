@@ -342,12 +342,16 @@ class Results(Page):
         self.player.determine_payoff()
         
     def vars_for_template(self):    
-        if(self.player.card_color=='GREEN'): 
+        if(self.player.card_color=='GREEN'):
+            if(self.player.investment_choice): investment_spending = Constants.investment_cost * -1
+            else: investment_spending = 0
             second_task_earnings = self.player.problems_correct_second_task * Constants.green_card_payoff
         elif(self.player.card_color=='RED' and self.player.investment_choice):
             second_task_earnings = self.player.problems_correct_second_task * Constants.investment_effectiveness - Constants.investment_cost
+            investment_spending = Constants.investment_cost
         else:
             second_task_earnings = self.player.problems_correct_second_task * Constants.red_card_modifier
+            investment_spending = 0
     
         return {
             'num_correct_first_task': round(self.player.problems_correct_first_task),
@@ -357,7 +361,9 @@ class Results(Page):
             'card_color' : self.player.card_color,
             'second_task_earnings': round(second_task_earnings,2),
             'first_task_payoff' : Constants.first_task_payoff,  
-            'participation_fee' : Constants.participation_fee,          
+            'participation_fee' : Constants.participation_fee,  
+            'investment_spending':investment_spending,
+            'total_prev_earnings':Constants.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings
         }
         
 class transition_page_5(Page):
