@@ -407,7 +407,20 @@ class risk_task(Page):
         }   
         
 class transition_page_6(Page):
-    pass
+    def vars_for_template(self):
+        return{
+         'option1A':self.participant.vars['lotteries'][0][0],
+         'option1B':self.participant.vars['lotteries'][0][1],
+         'option2A':self.participant.vars['lotteries'][1][0],
+         'option2B':self.participant.vars['lotteries'][1][1],
+         'option3A':self.participant.vars['lotteries'][2][0],
+         'option3B':self.participant.vars['lotteries'][2][1],
+         'option4A':self.participant.vars['lotteries'][3][0],
+         'option4B':self.participant.vars['lotteries'][3][1],
+         'option5A':self.participant.vars['lotteries'][4][0],
+         'option5B':self.participant.vars['lotteries'][4][1]        
+        }   
+
         
 class cog_reflect_one(Page):
 

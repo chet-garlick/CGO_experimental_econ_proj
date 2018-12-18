@@ -4,10 +4,51 @@
 {% block title %}
 {% endblock %}
 
+{% block styles %}
+
+	<style>
+	#risk table, #risk th, #risk td, #risk tr {
+		border: 1px solid black; 
+		padding: 10px;
+		text-align: center;
+	}
+	
+	#risk tr:nth-child(even){background-color: #f2f2f2;}
+	
+	</style>
+
+{% endblock %}
+
 {% block content %}
 	<h5>
         From the lottery in the last page, you earned {{player.risk_payment}}.
+        
+        You chose option {{player.risk_choice}}.
     </h5>
+    <br>
+    
+    <table id="risk">
+    
+        <th> Option </th> <th> Payoff 1 </th> <th> Payoff 2 </th> 
+        
+        <tr> 
+            <td> #1 </td> <td> Payoff 1: {{option1A}} </td> <td> Payoff 2: {{option1B}} </td> 
+        </tr>
+        <tr> 
+            <td> #2 </td> <td> Payoff 1: {{option2A}} </td> <td> Payoff 2: {{option2B}} </td> 
+        </tr>
+        <tr>
+            <td> #3 </td> <td> Payoff 1: {{option3A}} </td> <td> Payoff 2: {{option3B}} </td>
+        </tr>
+        <tr>
+            <td> #4 </td> <td> Payoff 1: {{option4A}} </td> <td> Payoff 2: {{option4B}} </td> 
+        </tr>
+        <tr>
+            <td> #5 </td> <td> Payoff 1: {{option5A}} </td> <td> Payoff 2: {{option5B}} </td> 
+        </tr>
+    
+    </table>
+    <br>
 	{% next_button %}
 
 {% endblock %}
