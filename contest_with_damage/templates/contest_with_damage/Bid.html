@@ -1,10 +1,6 @@
 {% extends "global/Page.html" %}
 {% load otree %}
 
-{% block title %}
-    Make your Bid!
-{% endblock %}
-
 {% block styles %}
 <style>
 #row1{
@@ -29,7 +25,6 @@ justify-content: space-around;
 
 {% block content %}
     <div id="row1"> 
-
     <div id="column1">
     <p>
         The value of the item is {{Constants.item_value}}.
@@ -42,8 +37,8 @@ justify-content: space-around;
     </p>
 
 {% formfield player.bid_amount label="Bid amount" %}
+  {% next_button %} 
     </div>
-
     <div id="column2"> 
     {%if player.round_number > 1%}
    
@@ -70,7 +65,7 @@ justify-content: space-around;
     </div>
 
 
-</div>
-{% next_button %}
 
+
+</div>
 {%endblock%}
