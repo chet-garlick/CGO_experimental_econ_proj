@@ -5,8 +5,49 @@
     Make your Bid!
 {% endblock %}
 
+{% block styles %}
+<style>
+#row1{
+    display:flex;
+    flex-direction:row;
+justify-content: space-around;
+}
+
+#column1{
+    display:flex;
+    flex-direction:column;
+   
+}
+
+
+#column2{
+    display:flex;
+    flex-direction:column;
+}
+</style>
+{% endblock %}
+
 {% block content %}
+    <div id="row1"> 
+
+    <div id="column1">
+    <p>
+        The value of the item is {{Constants.item_value}}.
+    <br>
+        The current round is {{player.round_number}}.
+    </p>
+    
+    <p>
+        Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}.
+    </p>
+
+{% formfield player.bid_amount label="Bid amount" %}
+    </div>
+
+    <div id="column2"> 
     {%if player.round_number > 1%}
+   
+   
     <table class="table">
         <tr>
             <th>Round</th>
@@ -26,17 +67,10 @@
         {% endfor %}
     </table>
     {%endif%}
-    <p>
-        The value of the item is {{Constants.item_value}}.
-    <br>
-        The current round is {{player.round_number}}.
-    </p>
-    
-    <p>
-        Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}.
-    </p>
+    </div>
 
-{% formfield player.bid_amount label="Bid amount" %}
+
+</div>
 {% next_button %}
 
 {%endblock%}
