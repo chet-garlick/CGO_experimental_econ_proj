@@ -14,7 +14,7 @@ class Bid(Page):
     form_fields = ['bid_amount']
     def is_displayed(self):
         return self.participant.vars['bid_stage']
-        
+
     def vars_for_template(self):
         partner = self.player.get_partner()
         return {
@@ -35,9 +35,18 @@ class LastRoundResults(Page):
         return {
             'player_history':self.player.in_all_rounds(),
         }
+
+    def before_next_page(self):
+        if(self.round_number==Constants.num_rounds):
+            self.player.determine_total_payoff()
+
 class FinalPage(Page):
+
     def is_displayed(self):
         return self.player.round_number == Constants.num_rounds
+
+    def before_next_page(self):
+        self.player.determine_total_payoff()
 
 
 page_sequence = [

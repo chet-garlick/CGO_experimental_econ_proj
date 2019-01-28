@@ -23,7 +23,7 @@ SESSION_CONFIGS = [
 	{
 		'name': 'contest_with_damage',
 		'display_name': "Contest With Damage",
-		'num_demo_participants': 2,
+		'num_demo_participants': 20,
 		'app_sequence': ['contest_with_damage'],
 	},
 ]
