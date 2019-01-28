@@ -14,12 +14,11 @@ Your app description
 
 class Constants(BaseConstants):
     name_in_url = 'auction_with_spillover'
-    players_per_group = None
-    num_rounds = 3
+    num_rounds = 20
     min_allowable_bid = 0
     max_allowable_bid = 10
-    beta = 1 #IMPORTANT PARAMETERS
-    alpha = 1 #IMPORTANT PARAMETERS
+    beta = 1 #IMPORTANT PARAMETERS, determines magnitude of damage caused by one participant to another
+    alpha = 1 #IMPORTANT PARAMETERS, determines magnitude of damage caused by one participant to another
     item_value = 5 #value of the item that participants are competing for. In this case, this will be held constant throughout the experiment.
     initial_player_cash = 10 #some initial starting value for the amount of money participants start with.
     players_per_group = 2 

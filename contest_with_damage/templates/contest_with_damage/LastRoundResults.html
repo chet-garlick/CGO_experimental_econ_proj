@@ -1,11 +1,33 @@
 {% extends "global/Page.html" %}
 {% load otree %}
 
+{% block styles %}
+<style>
+#row1{
+    display:flex;
+    flex-direction:row;
+justify-content: space-around;
+}
+
+#column1{
+    display:flex;
+    flex-direction:column;
+   
+}
+
+
+#column2{
+    display:flex;
+    flex-direction:column;
+}
+</style>
+{% endblock %}
+
 {% block content %}
+   <div id = "row1">
+   <div id="column1">
 	<h4>Results and Round History</h4>
-    
     <p>
-    
     Your bid was {{player.bid_amount}}.
     <br>
     Your opponent's bid was {{player.others_bid_amount}}.
@@ -19,11 +41,7 @@
     Your payoff is:
     <br>
     {%if player.is_winner%} {{Constants.item_value}} {%else%} 0 {%endif%} - &#945; * {{player.bid_amount}} - &#946; * {{player.others_bid_amount}} = {{player.round_payoff}}
-    
-    
     </p>
-    
-    
     <p>
         {% if player.is_winner %}
             You won this round's auction!
@@ -32,9 +50,10 @@
         {% endif %}
 		<br>
 		Your remaining cash: {{player.player_cash}}
-	
-	</p>
-	
+    </p>
+    {% next_button %}
+    </div>
+    <div id="column2">
 
     <table class="table">
         <tr>
@@ -52,9 +71,9 @@
             </tr>
         {% endfor %}
     </table>
-
-    {% next_button %}
-
+    </div>
+   
+    </div>
 {% endblock %}
 
 
