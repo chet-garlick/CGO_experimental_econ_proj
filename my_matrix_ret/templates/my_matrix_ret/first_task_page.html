@@ -20,11 +20,14 @@
 		text-align: center;
 	}
 	#earns tr:nth-child(even){background-color: #f2f2f2;}
+	#next{
+	display: none;
+	}
 	</style> 
 
 {% endblock %}
 {% block content %}
-
+<p id="time">You have taken 0 minutes, and 0 seconds</p>
 	<table id="earns">
     
 		<th>Source of Earnings</th> <th>Amount in $</th>
@@ -44,8 +47,7 @@
     
 	<br>
     <br>
-	
-	<p>        
+	<p id="instructions">        
 		Please count the number of ones in the table below. Type your answer into the box, and click the Submit button.
     </p>
 
@@ -66,7 +68,6 @@
 			<td id="int20">{{ int20 }} </td> <td id="int21">{{ int21 }} </td> <td id="int22">{{ int22 }} </td> <td id="int23">{{ int23 }} </td> <td id="int24">{{ int24 }} </td>
 		</tr> <br>
 	</table>
-	
 	<br>
 	
 	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
@@ -74,14 +75,18 @@
 	<input type="hidden" name="user.input" id ="user.input"/>
 	<input type="hidden" name = "s" id="s" value = {{solution}}> 
 	<button type="button" id="submitButton"> Submit </button>
-	
+	<button type="hidden" class="otree-btn-next btn btn-primary" id="next"></button>
 	</form>
-
 {% endblock %}
 
 {% block scripts %}
 	<script>
-	
+	var time = 0;
+	var timer = document.getElementById("time");
+	window.setInterval(function(){
+	time++;
+  timer.innerHTML = "You have taken "+Math.floor(time/60)+" minutes, and "+time%60+" seconds";
+}, 1000);
 		$ ( " #submitButton " ).click(function() {
 			var user_input=$(" #num_of_ones ").val();
 			var s= $(" #s ").val()
@@ -99,13 +104,21 @@
 						document.getElementById("s").value = result.solution;
 						document.getElementById("num_of_ones").value = '';
 						document.getElementById("num_correct_first_task").innerHTML = result.num_correct_first_task;
-                        
+                        document.getElementById("first_task_payoff").innerHTML = "$"+result.first_task_payoff.toFixed(2);
                         if(result.correct_last_round){
                             document.getElementById("correct_last_round").innerHTML="Your last answer was correct.";
                         } else{
                             document.getElementById("correct_last_round").innerHTML="Your last answer was incorrect.";
                         }
+						if(result.first_task_payoff>=4.05){
+						 document.getElementById("task").style.visibility="hidden"; 
+						  document.getElementById("num_of_ones").style.visibility="hidden";
+						  document.getElementById("submitButton").style.visibility="hidden";
+						  document.getElementById("instructions").style.visibility="hidden";
+						setTimeout('document.getElementById("next").click();', 2000);
+					}
                     },
+
 				});	
 			}else{
 				alert("An error has occurred. Please only input a number.");	
@@ -120,6 +133,5 @@
                     }
             });
         });
-
 	</script>
 {%endblock%}

@@ -4,12 +4,15 @@
 
 {% block content %}
 	<h5>
-		Over the next 15 minutes you will continue to answer questions like you did previously. Now, however, the amount you earn per correct answer may be less if the color of the card in your envelope is red.
-        You have the opportunity to spend some of what your have earned so far in order to mitigate potential losses. 
-		Doing so costs {{ investment_cost | c}}, but, if your card color is RED, you will earn {{ investment_effectiveness | c }} per question instead of {{ red_card_modifier | c}}.
-		
-		
-		{% formfield player.investment_choice label = "Would you like to do so?" %}
+		You have the opportunity to use {{ investment_cost | c}} reduce the consequences if the card in the envelope happens to be RED. If the card happens to be RED and you use the {{ investment_cost | c}}, the grids are worth {{ investment_effectiveness | c }} each.  If the card happens to be RED and you do not use the {{ investment_cost | c}}, grids are worth {{red_card_modifier | c}}.
+		If the card happens to be GREEN, the grid earnings remain at $0.15 each with or without using {{ investment_cost | c}}. <br><br>
+	</h5>
+
+		<img src="{% static "imginvpg.JPG" %}" onerror="alert('Image Invpg Error')" height="152" width = "708"	 >
+	
+	
+	<h5>	
+		{% formfield player.investment_choice label = "Would you like to use $5.00 to reduce the consequences if the card in the envelope happens to be RED?" %}
 		
 		
     </h5>

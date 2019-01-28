@@ -7,9 +7,10 @@
 
 {% block content %}
 	<h5>
-		In your envelope, there is either a RED card or a GREEN card. There is a 43% chance it is RED and a 57% chance it is GREEN. There is information available to you regarding the color of the card, and this information is accurate 60% of the time. Would you like to see this information?
+		Before you see any grids, you must decide if you want to receive information about the color of the card in your envelope. The information will be correct {{prob}}% of the time and wrong {{prob2}}% of 
+		the time. Would you like to see this information?
 		
-		{% formfield player.message_choice  %}
+		{% formfield player.message_choice label = "Please make your choice below."  %}
 		
     </h5>
     {% next_button %}

@@ -17,12 +17,12 @@
 {% endblock %}
 
 {% block content %}
-	<p>
-        In the table below, you are presented with 5 different lotteries. 
-		In each lottery, the result is randomly picked and both Payoff 1 and Payoff 2 have a 50% probability to be chosen.
-		Please choose which game you would prefer to play in the dropdown menu below the table.
+	<h5>
+        In the table below, you are presented with 5 different options. <br><br>
+		In each option, you may earn either Payoff 1 or Payoff 2.  Payoff 1 or Payoff 2 will be randomly selected with each having a 50% chance of occurring.<br><br>
+		Below the table, please select your preferred option.<br><br>
 		
-	 </p>
+	 </h5>
 		
 		<table id="risk">
 		
@@ -46,8 +46,10 @@
 		
 		</table>
 		
+		<br>
 		
-		{% formfield player.risk_choice label = "Option Number:" %}
-  
+		<b>{% formfield player.risk_choice label = "Option Number:" %} </b>
+		
+		<br>
     {% next_button %}
 {% endblock %}

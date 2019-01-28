@@ -22,6 +22,7 @@ def verify(request):
         player.problems_attempted_first_task+=1
         if(int(user_input)==int(solution)):
             player.problems_correct_first_task+=1
+            player.first_task_payoff+=.15
             player.correct_last_round = True
         else:
             player.correct_last_round = False
@@ -44,7 +45,7 @@ def verify(request):
     earningsGREEN = Constants.green_card_payoff * player.problems_correct_second_task
     if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness 
     else: earningsRED = player.problems_correct_second_task * Constants.red_card_modifier
-    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})  
+    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'first_task_payoff':player.first_task_payoff, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})  
     return JsonResponse(data)
 
 class start_page(Page):
@@ -81,7 +82,7 @@ class start_page(Page):
         
 class instructions_quiz_page(Page):
     form_model = 'player'
-    form_fields=['instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']        
+    form_fields=['instructions_quiz_input6','instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']        
     def error_message(self,values):
         is_error = False
         questions_wrong=[]
@@ -94,13 +95,15 @@ class instructions_quiz_page(Page):
         if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):
             questions_wrong.append(3)
             is_error = True
-        if( float(values['instructions_quiz_input4'])!=Constants.message_correlation):
+        if(values['instructions_quiz_input6']!="After stage 2"): #didn't know what chet wanted the constant named
             questions_wrong.append(4)
             is_error = True
         if( float(values['instructions_quiz_input5'])!=Constants.red_card_modifier):
             questions_wrong.append(5)
             is_error = True
-            
+        if( float(values['instructions_quiz_input4'])!=100*Constants.card_message_correlation):
+            questions_wrong.append(6)
+            is_error = True
         if(is_error):
             questions_wrong_str = ""
             for i in range(len(questions_wrong)):
@@ -119,10 +122,6 @@ class transition_page_1(Page):
     
 class first_task_page(Page):
     form_model = 'player'
-    timer_text = 'Time left to solve problems:'
-
-    def get_timeout_seconds(self):
-        return self.participant.vars['out_of_time_first_task'] - time.time()
         
     def vars_for_template(self):
         #Function defining some of necessary info for displaying this page.
@@ -165,7 +164,7 @@ class first_task_page(Page):
             'earningsRED' : earningsRED,
             'earningsREDinvest' : earningsREDinvest,
             'participation_fee' : Constants.participation_fee,
-            'first_task_payoff' : Constants.first_task_payoff,
+            'first_task_payoff' : self.player.first_task_payoff,
             'if_second_task_red_card' : earningsRED,
             'if_second_task_green_card' : earningsGREEN,
             'id' : self.player.pk,
@@ -208,7 +207,8 @@ class message_page_1(Page):
             
     def is_displayed(self):
         return Constants.message_version==1
-    
+    def vars_for_template(self):
+        return {'prob': round(100*Constants.card_message_correlation), 'prob2': round(100-100*Constants.card_message_correlation)}
     
 class message_page_2(Page):
     def before_next_page(self):
@@ -218,7 +218,8 @@ class message_page_2(Page):
 
     def is_displayed(self):
         return Constants.message_version==2
-
+    def vars_for_template(self):
+        return {'prob': round(100*Constants.card_message_correlation), 'prob2': round(100-100*Constants.card_message_correlation)}
         
 class message_page_3(Page):
     def before_next_page(self):
@@ -318,13 +319,13 @@ class second_task_page(Page):
             'int24' : ints[24],
             'earningsGREEN' : earningsGREEN,
             'earningsRED' : earningsRED,
-            'first_task_payoff': Constants.first_task_payoff,
+            'first_task_payoff': self.player.first_task_payoff,
             'participation_fee': Constants.participation_fee,
             'solution' : self.participant.vars['solution'],
             'version': 2,
             'id': self.player.pk,
             'investment_spending':investment_spending,
-            'total_prev_earnings': Constants.first_task_payoff + Constants.participation_fee + investment_spending,
+            'total_prev_earnings': self.player.first_task_payoff + Constants.participation_fee + investment_spending,
         }
 
 class transition_page_4(Page):
@@ -360,10 +361,10 @@ class Results(Page):
             'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
             'card_color' : self.player.card_color,
             'second_task_earnings': round(second_task_earnings,2),
-            'first_task_payoff' : Constants.first_task_payoff,  
+            'first_task_payoff' : self.player.first_task_payoff,  
             'participation_fee' : Constants.participation_fee,  
             'investment_spending':investment_spending,
-            'total_prev_earnings':Constants.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings
+            'total_prev_earnings':self.player.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings
         }
         
 class transition_page_5(Page):
@@ -440,10 +441,10 @@ class transition_page_7(Page):
             'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
             'card_color' : self.player.card_color,
             'second_task_earnings': round(second_task_earnings,2),
-            'first_task_payoff' : Constants.first_task_payoff,  
+            'first_task_payoff' : self.player.first_task_payoff,  
             'participation_fee' : Constants.participation_fee,  
             'investment_spending':investment_spending,
-            'total_prev_earnings':Constants.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings + self.player.risk_payment
+            'total_prev_earnings':self.player.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings + self.player.risk_payment
         }
         
 class cog_reflect_one(Page):

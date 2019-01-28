@@ -5,13 +5,15 @@
 {% block content %}
         <h4>Please answer the following questions on the experiment's instructions. Please raise your hand if you need assistance. </h4>
 
-	<p>	{% formfield player.instructions_quiz_input1 label = "1. Suppose you choose to spend $5.00 to mitigate the damage a red card would cause. How many dollars would you expect to earn for every table you correctly solve in stage two of the experiment?" %} </p>
-	<p> {% formfield player.instructions_quiz_input2 label = "2. Suppose you correctly solve 37 counting exercises in stage two of the experiment. If the card in your envelope is GREEN, and you made the investment, what are your earnings in this stage of the experiment?" %} </p>
-	<p> {% formfield player.instructions_quiz_input3 label = "3. Suppose you correctly solve 37 counting exercises in stage two of the experiment. If the card in your envelope is RED, and you did not make the investment, what are your earnings in this stage of the experiment? " %} </p>
-	<p> {% formfield player.instructions_quiz_input4 label = "4. If the MESSAGE is RED, what is the likelihood that your card is also RED?" %} </p>
-	<p> {% formfield player.instructions_quiz_input5 label = "5. If you do not make the investment, and the card in your envelope is RED, how much do you earn for each correctly solved counting exercise in stage two of the experiment?" %} </p>
+	<p>	{% formfield player.instructions_quiz_input1 label = "1. Suppose you choose to use $5.00 to change the amount per grid that you would earn if you have a red card. If the card in your envelope is RED, how much would you earn for each grid solved correctly? Enter the amount you would earn per grid in the box below." %} </p>
+	<p> {% formfield player.instructions_quiz_input2 label = "2. Suppose you correctly solve 37 grids in stage two of the experiment. If the card in your envelope is GREEN, and you used $5.00 to change the amount per grid that you would earn if you have a red card, what are your total earnings in this stage of the experiment? Enter the total earnings you would earn in stage two in the box below." %} </p>
+	<p> {% formfield player.instructions_quiz_input3 label = "3. Suppose you correctly solve 37 grids in stage two of the experiment. If the card in your envelope is RED, and you did not use the $5.00 to change the amount per grid that you would earn if you have a red card, what are your total earnings in this stage of the experiment? Enter the total earnings you would earn in stage two in the box below." %} </p>
+	<p> {% formfield player.instructions_quiz_input6 label = "4. When will you be allowed to open your envelope?" %} </p>
+	<p> {% formfield player.instructions_quiz_input5 label = "5. If you do not use $5.00 to change the amount per grid that you would earn if you have a red card, and the card in your envelope is RED, how much do you earn for each correctly solved grid exercise in stage two of the experiment? Enter the amount you would earn per grid in the box below." %} </p>
+	<p> {% formfield player.instructions_quiz_input4 label = "6. If you see information about the color of the card in your envelope, what percentage of the time will that information be correct?" %} </p>
 	
-    {% next_button %}
+    
+	{% next_button %}
 {% endblock %}
 
 

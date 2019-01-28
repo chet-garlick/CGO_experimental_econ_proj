@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Your Results
+    Your Earnings
 {% endblock %}
 
 {% block styles %}
@@ -18,10 +18,7 @@
 
 {% block content %}
 
-    <h5>
-         At this point please continue on and answer some questions while we prepare your earnings.
-                
-    </h5>
+
     <br>
    	<table id="earns">
         <th>Source of Earnings</th> <th>Amount in $</th>
@@ -29,13 +26,13 @@
 			<td> Participation Fee </td> <td> {{ participation_fee |c}}  </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved {{num_correct_first_task}} tables  </td> <td> {{first_task_payoff|c}}  </td> 
+			<td> Task 1: You solved {{num_correct_first_task}} grids  </td> <td> {{first_task_payoff|c}}  </td> 
 		</tr>
         <tr>
             <td> Money Spent on Investment </td> <td> {{investment_spending|c}}  </td>
         </tr>
 		<tr>
-			<td> Task 2: You solved {{num_correct_second_task}} tables and your card color was {{ player.card_color }}.</td>  <td> {{ second_task_earnings|c}} </td>
+			<td> Task 2: You solved {{num_correct_second_task}} grids and your card color was {{ player.card_color }}.</td>  <td> {{ second_task_earnings|c}} </td>
 		</tr>
         
         <tr>
@@ -46,8 +43,11 @@
             <td>  Total  </td> <td>  {{total_prev_earnings|c}}   </td>
         </tr>
 		
-	</table>
-    
+	</table> <br><br>
+        <h5>
+         Press next to finish.  You will be asked to answer some questions while we prepare your earnings.
+                
+    </h5>
    <br>
    
     {% next_button %}

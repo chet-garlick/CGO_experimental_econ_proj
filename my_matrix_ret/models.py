@@ -16,7 +16,7 @@ class Constants(BaseConstants):
     message_version = 1 #This setting controls which version of the message page the participants will see. 
 
     participation_fee = 5.0 #This is the aomunt user participant earns for showing up.
-    first_task_payoff = 4.0 #This is the flat amount each participant earns during the first section.
+    #first_task_payoff = 4.0 #This is the flat amount each participant earns during the first section.
     card_message_correlation = 0.6 #This controls another one of the treatment variables, which affects the message that the user sees and how likely the message is to be correct.
     investment_cost = 5.0 #This is the cost of investing to mitigate red-card losses.
     red_card_modifier = 0.02 #This is the amount earned per answer if no investment is made and the participant has a red card.
@@ -55,7 +55,7 @@ class Player(BasePlayer):
             
     def determine_payoff(self):
         payoff=Constants.participation_fee
-        payoff+=Constants.first_task_payoff
+        payoff+=self.first_task_payoff
         if(self.card_color=='GREEN'):
             payoff+=Constants.green_card_payoff * self.problems_correct_second_task
         elif(self.card_color=='RED' and self.investment_choice):
@@ -104,6 +104,10 @@ class Player(BasePlayer):
     )
     
     instructions_quiz_input5 = models.FloatField(
+    )
+    
+    instructions_quiz_input6 = models.StringField(
+        choices=["After stage 1", "After stage 2", "After stage 3", "Never"]
     )
     
     correct_last_round = models.BooleanField(
@@ -160,7 +164,7 @@ class Player(BasePlayer):
         [False,'No'],
         ]
     )
-    
+    first_task_payoff = models.FloatField(initial=0)
     cog_reflect_one_input = models.FloatField(
         doc="User input for the first Cognitive Reflection Test Question.",
         min=0

@@ -21,9 +21,11 @@
 
 {% block content %}
 	<h5>
-        From the lottery in the last page, you earned {{player.risk_payment}}.
+        You chose option {{player.risk_choice}}. <br><br>
+		
+		The payoff for option {{player.risk_choice}} was randomly selected and you earned {{player.risk_payment}}.
         
-        You chose option {{player.risk_choice}}.
+        
     </h5>
     <br>
     
