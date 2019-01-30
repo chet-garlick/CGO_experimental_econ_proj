@@ -13,6 +13,7 @@ class Bid(Page):
     form_model = 'player'
     form_fields = ['bid_amount']
     def is_displayed(self):
+        pass
         return self.participant.vars['bid_stage']
 
     def vars_for_template(self):

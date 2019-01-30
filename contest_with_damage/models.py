@@ -19,10 +19,10 @@ class Constants(BaseConstants):
     payoff_rounds = random.sample(range(num_rounds),num_payoff_rounds) #payoff_rounds is a list of rounds that is randomly determined at the beginning of each experiment that will be the subset of rounds that the participants are paid for.
     min_allowable_bid = 0
     max_allowable_bid = 10
-    beta = 1 #IMPORTANT PARAMETERS, determines magnitude of damage caused by one participant to another
-    alpha = 1 #IMPORTANT PARAMETERS, determines magnitude of damage caused by one participant to another
+    delta = 1 #Damage parameter for the winner
+    theta = 1 #Damage parameter for the loser
     item_value = 5 #value of the item that participants are competing for. In this case, this will be held constant throughout the experiment.
-    initial_player_cash = 10 #some initial starting value for the amount of money participants start with.
+    initial_cash_per_round = 10 #some initial starting value for the amount of money participants start with.
     players_per_group = 2
 
 
@@ -66,35 +66,25 @@ class Player(BasePlayer):
     )
 
     player_cash = models.CurrencyField( #The remaining cash a player has.
-        initial = Constants.initial_player_cash
+        initial = 0
     )
 
     round_payoff = models.CurrencyField(
         initial = 0
     )
     total_payoff = models.CurrencyField(
-        initial = 0
+        initial = 0,
+        doc="""The total amount a player earns during the rounds that were determined to be payoff rounds."""
     )
-    def set_payoff(self, other_bid): #This function determines the amount of remaining cash a player has at the end of each round. It is also passed the parameter other_bid, which is the value of the other player's bid that round.
-        #We need to handle things differently if A, the player won that round and B, it is the first round or not.
-        if (self.is_winner and self.round_number!=1):  #For rounds past round 1, the winner's remaining cash is their amount of cash last round plus the value of the good minus their bid minus their oppoenents bid.
-            self.round_payoff = self.group.item_value - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
-            self.player_cash = self.in_round(self.round_number-1).player_cash + self.round_payoff
-        elif(self.is_winner and self.round_number==1): #For the first round, there is no previous round to access, so the winner's cash is the cash they have that round.
-            self.round_payoff = self.group.item_value - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
-            self.player_cash = self.player_cash + self.round_payoff
-        elif(not self.is_winner and self.round_number!=1): #For the player that is not the winner, is is exactly the same but they do not gain the item value.
-            self.round_payoff = 0 - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
-            self.player_cash = self.in_round(self.round_number-1).player_cash + self.round_payoff
-        else:
-            self.round_payoff = 0 - (Constants.alpha * self.bid_amount) - (Constants.beta * self.others_bid_amount)
-            self.player_cash = self.player_cash + self.round_payoff
+    def set_payoff(self, other_bid): #This function determines the amount of remaining cash a player has at the end of each round. It is determined by whether or not they won, how much cash is alloted to each player per round, the item value, and the amount each participant bid.
+        if (self.is_winner):
+            self.round_payoff = Constants.initial_cash_per_round + self.group.item_value -  self.bid_amount - (Constants.delta * self.others_bid_amount)
+        elif(not self.is_winner): #For the player that is not the winner, they do not gain the item value and they lose Theta times the others bid amount.
+            self.round_payoff = Constants.initial_cash_per_round -  self.bid_amount - (Constants.theta * self.others_bid_amount)
 
     def get_partner(self): #This function grabs the other player from the pair of players so we can build the history table.
         return self.get_others_in_group()[0]
 
-    def determine_total_payoff(self):
+    def determine_total_payoff(self): #This function loops over all of the rounds that were determined to be payoff rounds and totals the players earnings over those rounds. It runs at the end of the last round.
         for round in Constants.payoff_rounds:
             self.total_payoff += self.in_round(round).round_payoff
-
-        print("Total payoff: " + str(self.total_payoff))
