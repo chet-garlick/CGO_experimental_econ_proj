@@ -14,6 +14,7 @@ class Bid(Page):
         partner = self.player.get_partner()
         return {
             'player_history':self.player.in_all_rounds(),
+            'partner_history':partner.in_all_rounds(),
         }
 
 class PostBidWaitPage(WaitPage):
@@ -30,6 +31,7 @@ class LastRoundResults(Page):
         return {
             'player_history':self.player.in_all_rounds(),
             'partner_history':partner.in_all_rounds(),
+            'partner':partner,
         }
 
     def before_next_page(self):

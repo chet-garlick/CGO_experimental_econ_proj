@@ -37,16 +37,18 @@
     <br>
     The other participant's bid was {{player.others_bid_amount}}.
     <br>
-    Their loss factor was {{player.others_loss_factor}}
+    Their loss factor was {{partner.loss_factor}}
     <br>
-    They lost {{player.others_loss_from_your_bid}} as a result of your bid.
+    They lost {{partner.loss_from_others_bid}} as a result of your bid.
     <br>
-    Their payoff was {{player.others_payoff}}
+    Their payoff was {{partner.round_payoff}}
     <br>
     </p>
 
     {% next_button %}
     </div>
+
+
     <div id="column2">
 
     <table class="table">
@@ -57,10 +59,7 @@
             <th>Your Loss Factor</th>
             <th>Loss Resulting from Other's Bid</th>
             <th>Your Payoff</th>
-			      <th>Other's Bid</th>
-            <th>Other's Loss Factor</th>
-            <th>Other's Loss Resulting From Your Bid</th>
-            <th>Other's Payoff</th>
+
 
         </tr>
         {% for p in player_history %}
@@ -72,15 +71,32 @@
                 <td>{{p.loss_factor}}</td>
                 <td>{{p.loss_from_others_bid}} </td>
                 <td>{{p.round_payoff}}</td>
-				        <td>{{p.others_bid_amount}}</td>
-                <td>{{p.others_loss_factor}}</td>
-                <td>{{p.others_loss_from_your_bid}}</td>
-                <td>{{p.others_payoff}}</td>
+
 
             </tr>
         {% endfor %}
     </table>
     </div>
+    <div id="column3">
+        <table class="table">
+            <tr>
+              <th>Other's Bid</th>
+              <th>Other's Loss Factor</th>
+              <th>Other's Loss Resulting From Your Bid</th>
+              <th>Other's Payoff</th>
+            </tr>
+
+        {% for o in partner_history %}
+        <tr>
+        <td>{{o.bid_amount}}</td>
+         <td>{{o.loss_factor}}</td>
+         <td>{{o.loss_from_others_bid}}</td>
+         <td>{{o.round_payoff}}</td>
+         </tr>
+        {%endfor%}
+        </table>
+    </div>
 
     </div>
+
 {% endblock %}

@@ -16,7 +16,7 @@ class Constants(BaseConstants):
     name_in_url = 'auction_with_spillover'
     num_rounds = 4 #number of rounds participants will engage in
     num_payoff_rounds = 2 #number of rounds that will be paid
-    payoff_rounds = random.sample(range(num_rounds),num_payoff_rounds) #payoff_rounds is a list of rounds that is randomly determined at the beginning of each experiment that will be the subset of rounds that the participants are paid for.
+    payoff_rounds = random.sample(range(1,num_rounds),num_payoff_rounds) #payoff_rounds is a list of rounds that is randomly determined at the beginning of each experiment that will be the subset of rounds that the participants are paid for.
     min_allowable_bid = 0
     max_allowable_bid = 10
     delta = 1 #Damage parameter for the winner
@@ -65,10 +65,6 @@ class Player(BasePlayer):
         doc="""Indicates whether the player is the winner"""
     )
 
-    player_cash = models.CurrencyField( #The remaining cash a player has.
-        initial = 0
-    )
-
     round_payoff = models.CurrencyField(
         initial = 0
     )
@@ -80,24 +76,15 @@ class Player(BasePlayer):
         doc="""The value of Theta or Delta for the participant in that round."""
 
     )
-    others_loss_factor=models.FloatField()
     loss_from_others_bid=models.CurrencyField()
-    others_loss_from_your_bid=models.CurrencyField()
-    others_payoff=models.CurrencyField()
     def set_payoff(self, other_bid): #This function determines the amount of remaining cash a player has at the end of each round. It is determined by whether or not they won, how much cash is alloted to each player per round, the item value, and the amount each participant bid.
         if (self.is_winner):
             self.loss_factor = Constants.delta
-            self.others_loss_factor=Constants.theta
             self.loss_from_others_bid = self.others_bid_amount * Constants.delta
-            self.others_loss_from_your_bid = Constants.theta * self.bid_amount
-            self.others_payoff = Constants.initial_cash_per_round -  self.others_bid_amount - self.others_loss_from_your_bid
             self.round_payoff = Constants.initial_cash_per_round + self.group.item_value -  self.bid_amount - self.loss_from_others_bid
         elif(not self.is_winner): #For the player that is not the winner, they do not gain the item value and they lose Theta times the others bid amount.
             self.loss_factor = Constants.theta
-            self.others_loss_factor=Constants.delta
             self.loss_from_others_bid = Constants.theta * self.others_bid_amount
-            self.others_loss_from_your_bid = Constants.delta * self.bid_amount
-            self.others_payoff = Constants.initial_cash_per_round + self.group.item_value -  self.others_bid_amount - self.others_loss_from_your_bid
             self.round_payoff = Constants.initial_cash_per_round -  self.bid_amount - self.loss_from_others_bid
 
     def get_partner(self): #This function grabs the other player from the pair of players so we can build the history table.
@@ -106,3 +93,5 @@ class Player(BasePlayer):
     def determine_total_payoff(self): #This function loops over all of the rounds that were determined to be payoff rounds and totals the players earnings over those rounds. It runs at the end of the last round.
         for round in Constants.payoff_rounds:
             self.total_payoff += self.in_round(round).round_payoff
+
+        self.payoff = self.total_payoff    
