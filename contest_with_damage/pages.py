@@ -5,16 +5,10 @@ from .models import Constants
 class start(Page):
     def is_displayed(self):
         return (self.player.round_number==1)
-    def before_next_page(self):
-        self.participant.vars['bid_stage'] = True
-        self.participant.vars['result_stage'] = False
 
 class Bid(Page):
     form_model = 'player'
     form_fields = ['bid_amount']
-    def is_displayed(self):
-        pass
-        return self.participant.vars['bid_stage']
 
     def vars_for_template(self):
         partner = self.player.get_partner()

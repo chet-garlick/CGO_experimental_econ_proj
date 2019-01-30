@@ -30,12 +30,12 @@ justify-content: space-around;
     <p>
     Your bid was {{player.bid_amount}}.
     <br>
-    Your opponent's bid was {{player.others_bid_amount}}.
+    The other participant's bid was {{player.others_bid_amount}}.
     <br>
     {%if player.is_winner%}
         You obtained the good because your bid was highest.
     {%else%}
-        You did not obtain the good because your opponent's bid was higher.
+        You did not obtain the good because the other participant's bid was higher.
     {%endif%}
     <br>
     Your payoff is:
@@ -57,16 +57,31 @@ justify-content: space-around;
     <table class="table">
         <tr>
             <th>Round</th>
+            <th>Did you obtain the good?
             <th>Your Bid</th>
-			<th>Opponent's Bid</th>
-			<th>Did you win?</th>
+            <th>Your Loss Factor</th>
+            <th>Loss Resulting from Other's Bid</th>
+            <th>Your Payoff</th>
+			      <th>Other's Bid</th>
+            <th>Other's Loss Factor</th>
+            <th>Other's Loss Resulting From Your Bid</th>
+            <th>Other's Payoff</th>
+
         </tr>
         {% for p in player_history %}
             <tr>
+
                 <td>{{p.round_number}}</td>
-				<td>{{p.bid_amount}}</td>
-				<td>{{p.others_bid_amount}}</td>
-				<td>{%if p.is_winner%} You Won! {% else %} You Lost. {% endif %}</td>
+                <td>{%if p.is_winner%} You Won! {% else %} You Lost. {% endif %}</td>
+				        <td>{{p.bid_amount}}</td>
+                <td>{{p.loss_factor}}</td>
+                <td>{{p.loss_from_others_bid}} </td>
+                <td>{{p.round_payoff}}</td>
+				        <td>{{p.others_bid_amount}}</td>
+                <td>{{p.others_loss_factor}}</td>
+                <td>{{p.others_loss_from_your_bid}}</td>
+                <td>{{p.others_payoff}}</td>
+
             </tr>
         {% endfor %}
     </table>
