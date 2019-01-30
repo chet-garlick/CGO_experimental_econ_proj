@@ -7,29 +7,44 @@
    <div id = "row1">
    <div id="column1">
 	<h4>Results and Round History</h4>
+
+  <p>
+      {% if player.is_winner %}
+          You won this round's auction!
+      {% else %}
+          You did not win the auction this round.
+      {% endif %}
+  <br>
+  </p>
     <p>
-    Your bid was {{player.bid_amount}}.
-    <br>
-    The other participant's bid was {{player.others_bid_amount}}.
-    <br>
     {%if player.is_winner%}
         You obtained the good because your bid was highest.
     {%else%}
         You did not obtain the good because the other participant's bid was higher.
     {%endif%}
     <br>
-    Your payoff is:
+    Your initial cash every round is {{Constants.initial_cash_per_round|c}}
     <br>
-    {%if player.is_winner%} {{Constants.item_value}} {%else%} 0 {%endif%} - &#945; * {{player.bid_amount}} - &#946; * {{player.others_bid_amount}} = {{player.round_payoff}}
+    Your bid was {{player.bid_amount}}.
+    <br>
+    Your loss factor was {{player.loss_factor}}
+    <br>
+    The other participant's bid caused you to lose {{player.loss_from_others_bid}}
+    <br>
+    Your payoff for this round is {{player.round_payoff}}
+    <br>
+    {{Constants.initial_cash_per_round|c}} + {%if player.is_winner%} {{Constants.item_value|c}} {%else%} $0.00 {%endif%} - {{player.bid_amount}} - {{player.loss_factor}} * {{player.others_bid_amount}} = {{player.round_payoff}}
+    <br>
+    The other participant's bid was {{player.others_bid_amount}}.
+    <br>
+    Their loss factor was {{player.others_loss_factor}}
+    <br>
+    They lost {{player.others_loss_from_your_bid}} as a result of your bid.
+    <br>
+    Their payoff was {{player.others_payoff}}
+    <br>
     </p>
-    <p>
-        {% if player.is_winner %}
-            You won this round's auction!
-        {% else %}
-            You did not win the auction this round.
-        {% endif %}
-		<br>
-    </p>
+
     {% next_button %}
     </div>
     <div id="column2">
