@@ -3,7 +3,7 @@ from otree.api import (
     Currency as c, currency_range
 )
 
-import random 
+import random
 
 author = 'Chet Garlick'
 
@@ -13,7 +13,7 @@ doc = "Implementation of a real effort task that asks users to count to number o
 class Constants(BaseConstants):
 
     #red_card_participant_IDs = [1,2] #This list contains the computer numbers of the participants that will receive a RED card. These will be resolved beforehand to match computer numbers to the proper cards.
-    message_version = 1 #This setting controls which version of the message page the participants will see. 
+    message_version = 1 #This setting controls which version of the message page the participants will see.
 
     participation_fee = 5.0 #This is the aomunt user participant earns for showing up.
     #first_task_payoff = 4.0 #This is the flat amount each participant earns during the first section.
@@ -44,15 +44,15 @@ class Group(BaseGroup):
 class Player(BasePlayer):
 
     def set_card_color(self):
-        
-        if(random.randint(0,100)<43):
+
+        if(random.uniform(0,1)<=(Constants.red_card_likelihood)):
             self.card_color='RED'
-        
-        if(random.randint(0,100) > 60):
+
+        if(random.uniform(0,1) > (Constants.card_message_correlation)):
             self.message_alignment = False
         else:
             self.message_alignment = True
-            
+
     def determine_payoff(self):
         payoff=Constants.participation_fee
         payoff+=self.first_task_payoff
@@ -64,55 +64,55 @@ class Player(BasePlayer):
             payoff+=Constants.red_card_modifier * self.problems_correct_second_task
         if (self.investment_choice == True):
             payoff = payoff - Constants.investment_cost
-            
+
         self.payoff = payoff
-        
+
     total_payoff = models.FloatField(
         doc="The total dollar amount the participant earned by being a part of the experiment",
     )
-    
+
     card_color = models.StringField(
         doc = "The color of the participant's card.",
         choices=['RED','GREEN'],
         initial='GREEN',
     )
-    
+
     message_alignment = models.BooleanField(
         doc= "Whether or not the message that the participant may or may not see shows them the same color as the card that is actually in their envelope.",
     )
-    
+
     inputted_card_color = models.StringField(
         doc = "The participant's self-reported card color.",
         choices=['RED','GREEN'],
     )
-    
+
     card_color_input_ever_incorrect = models.BooleanField(
-        doc = "This saves whether or not the participant inputs the incorrect card color when they are asked to.", 
+        doc = "This saves whether or not the participant inputs the incorrect card color when they are asked to.",
         initial = False,
     )
-    
+
     instructions_quiz_input1 = models.FloatField(
     )
-    
+
     instructions_quiz_input2 = models.FloatField(
     )
-    
+
     instructions_quiz_input3 = models.FloatField(
     )
-    
+
     instructions_quiz_input4 = models.FloatField(
     )
-    
+
     instructions_quiz_input5 = models.FloatField(
     )
-    
+
     instructions_quiz_input6 = models.StringField(
         choices=["After stage 1", "After stage 2", "After stage 3", "Never"]
     )
-    
+
     correct_last_round = models.BooleanField(
     )
-    
+
     problems_attempted_first_task = models.PositiveIntegerField(
         doc="number of problems the user attempted",
         initial=0
@@ -120,7 +120,7 @@ class Player(BasePlayer):
     problems_correct_first_task = models.PositiveIntegerField(
             doc = 'number of problems correctly solved in first task',
             initial=0
-    )   
+    )
     problems_correct_second_task = models.PositiveIntegerField(
         doc="number of problems correctly solved in second task",
         initial=0
@@ -129,22 +129,22 @@ class Player(BasePlayer):
         doc="number of problems attempted in the second real effort task",
         initial=0
     )
-    
+
     risk_choice = models.PositiveIntegerField(
         doc="Which choice the participant made in the Eckel/Grossman single choice list risk task.",
         choices=[1,2,3,4,5],
     )
-    
+
     risk_payment=models.CurrencyField(
         doc = "Payment received for the participants risk choice.",
         initial=0
     )
-    
+
     message_page_version = models.PositiveIntegerField(
         doc = "Which version of the message page the participant views. If 1, the participant has the option to choose whether or not to see the message. If 2, the participant is forced to see the message. If 3, the user is forced to not see the message.",
         choices=[1,2,3],
     )
-    
+
     message_choice = models.BooleanField(
         doc= "The choice of participants that have the option whether or not to see the message. For the other participants who don't have a choice, this will remain blank.",
         choices=[
@@ -152,11 +152,11 @@ class Player(BasePlayer):
         ],
         widget=widgets.RadioSelect
     )
-    
+
     message_seen = models.BooleanField(
         doc="Was the message seen by the participant?"
     )
-    
+
     investment_choice = models.BooleanField(
         doc="Did the participant decide to make the investment or not?",
         choices=[
@@ -169,65 +169,65 @@ class Player(BasePlayer):
         doc="User input for the first Cognitive Reflection Test Question.",
         min=0
     )
-    
+
     cog_reflect_one_correct = models.BooleanField(
         doc="Did the user get the first Cognitive Reflection Test Question correct?"
     )
-    
+
     cog_reflect_two_input = models.FloatField(
         doc="User input for the second Cognitive Reflection Test Question.",
         min=0
     )
-    
+
     cog_reflect_two_correct = models.BooleanField(
         doc="Did the user get the second Cognitive Reflection Test Question correct?"
     )
-    
+
     cog_reflect_three_input = models.FloatField(
         doc="User input for the third Cognitive Reflection Test Question.",
         min=0
     )
-    
+
     cog_reflect_three_correct = models.BooleanField(
         doc="Did the user get the third Cognitive Reflection Test Question correct?"
     )
-    
+
     gender = models.StringField(
         choices=['Male','Female','Other','Prefer Not To Answer'],
         doc="Self-reported gender of the participant."
-    )   
-    
+    )
+
     major = models.StringField(
         doc = "Self-reported college major of the participant.",
         choices = ['Business', 'Arts', 'Sciences', 'Agriculture', 'Engineering', 'Humanities', 'Social Sciences', 'Education','Natural Resources','Health' ]
     )
-    
+
     age = models.PositiveIntegerField(
         doc = "Self-reported age of participant.",
         min=0,
         max=100
     )
-    
+
     ethnicity = models.StringField(
         doc = "Self-reported ethinicity of the participant.",
         choices = ['White','Hispanic or Latino', 'African American', 'Native American or American Indian', 'Asian', 'Pacific Islander', 'Other', 'Prefer Not To Answer']
     )
-    
+
     marital_status = models.StringField(
         doc = "Self-rerported civil status of participant.",
-        choices=['Single, Never Married', 'Married/Domestic Partnership', 'Widowed', 'Divorced']        
+        choices=['Single, Never Married', 'Married/Domestic Partnership', 'Widowed', 'Divorced']
     )
-    
+
     employment = models.StringField(
         doc = "Employment status of participant.",
         choices = ['Yes','No']
     )
-        
+
     insurance = models.StringField(
         doc = "Insured status of participant.",
         choices = ['Yes','No']
     )
-    
+
     annual_income = models.StringField(
         doc = "Self-reported household annual income of participant.",
         choices = [ '$0-$5,000','$5,001-$10,000','$10,001-$15,000','$15,001-$20,000','$20,001-$25,000','$25,001-$30,000',
@@ -237,30 +237,30 @@ class Player(BasePlayer):
         '$110,001-$115,000','$115,001-$120,000','$120,001-$125,000','Greater Than $125,000',
         ]
     )
-    
+
     credit_card = models.StringField(
         doc = "Does the participant have a credit card?",
         choices = ['Yes','No']
     )
-    
+
     parent_education = models.StringField(
         doc =  "Highest level of education one of the parents of the participant completed.",
         choices = ['1st grade','2nd grade','3rd grade', '4th grade','5th grade','6th grade','7th grade',
-        '8th grade', '9th grade', '10th grade', '11th grade', 'Graduated High School', '1 year of college', 
+        '8th grade', '9th grade', '10th grade', '11th grade', 'Graduated High School', '1 year of college',
         '2 years of college','3 years of college', 'Graduated from college', 'Some graduate school', 'Completed graduate school']
-    
+
     )
-    
+
     smoke = models.StringField(
         doc = "Does the participant smoke?",
         choices = ['Yes','No']
     )
-    
+
     alcohol = models.StringField(
         doc = "Does the participant drink alcohol?",
         choices = ['Yes','No']
     )
-    
+
     year_in_school = models.StringField(
         doc = "What year of their college education is the participant currently in?",
         choices = ['Not A Student','Freshman','Sophomore','Junior','Senior', '5th year or more']
