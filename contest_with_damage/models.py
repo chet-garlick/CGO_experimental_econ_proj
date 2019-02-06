@@ -64,9 +64,14 @@ class Player(BasePlayer):
         initial=False,
         doc="""Indicates whether the player is the winner"""
     )
+    round_earnings = models.CurrencyField(
+    initial=0,
+    doc="""The amount the participant earned in a round BEFORE the player's initial cash is added."""
 
+    )
     round_payoff = models.CurrencyField(
-        initial = 0
+        initial = 0,
+        doc="""The total amount the particiapant earned that round, which is initial_cash_per_round + round_earnings."""
     )
     total_payoff = models.CurrencyField(
         initial = 0,
@@ -81,11 +86,13 @@ class Player(BasePlayer):
         if (self.is_winner):
             self.loss_factor = Constants.delta
             self.loss_from_others_bid = self.others_bid_amount * Constants.delta
-            self.round_payoff = Constants.initial_cash_per_round + self.group.item_value -  self.bid_amount - self.loss_from_others_bid
+            self.round_earnings = self.group.item_value -  self.bid_amount - self.loss_from_others_bid
+            self.round_payoff = self.round_payoff + Constants.initial_cash_per_round
         elif(not self.is_winner): #For the player that is not the winner, they do not gain the item value and they lose Theta times the others bid amount.
             self.loss_factor = Constants.theta
             self.loss_from_others_bid = Constants.theta * self.others_bid_amount
-            self.round_payoff = Constants.initial_cash_per_round -  self.bid_amount - self.loss_from_others_bid
+            self.round_earnings = 0 -  self.bid_amount - self.loss_from_others_bid
+            self.round_payoff = self.round_payoff + Constants.initial_cash_per_round
 
     def get_partner(self): #This function grabs the other player from the pair of players so we can build the history table.
         return self.get_others_in_group()[0]
@@ -94,4 +101,4 @@ class Player(BasePlayer):
         for round in Constants.payoff_rounds:
             self.total_payoff += self.in_round(round).round_payoff
 
-        self.payoff = self.total_payoff    
+        self.payoff = self.total_payoff
