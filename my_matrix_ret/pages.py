@@ -80,6 +80,10 @@ class start_page(Page):
             'debug': settings.DEBUG,
         }
 
+class consent_page(Page):
+    form_model = 'player'
+    form_fields = ['consent']
+
 class instructions_quiz_page(Page):
     form_model = 'player'
     form_fields=['instructions_quiz_input6','instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
@@ -493,6 +497,7 @@ class finalPage(Page):
 
 page_sequence = [
     start_page,
+    consent_page,
     instructions_quiz_page,
     waitpage,
     transition_page_1,

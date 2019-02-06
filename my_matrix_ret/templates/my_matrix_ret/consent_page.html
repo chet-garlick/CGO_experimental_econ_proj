@@ -1,0 +1,13 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block content %}
+
+  <p></p>
+  {% formfield player.consent label = "Are you willing to begin the experiment?"  %}
+
+
+	{% next_button %}
+
+{% endblock %}

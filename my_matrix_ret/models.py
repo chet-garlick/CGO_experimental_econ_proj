@@ -91,6 +91,11 @@ class Player(BasePlayer):
         initial = False,
     )
 
+    consent = models.BooleanField(
+        doc="""Saves whether or not the participant gave final consent to beginning the experiment after the instructions were given.""",
+
+    )
+
     instructions_quiz_input1 = models.FloatField(
     )
 
