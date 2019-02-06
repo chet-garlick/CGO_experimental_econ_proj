@@ -6,11 +6,11 @@ from django.conf import settings
 import time
 import random
 
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-    
+
 @csrf_exempt
 def verify(request):
     user_input = request.GET.get('user_input')
@@ -33,7 +33,7 @@ def verify(request):
             player.correct_last_round = True
         else:
             player.correct_last_round = False
-        
+
     player.save()
     ints = []
     solution=0
@@ -41,20 +41,20 @@ def verify(request):
         tmp= random.randint(0,1)
         ints.append(tmp)
         solution += tmp
-            
+
     earningsGREEN = Constants.green_card_payoff * player.problems_correct_second_task
-    if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness 
+    if(player.investment_choice): earningsRED = player.problems_correct_second_task * Constants.investment_effectiveness
     else: earningsRED = player.problems_correct_second_task * Constants.red_card_modifier
-    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'first_task_payoff':player.first_task_payoff, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})  
+    data = ({'ints':ints, 'solution':solution, 'num_correct_first_task':player.problems_correct_first_task, 'num_correct_second_task':player.problems_correct_second_task, 'first_task_payoff':player.first_task_payoff, 'red_card_modifier': Constants.red_card_modifier,'green_card_payoff':Constants.green_card_payoff, 'earningsGREEN':earningsGREEN, 'earningsRED':earningsRED,'correct_last_round':player.correct_last_round,})
     return JsonResponse(data)
 
 class start_page(Page):
 
     def before_next_page(self):
-                
+
         """
         Note about self.participant.vars: It is a python dictionary, which means it can store basically any type of data, and is accessed by a key.
-        Additionally, each participant has a dictionary assigned to them that can be accessed at any time by any of the pages they are on. 
+        Additionally, each participant has a dictionary assigned to them that can be accessed at any time by any of the pages they are on.
         This is a well designed feature by OTree, as it allows us to keep track of relevant data.
         Each participant gets a random set of 1's/0's and corresponding solution.
         By defining most of the self.participant.vars entries here in start_page's before_next_page, it is gauranteed that they will be accessible everywhere.
@@ -63,33 +63,33 @@ class start_page(Page):
         self.participant.vars['out_of_time_first_task'] = 0
         self.participant.vars['out_of_time_second_task'] = 0
         self.participant.vars['show_actual_message'] = False
-        
+
         list = []
         tmpsolution=0
         for i in range (0,25):
             tmp= random.randint(0,1)
             list.append(tmp)
             tmpsolution += tmp
-            
+
         self.participant.vars['int_list'] = list
         self.participant.vars['solution'] = tmpsolution
         self.player.set_card_color() #This line initialzes all of the red card participants according to the list of participants to be assigned red cards in the Constants section in models.py.
-        
+
     def vars_for_template(self):
         return {
-            'debug': settings.DEBUG,  
+            'debug': settings.DEBUG,
         }
-        
+
 class instructions_quiz_page(Page):
     form_model = 'player'
-    form_fields=['instructions_quiz_input6','instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']        
+    form_fields=['instructions_quiz_input6','instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
     def error_message(self,values):
         is_error = False
         questions_wrong=[]
         if( float(values['instructions_quiz_input1'])!=Constants.investment_effectiveness):
             questions_wrong.append(1)
             is_error = True
-        if( float(values['instructions_quiz_input2'])!=round(Constants.green_card_payoff*37-Constants.investment_cost,2)):    
+        if( float(values['instructions_quiz_input2'])!=round(Constants.green_card_payoff*37-Constants.investment_cost,2)):
             questions_wrong.append(2)
             is_error = True
         if( float(values['instructions_quiz_input3'])!=Constants.red_card_modifier*37):
@@ -110,28 +110,28 @@ class instructions_quiz_page(Page):
                 if(i==0): questions_wrong_str = questions_wrong_str + str(questions_wrong[i])
                 else: questions_wrong_str = questions_wrong_str + ", " + str(questions_wrong[i])
             return ("Please try again. There was a problem with question(s): " + questions_wrong_str )
-    
+
 class waitpage(WaitPage):
     title_text = "Waiting"
     body_text = "Waiting for all participants to get to this point."
-        
+
 class transition_page_1(Page):
-    
+
     def before_next_page(self):
-        self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer  
-    
+        self.participant.vars['out_of_time_first_task'] = time.time() + Constants.first_task_timer
+
 class first_task_page(Page):
     form_model = 'player'
-        
+
     def vars_for_template(self):
         #Function defining some of necessary info for displaying this page.
         earningsGREEN = self.player.problems_correct_first_task * Constants.green_card_payoff
         earningsRED = self.player.problems_correct_first_task * Constants.red_card_modifier
         earningsREDinvest = self.player.problems_correct_first_task * Constants.investment_effectiveness
-        ints = self.participant.vars['int_list']        
-        
+        ints = self.participant.vars['int_list']
+
         return {
-            'problems_attempted_first_task':round(self.player.problems_attempted_first_task), 
+            'problems_attempted_first_task':round(self.player.problems_attempted_first_task),
             'num_correct_first_task': round(self.player.problems_correct_first_task),
             'debug': settings.DEBUG,
             'solution':self.participant.vars['solution'],
@@ -170,7 +170,7 @@ class first_task_page(Page):
             'id' : self.player.pk,
             'version' : 1,
         }
-                
+
     def before_next_page(self):
         new_ints=[]
         new_solution=0
@@ -181,35 +181,35 @@ class first_task_page(Page):
         self.participant.vars['int_list'] = new_ints
         self.participant.vars['solution'] = new_solution
         """
-        This section recreates a list of 25 0's and 1's, sums them up, then saves them to self.participant.vars. 
+        This section recreates a list of 25 0's and 1's, sums them up, then saves them to self.participant.vars.
         This allows us to re-randomize a problem and solution after one is solved.
         This is done every time this page is exited, rather than randomizing all problems for all rounds at once like it was doing when the randomization was in models.py.
         This is going to be less resource intensive, which is not the primary reason I moved the randomization to pages.py but is an added benefit.
         new_ints, new_solution, and tmp are temporary variables used to generate the next problem and solution.
         """
 
-            
+
 class transition_page_2(Page):
 
     def before_next_page(self):
         self.participant.vars['show_transition_2'] = False
-        
-    
+
+
 class message_page_1(Page):
     form_model = 'player'
     form_fields = ['message_choice']
-    def before_next_page(self):     
+    def before_next_page(self):
         if(self.player.message_choice==True):
             self.participant.vars['show_actual_message']=True
             self.player.message_seen = True
         elif(self.player.message_choice==False):
             self.player.message_seen = False
-            
+
     def is_displayed(self):
         return Constants.message_version==1
     def vars_for_template(self):
         return {'prob': round(100*Constants.card_message_correlation), 'prob2': round(100-100*Constants.card_message_correlation)}
-    
+
 class message_page_2(Page):
     def before_next_page(self):
         self.participant.vars['show_actual_message']=True
@@ -220,7 +220,7 @@ class message_page_2(Page):
         return Constants.message_version==2
     def vars_for_template(self):
         return {'prob': round(100*Constants.card_message_correlation), 'prob2': round(100-100*Constants.card_message_correlation)}
-        
+
 class message_page_3(Page):
     def before_next_page(self):
         for p in self.player.in_all_rounds():
@@ -229,66 +229,66 @@ class message_page_3(Page):
 
     def is_displayed(self):
         return Constants.message_version==3
-    
-    
+
+
 class message(Page):
     def is_displayed(self):
         return self.participant.vars['show_actual_message']
-    
+
     def before_next_page(self):
         self.player.message_seen = True
-        
+
     def vars_for_template(self):
         message_color = self.player.card_color
         if(self.player.message_alignment == False and message_color=='RED'):
             message_color='GREEN'
         elif(self.player.message_alignment==False and message_color=='GREEN'):
-            message_color='RED'            
-            
+            message_color='RED'
+
         return {
-            'accuracy_level':Constants.card_message_correlation * 100,
+            'accuracy_level':round(Constants.card_message_correlation * 100),
             'message_color':message_color,
         }
 
-    
+
 class investment_page(Page):
     form_model = 'player'
     form_fields = ['investment_choice']
-        
+
     def vars_for_template(self):
-        
+
         return {
             'investment_cost' : Constants.investment_cost,
             'investment_effectiveness' : Constants.investment_effectiveness,
             'red_card_modifier' : Constants.red_card_modifier
         }
-    
-    
+
+
 class transition_page_3(Page):
     def before_next_page(self):
-        self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer    
-    
+        self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer
+
 class second_task_page(Page):
 
-    form_model = 'player'   
+    form_model = 'player'
     timer_text = 'Time left to solve problems:'
-    
+
     def get_timeout_seconds(self):
         return self.participant.vars['out_of_time_second_task'] - time.time()
-    
+
     def vars_for_template(self):
         #Function defining some of necessary info for displaying this page.
         ints = self.participant.vars['int_list']
         earningsGREEN = self.player.problems_correct_second_task * Constants.green_card_payoff
-        if(self.player.investment_choice): 
+        if(self.player.investment_choice):
             earningsRED = self.player.problems_correct_second_task * Constants.investment_effectiveness
             investment_spending = Constants.investment_cost * -1
-        else: 
+        else:
             earningsRED = self.player.problems_correct_second_task * Constants.red_card_modifier
             investment_spending = 0
-            
+
         return {
-            'problems_attempted_second_task':round(self.player.problems_attempted_second_task), 
+            'problems_attempted_second_task':round(self.player.problems_attempted_second_task),
             'num_correct_second_task': round(self.player.problems_correct_second_task),
             'num_correct_first_task': round(self.player.problems_correct_first_task),
             'debug': settings.DEBUG,
@@ -336,13 +336,13 @@ class transition_page_4(Page):
         if(values['inputted_card_color']!=self.player.card_color):
             self.player.card_color_input_ever_incorrect = True
             return ("That seems to be incorrect. Please try again.")
-        
+
 class Results(Page):
-        
-    def before_next_page(self):         
+
+    def before_next_page(self):
         self.player.determine_payoff()
-        
-    def vars_for_template(self):    
+
+    def vars_for_template(self):
         if(self.player.card_color=='GREEN'):
             if(self.player.investment_choice): investment_spending = Constants.investment_cost * -1
             else: investment_spending = 0
@@ -353,7 +353,7 @@ class Results(Page):
         else:
             second_task_earnings = self.player.problems_correct_second_task * Constants.red_card_modifier
             investment_spending = 0
-    
+
         return {
             'num_correct_first_task': round(self.player.problems_correct_first_task),
             'problems_attempted_first_task': round(self.player.problems_attempted_first_task),
@@ -361,26 +361,26 @@ class Results(Page):
             'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
             'card_color' : self.player.card_color,
             'second_task_earnings': round(second_task_earnings,2),
-            'first_task_payoff' : self.player.first_task_payoff,  
-            'participation_fee' : Constants.participation_fee,  
+            'first_task_payoff' : self.player.first_task_payoff,
+            'participation_fee' : Constants.participation_fee,
             'investment_spending':investment_spending,
             'total_prev_earnings':self.player.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings
         }
-        
+
 class transition_page_5(Page):
     pass
-        
-        
+
+
 class risk_task(Page):
 
     form_model='player'
-    form_fields=['risk_choice'] 
-        
+    form_fields=['risk_choice']
+
     def before_next_page(self):
         lottery_outcome = random.randint(0,1)
         self.player.risk_payment = self.participant.vars['lotteries'][self.player.risk_choice-1][lottery_outcome]
         self.player.payoff += self.player.risk_payment
-            
+
     def vars_for_template(self):
         self.participant.vars['lotteries'] =  [[0]*2 for i in range(5)]
         self.participant.vars['lotteries'][0][0] = c(4.00)
@@ -393,7 +393,7 @@ class risk_task(Page):
         self.participant.vars['lotteries'][3][1] = c(10.00)
         self.participant.vars['lotteries'][4][0] = c(0.00)
         self.participant.vars['lotteries'][4][1] = c(12.00)
-        
+
         return{
          'option1A':self.participant.vars['lotteries'][0][0],
          'option1B':self.participant.vars['lotteries'][0][1],
@@ -404,9 +404,9 @@ class risk_task(Page):
          'option4A':self.participant.vars['lotteries'][3][0],
          'option4B':self.participant.vars['lotteries'][3][1],
          'option5A':self.participant.vars['lotteries'][4][0],
-         'option5B':self.participant.vars['lotteries'][4][1]        
-        }   
-        
+         'option5B':self.participant.vars['lotteries'][4][1]
+        }
+
 class transition_page_6(Page):
     def vars_for_template(self):
         return{
@@ -419,10 +419,10 @@ class transition_page_6(Page):
          'option4A':self.participant.vars['lotteries'][3][0],
          'option4B':self.participant.vars['lotteries'][3][1],
          'option5A':self.participant.vars['lotteries'][4][0],
-         'option5B':self.participant.vars['lotteries'][4][1]        
-        }   
+         'option5B':self.participant.vars['lotteries'][4][1]
+        }
 class transition_page_7(Page):
-    def vars_for_template(self):    
+    def vars_for_template(self):
         if(self.player.card_color=='GREEN'):
             if(self.player.investment_choice): investment_spending = Constants.investment_cost * -1
             else: investment_spending = 0
@@ -433,7 +433,7 @@ class transition_page_7(Page):
         else:
             second_task_earnings = self.player.problems_correct_second_task * Constants.red_card_modifier
             investment_spending = 0
-        
+
         return {
             'num_correct_first_task': round(self.player.problems_correct_first_task),
             'problems_attempted_first_task': round(self.player.problems_attempted_first_task),
@@ -441,45 +441,45 @@ class transition_page_7(Page):
             'problems_attempted_second_task': round(self.player.problems_attempted_second_task),
             'card_color' : self.player.card_color,
             'second_task_earnings': round(second_task_earnings,2),
-            'first_task_payoff' : self.player.first_task_payoff,  
-            'participation_fee' : Constants.participation_fee,  
+            'first_task_payoff' : self.player.first_task_payoff,
+            'participation_fee' : Constants.participation_fee,
             'investment_spending':investment_spending,
             'total_prev_earnings':self.player.first_task_payoff + Constants.participation_fee + investment_spending + second_task_earnings + self.player.risk_payment
         }
-        
+
 class cog_reflect_one(Page):
 
     form_model='player'
     form_fields=['cog_reflect_one_input']
-        
-    def before_next_page(self): 
+
+    def before_next_page(self):
         if(self.player.cog_reflect_one_input == .05):
             self.player.cog_reflect_one_correct = True
         else:
-            self.player.cog_reflect_one_correct = False     
-    
+            self.player.cog_reflect_one_correct = False
+
 class cog_reflect_two(Page):
     form_model='player'
     form_fields=['cog_reflect_two_input']
 
-    def before_next_page(self): 
+    def before_next_page(self):
         if(self.player.cog_reflect_two_input == 5):
             self.player.cog_reflect_two_correct = True
         else:
-            self.player.cog_reflect_two_correct = False         
-    
+            self.player.cog_reflect_two_correct = False
+
 class cog_reflect_three(Page):
     form_model='player'
     form_fields=['cog_reflect_three_input']
 
-    def before_next_page(self): 
-        
+    def before_next_page(self):
+
         if(self.player.cog_reflect_three_input == 47):
             self.player.cog_reflect_three_correct = True
         else:
             self.player.cog_reflect_three_correct = False
 
-            
+
 class survey(Page):
     form_model='player'
     form_fields=['gender','major','age','ethnicity','marital_status','employment','insurance','annual_income',
@@ -488,11 +488,11 @@ class survey(Page):
     def vars_for_template(self):
         return{
             'debug' : settings.DEBUG
-        }       
-        
+        }
+
 class finalPage(Page):
     pass
-                
+
 page_sequence = [
     start_page,
     instructions_quiz_page,

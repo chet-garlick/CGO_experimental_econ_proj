@@ -8,12 +8,12 @@
 {% block styles %}
 	<style>
 	#task table, #task th, #task td, #task tr {
-		border: 1px solid black; 
+		border: 1px solid black;
 		padding: 10px;
 		text-align: center;
 	}
 	#task tr:nth-child(even){background-color: #f2f2f2;}
-	
+
 	#earns table, #earns th, #earns td, #earns tr {
 		border: 1px solid black;
 		padding: 10px;
@@ -25,15 +25,15 @@
 {% endblock %}
 
 {% block content %}
-
+<p id="time">You have taken 0 minutes, and 0 seconds</p>
 	<table id="earns">
-    
+
         <th>Source of Earnings</th> <th>Amount in $</th>
 		<tr>
 			<td> Participation Fee </td> <td> {{ participation_fee|c }}  </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> grids  </td> <td id="first_task_payoff"> {{first_task_payoff|c}}  </td> 
+			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> grids  </td> <td id="first_task_payoff"> {{first_task_payoff|c}}  </td>
 		</tr>
         <tr>
             <td> Amount Spent on Investment </td> <td> {{investment_spending|c}} </td>
@@ -52,15 +52,15 @@
 		<tr>
 			<td> If your card color is GREEN: </td> <td id="earningsGREEN"> {{earningsGREEN}}	</td>
 		</tr>
-    
+
     </table>
     <br>
-    
+
     <span id="correct_last_round">
-    
+
     </span>
 	<br>
-	<p>        
+	<p>
 		Please count the number of ones in the grid below. Type your answer into the box, and click the Submit button.
     </p>
 	<table id="task">
@@ -71,31 +71,31 @@
 			<td id="int5">{{ int5 }} </td> <td id="int6">{{ int6 }} </td> <td id="int7">{{ int7 }} </td> <td id="int8">{{ int8 }} </td> <td id="int9">{{ int9 }} </td>
 		</tr>
 		<tr>
-			<td id="int10">{{ int10 }} </td> <td id="int11">{{ int11 }} </td> <td id="int12">{{ int12 }} </td> <td id="int13">{{ int13 }} </td> <td id="int14">{{ int14 }} </td> 
+			<td id="int10">{{ int10 }} </td> <td id="int11">{{ int11 }} </td> <td id="int12">{{ int12 }} </td> <td id="int13">{{ int13 }} </td> <td id="int14">{{ int14 }} </td>
 		</tr>
-		<tr> 
+		<tr>
 			<td id="int15">{{ int15 }} </td> <td id="int16">{{ int16 }} </td> <td id="int17">{{ int17 }} </td> <td id="int18">{{ int18 }} </td> <td id="int19">{{ int19 }} </td>
 		</tr> <br>
-		<tr> 
+		<tr>
 			<td id="int20">{{ int20 }} </td> <td id="int21">{{ int21 }} </td> <td id="int22">{{ int22 }} </td> <td id="int23">{{ int23 }} </td> <td id="int24">{{ int24 }} </td>
 		</tr> <br>
 	</table>
-	
+
 	<br>
-	
+
 	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
 	<input type="text" name="Number of Ones" id="num_of_ones"/>
 	<input type="hidden" name="user.input" id ="user.input"/>
-	<input type="hidden" name = "s" id="s" value = {{solution}}> 
+	<input type="hidden" name = "s" id="s" value = {{solution}}>
 	<button type="button" id="submitButton"> Submit </button>
-	
+
 	</form>
 
 {% endblock %}
 
 {% block scripts %}
 	<script>
-	
+
 		$ ( " #submitButton " ).click(function() {
 			var user_input=$(" #num_of_ones ").val();
 			var s= $(" #s ").val()
@@ -124,12 +124,12 @@
                             document.getElementById("correct_last_round").innerHTML="Your last answer was incorrect.";
                         }
 					},
-				});	
+				});
 			}else{
-				alert("An error has occurred. Please only input a number.");	
+				alert("An error has occurred. Please only input a number.");
 			}
 		});
-        
+
         $(document).ready(function() {
             $(window).keydown(function(event){
                 if(event.keyCode == 13) {
@@ -138,6 +138,6 @@
                     }
             });
         });
-        
+
 	</script>
 {%endblock%}

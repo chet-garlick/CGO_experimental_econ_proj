@@ -8,12 +8,12 @@
 {% block styles %}
 	<style>
 	#task table, #task th, #task td, #task tr {
-		border: 1px solid black; 
+		border: 1px solid black;
 		padding: 10px;
 		text-align: center;
 	}
 	#task tr:nth-child(even){background-color: #f2f2f2;}
-	
+
 	#earns table, #earns th, #earns td, #earns tr {
 		border: 1px solid black;
 		padding: 10px;
@@ -23,31 +23,31 @@
 	#next{
 	display: none;
 	}
-	</style> 
+	</style>
 
 {% endblock %}
 {% block content %}
 <p id="time">You have taken 0 minutes, and 0 seconds</p>
 	<table id="earns">
-    
+
 		<th>Source of Earnings</th> <th>Amount in $</th>
         <tr>
 			<td> Participation Fee </td> <td> {{ participation_fee|c }} </td>
 		</tr>
 		<tr>
-			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff|c}}  </td> 
+			<td> Task 1: You solved <span id="num_correct_first_task"> {{ num_correct_first_task }} </span> tables  </td> <td id="first_task_payoff"> {{first_task_payoff|c}}  </td>
 		</tr>
 
 	</table>
     <br>
-    
+
     <span id="correct_last_round">
-    
+
     </span>
-    
+
 	<br>
     <br>
-	<p id="instructions">        
+	<p id="instructions">
 		Please count the number of ones in the table below. Type your answer into the box, and click the Submit button.
     </p>
 
@@ -59,21 +59,21 @@
 			<td id="int5">{{ int5 }} </td> <td id="int6">{{ int6 }} </td> <td id="int7">{{ int7 }} </td> <td id="int8">{{ int8 }} </td> <td id="int9">{{ int9 }} </td>
 		</tr>
 		<tr>
-			<td id="int10">{{ int10 }} </td> <td id="int11">{{ int11 }} </td> <td id="int12">{{ int12 }} </td> <td id="int13">{{ int13 }} </td> <td id="int14">{{ int14 }} </td> 
+			<td id="int10">{{ int10 }} </td> <td id="int11">{{ int11 }} </td> <td id="int12">{{ int12 }} </td> <td id="int13">{{ int13 }} </td> <td id="int14">{{ int14 }} </td>
 		</tr>
-		<tr> 
+		<tr>
 			<td id="int15">{{ int15 }} </td> <td id="int16">{{ int16 }} </td> <td id="int17">{{ int17 }} </td> <td id="int18">{{ int18 }} </td> <td id="int19">{{ int19 }} </td>
 		</tr> <br>
-		<tr> 
+		<tr>
 			<td id="int20">{{ int20 }} </td> <td id="int21">{{ int21 }} </td> <td id="int22">{{ int22 }} </td> <td id="int23">{{ int23 }} </td> <td id="int24">{{ int24 }} </td>
 		</tr> <br>
 	</table>
 	<br>
-	
+
 	<form method="post" url='{% url "verify" %}'>{%csrf_token%}
 	<input type="text" name="Number of Ones" id="num_of_ones"/>
 	<input type="hidden" name="user.input" id ="user.input"/>
-	<input type="hidden" name = "s" id="s" value = {{solution}}> 
+	<input type="hidden" name = "s" id="s" value = {{solution}}>
 	<button type="button" id="submitButton"> Submit </button>
 	<button type="hidden" class="otree-btn-next btn btn-primary" id="next"></button>
 	</form>
@@ -85,7 +85,7 @@
 	var timer = document.getElementById("time");
 	window.setInterval(function(){
 	time++;
-  timer.innerHTML = "You have taken "+Math.floor(time/60)+" minutes, and "+time%60+" seconds";
+  timer.innerHTML = "You have been solving problems for "+Math.floor(time/60)+" minutes, and "+time%60+" seconds";
 }, 1000);
 		$ ( " #submitButton " ).click(function() {
 			var user_input=$(" #num_of_ones ").val();
@@ -111,7 +111,7 @@
                             document.getElementById("correct_last_round").innerHTML="Your last answer was incorrect.";
                         }
 						if(result.first_task_payoff>=4.05){
-						 document.getElementById("task").style.visibility="hidden"; 
+						 document.getElementById("task").style.visibility="hidden";
 						  document.getElementById("num_of_ones").style.visibility="hidden";
 						  document.getElementById("submitButton").style.visibility="hidden";
 						  document.getElementById("instructions").style.visibility="hidden";
@@ -119,12 +119,12 @@
 					}
                     },
 
-				});	
+				});
 			}else{
-				alert("An error has occurred. Please only input a number.");	
+				alert("An error has occurred. Please only input a number.");
 			}
 		});
-        
+
         $(document).ready(function() {
             $(window).keydown(function(event){
                 if(event.keyCode == 13) {
