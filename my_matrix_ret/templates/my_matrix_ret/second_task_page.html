@@ -20,12 +20,15 @@
 		text-align: center;
 	}
 	#earns tr:nth-child(even){background-color: #f2f2f2;}
+  .otree-timer {
+    display: none;
+  }
 	</style>
 
 {% endblock %}
 
 {% block content %}
-<p id="time">You have taken 0 minutes, and 0 seconds</p>
+<p id="time">You have been solving problems for 0 minutes, and 0 seconds</p>
 	<table id="earns">
 
         <th>Source of Earnings</th> <th>Amount in $</th>
@@ -95,6 +98,13 @@
 
 {% block scripts %}
 	<script>
+
+    var time = 0;
+    var timer = document.getElementById("time");
+    window.setInterval(function(){
+    time++;
+    timer.innerHTML = "You have been solving problems for "+Math.floor(time/60)+" minutes, and "+time%60+" seconds";
+  }, 1000);
 
 		$ ( " #submitButton " ).click(function() {
 			var user_input=$(" #num_of_ones ").val();

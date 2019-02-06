@@ -272,9 +272,7 @@ class second_task_page(Page):
 
     form_model = 'player'
     timer_text = 'Time left to solve problems:'
-
-    def get_timeout_seconds(self):
-        return self.participant.vars['out_of_time_second_task'] - time.time()
+    timeout_seconds = Constants.second_task_timer
 
     def vars_for_template(self):
         #Function defining some of necessary info for displaying this page.
