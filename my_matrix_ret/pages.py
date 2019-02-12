@@ -84,6 +84,12 @@ class consent_page(Page):
     form_model = 'player'
     form_fields = ['consent']
 
+class consent_wait_page(WaitPage):
+
+    def after_all_players_arrive(self):
+        self.subsession.set_consented_groups()
+
+
 class instructions_quiz_page(Page):
     form_model = 'player'
     form_fields=['instructions_quiz_input6','instructions_quiz_input1','instructions_quiz_input2','instructions_quiz_input3','instructions_quiz_input4','instructions_quiz_input5']
@@ -271,6 +277,7 @@ class investment_page(Page):
 class transition_page_3(Page):
     def before_next_page(self):
         self.participant.vars['out_of_time_second_task'] = time.time() + Constants.second_task_timer
+        print(self.player.subsession.get_group_matrix())
 
 class second_task_page(Page):
 
@@ -498,6 +505,7 @@ class finalPage(Page):
 page_sequence = [
     start_page,
     consent_page,
+    consent_wait_page,
     instructions_quiz_page,
     waitpage,
     transition_page_1,

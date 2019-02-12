@@ -36,7 +36,18 @@ class Constants(BaseConstants):
     num_rounds = 1
 
 class Subsession(BaseSubsession):
-    pass
+
+    def set_consented_groups(self):
+        players = self.get_players()
+        new_group_matrix = [[],[]]
+        for p in players:
+            if (p.consent==True):
+                new_group_matrix[0].append(p)
+            else:
+                new_group_matrix[1].append(p)
+
+        self.set_group_matrix(new_group_matrix)
+        
 class Group(BaseGroup):
     pass #I don't think I need anything here, because it is not a multi-player game.
 

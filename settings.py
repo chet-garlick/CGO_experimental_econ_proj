@@ -16,8 +16,8 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
 	{
         'name': 'my_matrix_ret',
-        'display_name': "My Matrix Real Effort Task",
-        'num_demo_participants': 2,
+        'display_name': "Genetic Testing",
+        'num_demo_participants': 4,
         'app_sequence': ['my_matrix_ret'],
     },
 	{
